@@ -1,5 +1,7 @@
 stages:
   - deploy
 deploy:
-  - npm install
-  - npm run build
+  stage: deploy
+  script:
+    - npm install
+    - npm run build
