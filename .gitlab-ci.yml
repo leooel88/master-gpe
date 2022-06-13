@@ -3,3 +3,4 @@ stages:
 deploy:
   stage: deploy
   script:
+    - touch noob
