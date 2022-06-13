@@ -3,4 +3,4 @@ stages:
 deploy:
   stage: deploy
   script:
-    - touch noob
+    - echo "deployment" >> noob
