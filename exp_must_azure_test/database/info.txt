@@ -1,0 +1,15 @@
+###################################################
+########### DATABASE & SEQUELIZE INFOS  ###########
+###################################################
+
+
+
+## Usefull links
+////// Usefull github //////
+https://gist.github.com/vapurrmaid/a111bf3fc0224751cb2f76532aac2465
+
+////// Sequelize Manual //////
+https://sequelize.org/docs/v6/other-topics/migrations/
+
+////// Fields Constraints and Validation //////
+https://sequelize.org/docs/v6/core-concepts/validations-and-constraints/

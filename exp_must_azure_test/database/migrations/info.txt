@@ -1,0 +1,61 @@
+######################################################
+########### INFORMATION TO USE MIGRATIONS  ###########
+######################################################
+
+## Usefull commands
+
+///// Create Model + Migration /////
+    npx sequelize-cli model:generate --name { Migration_name } --attributes { attributeName }:{ attribute type },{ attributeName }:{ attribute type }
+
+// Example 
+    npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+
+///// Migrate : update database with migrations created /////
+    npx sequelize-cli db:migrate
+
+## Procedures
+
+////// Add new field to existing migration //////
+1 - Create a new migration
+Example :
+    npx sequelize-cli migration:create --name modify_{ table_name }_add_new_fields
+
+2 - Edit the migrations to suit the need
+!! Fill both 'up' and 'down' functions !!
+Example : 
+
+////////////////////////////////////////////////////////////////////////
+
+	'use strict';
+
+	module.exports = {
+		async up(queryInterface, Sequelize) {
+			/**
+			  * Add altering commands here.
+		  	  *
+		  	  * Example:
+		  	  * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
+		  	  */
+			await queryInterface.addColumn('Users', 'jobLabel', {
+				type: Sequelize.STRING,
+				allowNull: false,
+			});
+		},
+
+		async down(queryInterface, Sequelize) {
+			/**
+			  * Add reverting commands here.
+			  *
+			  * Example:
+			  * await queryInterface.dropTable('users');
+			  */
+			await queryInterface.removeColumn('Users', 'jobLabel');
+		},
+	};
+
+////////////////////////////////////////////////////////////////////////
+
+3 - Update the model with the new fields
+4 - Run migration
+Example : 
+	npx sequelize-cli db:migrate
