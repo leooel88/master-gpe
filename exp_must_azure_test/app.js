@@ -78,6 +78,16 @@ const msalConfig = {
 	},
 };
 
+const db = require('./database/models');
+db.sequelize
+	.sync({ force: true })
+	.then(() => {
+		console.log('Synced db.');
+	})
+	.catch((err) => {
+		console.log('Failed to sync db: ' + err.message);
+	});
+
 // Create msal application object
 app.locals.msalClient = new msal.ConfidentialClientApplication(msalConfig);
 
@@ -113,10 +123,12 @@ app.engine(
 var homeRouter = require('./routes/home');
 const authRouter = require('./routes/auth');
 const calendarRouter = require('./routes/calendar');
+const fichePosteRouter = require('./routes/FichePoste');
 
 app.use('/', homeRouter);
 app.use('/home', homeRouter);
 app.use('/auth', authRouter);
 app.use('/calendar', calendarRouter);
+app.use('/ficheposte', fichePosteRouter);
 
 module.exports = app;

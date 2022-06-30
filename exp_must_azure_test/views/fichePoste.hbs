@@ -1,0 +1,19 @@
+<h1>FICHE DE POSTE</h1>
+
+<form action="/ficheposte/create" method="post">
+	<label for='fichePoste_label'>Intitulé du poste:</label>
+
+	<input type='text' id='fichePoste_label' name='fichePoste_label' required />
+    </br>
+	<label for='fichePoste_type'>Type d'emploi:</label>
+
+	<select name='fichePoste_type' id='pet-fichePoste_type'>
+		<option value='prestation'>Prestation</option>
+		<option value='cdi'>CDI</option>
+		<option value='cdd'>CDD</option>
+		<option value='alternance'>Alternance</option>
+		<option value='stage'>Stage</option>
+	</select>
+</br>
+	<input type='submit' value='Créer la fiche de poste' />
+</form>
