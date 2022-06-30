@@ -15,16 +15,18 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			label: {
 				type: DataTypes.STRING,
+				allowNull: false,
 				validate: {
 					isAlphanumeric: true,
-					allowNull: false,
+					notNull: true,
 				},
 			},
 			type: {
 				type: DataTypes.STRING,
+				allowNull: false,
 				validate: {
 					is: /Prestation||CDI||CDD||Alternance||Stage/i,
-					allowNull: false,
+					notNull: true,
 				},
 			},
 		},
