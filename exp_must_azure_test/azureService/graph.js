@@ -1,5 +1,6 @@
 var graph = require('@microsoft/microsoft-graph-client');
 require('isomorphic-fetch');
+process;
 
 module.exports = {
 	getUserDetails: async function (msalClient, userId) {
@@ -7,11 +8,41 @@ module.exports = {
 
 		const user = await client
 			.api('/me')
-			.select('displayName,mail,mailboxSettings,userPrincipalName')
+			.select(
+				'displayName,mail,mailboxSettings,userPrincipalName,jobTitle,createdDateTime'
+			)
 			.get();
 		return user;
 	},
-	getCalendarView: async function (msalClient, userId, start, end, timeZone) {
+	getGroups: async function (msalClient, userId, filters) {
+		const client = getAuthenticatedClient(msalClient, userId);
+		let groups = [];
+
+		// groups = await client.api('/groups').get();
+		// console.log(groups.value);
+		let allGroups = await client.api('/me/memberOf').get();
+		console.log(allGroups);
+
+		if (allGroups.value && allGroups.value.length > 0) {
+			allGroups.value.forEach(function (group) {
+				filters.forEach(async function (filter) {
+					if (group.displayName && group.displayName == filter) {
+						groups.push(group);
+					}
+				});
+			});
+		}
+
+		return groups;
+	},
+	getCalendarView: async function (
+		msalClient,
+		userId,
+		start,
+		end,
+		timeZone,
+		nbrEvent
+	) {
 		const client = getAuthenticatedClient(msalClient, userId);
 		const events = await client
 			.api('/me/calendarview')
@@ -24,7 +55,7 @@ module.exports = {
 			// Order by start time
 			.orderby('start/dateTime')
 			// Get at most 50 results
-			.top(50)
+			.top(nbrEvent)
 			.get();
 
 		return events;

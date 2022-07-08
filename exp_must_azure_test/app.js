@@ -124,11 +124,13 @@ var homeRouter = require('./routes/home');
 const authRouter = require('./routes/auth');
 const calendarRouter = require('./routes/calendar');
 const fichePosteRouter = require('./routes/FichePoste');
+const dashboardRouter = require('./routes/dashboard');
 
 app.use('/', homeRouter);
 app.use('/home', homeRouter);
 app.use('/auth', authRouter);
 app.use('/calendar', calendarRouter);
 app.use('/ficheposte', fichePosteRouter);
+app.use('/dashboard', dashboardRouter);
 
 module.exports = app;
