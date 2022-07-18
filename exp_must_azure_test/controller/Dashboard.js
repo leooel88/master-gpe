@@ -1,7 +1,5 @@
-const { locals } = require('../app');
 const errorHandler = require('../helper/errorHandler');
 const graph = require('../azureService/graph.js');
-require('dotenv').config({ path: `azure.config.env` });
 const addDays = require('date-fns/addDays');
 const formatISO = require('date-fns/formatISO');
 const startOfWeek = require('date-fns/startOfWeek');
@@ -53,18 +51,24 @@ exports.getPage = async (req, res, next) => {
 		console.log('EVENTS : ');
 		console.log(events);
 
-		let groups;
-		console.log('OUIIIIIIIIIIIIIIIIIIIII');
-		console.log(process.env.GROUP_RH_NAME);
-		groups = await graph
-			.getGroups(req.app.locals.msalClient, req.session.userId, [
-				process.env.GROUP_RH_NAME,
-				process.env.GROUP_MANAGER_NAME,
-			])
-			.then(() => {
-				console.log('GROUPES : ');
-				console.log(groups);
-			});
+		const groups = await graph.getMainGroups(
+			req.app.locals.msalClient,
+			req.session.userId
+		);
+
+		if (groups.includes('RH')) {
+			console.log('============ RH ============');
+			params.group = 'RH';
+		} else if (groups.includes('MANAGER')) {
+			console.log('============ MANAGER ============');
+			params.group = 'MANAGER';
+		} else if (groups.includes('FINANCE')) {
+			console.log('============ FINANCE ============');
+			params.group = 'FINANCE';
+		} else {
+			console.log('============ DEFAULT ============');
+			params.group = 'DEFAULT';
+		}
 
 		const userDetails = await graph.getUserDetails(
 			req.app.locals.msalClient,
@@ -73,6 +77,6 @@ exports.getPage = async (req, res, next) => {
 		console.log('USER DETAILS : ');
 		console.log(userDetails);
 
-		// res.render('dashboard', params);
+		res.render('dashboard', params);
 	}
 };

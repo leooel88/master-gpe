@@ -102,21 +102,42 @@ app.use(
 );
 
 // View configuration
-var hbs = require('express-handlebars');
+var exphbs = require('express-handlebars');
+
+var hbs = exphbs.create({
+	helpers: {
+		sayHello: function () {
+			alert('Hello World');
+		},
+		ifEquals: function (arg1, arg2, options) {
+			return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+		},
+	},
+	defaultLayout: 'main',
+	partialsDir: ['views/layouts/'],
+	partialsDir: ['views/components/'],
+});
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+app.set('views', __dirname + '/views/');
 
 // app.set('views', path.join(__dirname, '/views'));
 // app.set('views', './views');
 // app.set('views', __dirname + '/views');
-app.set('view engine', 'hbs');
-app.engine(
-	'hbs',
-	hbs.engine({
-		extname: 'hbs',
-		defaultLayout: 'main',
-		layoutsDir: __dirname + '/views/layouts/',
-		partialsDir: __dirname + '/views/components',
-	})
-);
+// app.set('view engine', 'hbs');
+// app.engine(
+// 	'hbs',
+// 	hbs.engine({
+// 		extname: 'hbs',
+// 		defaultLayout: 'main',
+// 		layoutsDir: __dirname + '/views/layouts/',
+// 		partialsDir: __dirname + '/views/components',
+// 	})
+// );
+
+// hbs.registerHelper('ifEquals', function (arg1, arg2, options) {
+// 	return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+// });
 
 // Routers declaration
 // Routers

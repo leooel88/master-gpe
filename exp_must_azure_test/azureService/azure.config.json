@@ -1,0 +1,17 @@
+{
+	"development": {
+		"RH_GROUP_NAME": "HR-S",
+		"MANAGER_GROUP_NAME": "MANAGER-S",
+		"FINANCE_GROUP_NAME": ""
+	},
+	"test": {
+		"RH_GROUP_NAME": "HR-S",
+		"MANAGER_GROUP_NAME": "MANAGER-S",
+		"FINANCE_GROUP_NAME": ""
+	},
+	"production": {
+		"RH_GROUP_NAME": "HR-S",
+		"MANAGER_GROUP_NAME": "MANAGER-S",
+		"FINANCE_GROUP_NAME": ""
+	}
+}

@@ -1,6 +1,17 @@
 var graph = require('@microsoft/microsoft-graph-client');
+
 require('isomorphic-fetch');
-process;
+// process;
+
+function getAzureConfig() {
+	if (process.env.NODE_ENV !== 'development') {
+		return require('./azure.config.json').development;
+	} else if (process.env.NODE_ENV !== 'production') {
+		return require('./azure.config.json').production;
+	} else if (process.env.NODE_ENV !== 'test') {
+		return require('./azure.config.json').test;
+	}
+}
 
 module.exports = {
 	getUserDetails: async function (msalClient, userId) {
@@ -16,24 +27,62 @@ module.exports = {
 	},
 	getGroups: async function (msalClient, userId, filters) {
 		const client = getAuthenticatedClient(msalClient, userId);
-		let groups = [];
 
-		// groups = await client.api('/groups').get();
-		// console.log(groups.value);
 		let allGroups = await client.api('/me/memberOf').get();
-		console.log(allGroups);
+		return allGroups;
+	},
+	getGroupsNames: async function (msalClient, userId) {
+		let allGroups = await this.getGroups(msalClient, userId);
 
-		if (allGroups.value && allGroups.value.length > 0) {
-			allGroups.value.forEach(function (group) {
-				filters.forEach(async function (filter) {
-					if (group.displayName && group.displayName == filter) {
-						groups.push(group);
-					}
-				});
-			});
-		}
+		let result = allGroups.value.map(function (group) {
+			return group.displayName;
+		});
+		return result;
+	},
+	getMainGroups: async function (msalClient, userId) {
+		const azureConfig = getAzureConfig();
 
-		return groups;
+		let allGroups = await this.getGroups(msalClient, userId);
+
+		let result = allGroups.value.map(function (group) {
+			if (group.displayName == azureConfig.RH_GROUP_NAME) {
+				return 'RH';
+			} else if (group.displayName == azureConfig.MANAGER_GROUP_NAME) {
+				return 'MANAGER';
+			} else if (group.displayName == azureConfig.FINANCE_GROUP_NAME) {
+				return 'FINANCE';
+			} else {
+				return [];
+			}
+		});
+		return result;
+	},
+	isRh: async function (msalClient, userId) {
+		const azureConfig = getAzureConfig();
+
+		let allGroups = await this.getGroups(msalClient, userId);
+
+		return allGroups.value.some(function (group) {
+			return group.displayName == azureConfig.RH_GROUP_NAME;
+		});
+	},
+	isFinance: async function (msalClient, userId) {
+		const azureConfig = getAzureConfig();
+
+		let allGroups = await this.getGroups(msalClient, userId);
+
+		return allGroups.value.some(function (group) {
+			return group.displayName == azureConfig.FINANCE_GROUP_NAME;
+		});
+	},
+	isManager: async function (msalClient, userId) {
+		const azureConfig = getAzureConfig();
+
+		let allGroups = await this.getGroups(msalClient, userId);
+
+		return allGroups.value.some(function (group) {
+			return group.displayName == azureConfig.MANAGER_GROUP_NAME;
+		});
 	},
 	getCalendarView: async function (
 		msalClient,

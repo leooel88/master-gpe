@@ -2,26 +2,16 @@
 	<head>
 		<meta charset='utf-8' />
 		<title>Example App</title>
-		<link rel="stylesheet"
-			href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-			integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-			crossorigin="anonymous">
-		<link rel="stylesheet"
-		href="https://use.fontawesome.com/releases/v5.12.1/css/all.css"
-		crossorigin="anonymous">
 		<link rel='stylesheet' href='/stylesheets/style.css' />
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
 	</head>
 	<body>
         {{>navbar}}
-		<main role='main' class='container'>
+		<main role='main'>
 			{{#each error}}
-				<div class='alert alert-danger' role='alert'>
-					<p class='mb-3'>{{this.message}}</p>
+				<div role='alert'>
+					<p >{{this.message}}</p>
 					{{#if this.debug}}
-						<pre class='alert-pre border bg-light p-2'><code
+						<pre><code
 							>{{this.debug}}</code></pre>
 					{{/if}}
 				</div>
