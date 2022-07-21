@@ -51,6 +51,8 @@ exports.getPage = async (req, res, next) => {
 		console.log('EVENTS : ');
 		console.log(events);
 
+		params.events = events;
+
 		const groups = await graph.getMainGroups(
 			req.app.locals.msalClient,
 			req.session.userId
@@ -58,16 +60,16 @@ exports.getPage = async (req, res, next) => {
 
 		if (groups.includes('RH')) {
 			console.log('============ RH ============');
-			params.group = 'RH';
+			params.dashboardLink = '/dashboard/rh';
 		} else if (groups.includes('MANAGER')) {
 			console.log('============ MANAGER ============');
-			params.group = 'MANAGER';
+			params.dashboardLink = '/dashboard/manager';
 		} else if (groups.includes('FINANCE')) {
 			console.log('============ FINANCE ============');
-			params.group = 'FINANCE';
+			params.dashboardLink = '/dashboard/finance';
 		} else {
 			console.log('============ DEFAULT ============');
-			params.group = 'DEFAULT';
+			params.dashboardLink = '/dashboard/default';
 		}
 
 		const userDetails = await graph.getUserDetails(
@@ -76,6 +78,30 @@ exports.getPage = async (req, res, next) => {
 		);
 		console.log('USER DETAILS : ');
 		console.log(userDetails);
+
+		let date = new Date(userDetails.createdDateTime);
+		let year = date.getFullYear();
+		let month = date.getMonth() + 1;
+		let dt = date.getDate();
+
+		if (dt < 10) {
+			dt = '0' + dt;
+		}
+		if (month < 10) {
+			month = '0' + month;
+		}
+
+		let arrivalDate = '' + year + '\n' + dt + '\n' + month + '';
+
+		let userInfos = {
+			jobTitle: userDetails.jobTitle,
+			arrivalDate: arrivalDate,
+		};
+
+		console.log('YESSSSSS');
+		console.log(userInfos.arrivalDate);
+
+		params.userInfos = userInfos;
 
 		res.render('dashboard', params);
 	}

@@ -4,21 +4,24 @@
 		<title>Example App</title>
 		<link rel='stylesheet' href='/stylesheets/style.css' />
 	</head>
-	<body>
-        {{>navbar}}
-		<main role='main'>
-			{{#each error}}
-				<div role='alert'>
-					<p >{{this.message}}</p>
-					{{#if this.debug}}
-						<pre><code
-							>{{this.debug}}</code></pre>
-					{{/if}}
-				</div>
-			{{/each}}
+	<body class="h-screen w-screen bg-slate-900 text-slate-300">
+		<div class="relative h-screen w-screen">
+			{{>navbar}}
+			<div class="relative">
+				{{#each error}}
+					<div role='alert'>
+						<p >{{this.message}}</p>
+						{{#if this.debug}}
+							<pre><code
+								>{{this.debug}}</code></pre>
+						{{/if}}
+					</div>
+				{{/each}}
 
-			{{{body}}}
-		</main>
+				{{{body}}}
+			</main>
+		</div>
+        
 		<script
 			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
 			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
