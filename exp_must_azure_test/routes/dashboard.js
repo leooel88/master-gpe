@@ -1,16 +1,11 @@
 const router = require('express-promise-router')();
 
 const dashboardController = require('../controller/Dashboard.js');
+const managerDashboardController = require('../controller/DashboardManager.controller.js');
 
 router.get('/', dashboardController.getPage);
 
-router.get('/manager', function (req, res, next) {
-	let params = {
-		active: { dashboardManager: true },
-	};
-
-	res.render('dashboardManager', params);
-});
+router.get('/manager', managerDashboardController.getPage);
 
 router.get('/rh', function (req, res, next) {
 	let params = {
