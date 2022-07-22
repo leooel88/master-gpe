@@ -1,12 +1,12 @@
 const router = require('express-promise-router')();
-const graph = require('../helper/graph.js');
+const graph = require('../azureService/graph.js');
 const addDays = require('date-fns/addDays');
 const formatISO = require('date-fns/formatISO');
 const startOfWeek = require('date-fns/startOfWeek');
 const zonedTimeToUtc = require('date-fns-tz/zonedTimeToUtc');
 const iana = require('windows-iana');
-const { body, validationResult } = require('express-validator');
-const validator = require('validator');
+// const { body, validationResult } = require('express-validator');
+// const validator = require('validator');
 
 /* GET /calendar */
 router.get('/', async function (req, res) {
@@ -43,8 +43,9 @@ router.get('/', async function (req, res) {
 				req.app.locals.msalClient,
 				req.session.userId,
 				weekStart.toISOString(),
-				weekEnd.toISOString(), 
-				user.timeZone
+				weekEnd.toISOString(),
+				user.timeZone,
+				50
 			);
 
 			res.json(events.value);

@@ -3,6 +3,19 @@ const Op = db.Sequelize.Op;
 const FichePoste = db.FichePoste;
 const errorHandler = require('../helper/errorHandler');
 
+exports.getPage = (req, res, next) => {
+	let { error } = req.query;
+
+	let params = {
+		active: { fichePoste: true },
+		currentDate: new Date().toISOString().split('T')[0],
+	};
+	if (error != null && error.length > 0) {
+		params.error = [{ message: error }];
+	}
+	res.render('fichePoste', params);
+};
+
 exports.create = (req, res) => {
 	// Validate request
 	if (
