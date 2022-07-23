@@ -87,7 +87,9 @@ exports.getPage = async (req, res, next) => {
 		month = '0' + month;
 	}
 
-	let arrivalDate = '' + year + '\n' + dt + '\n' + month + '';
+	//let arrivalDate = '' + year + '\n ' + dt + '\n' + month + '';
+	let arrivalDate = dt + ' ' + month + ' ' + year;
+
 
 	let userInfos = {
 		jobTitle: userDetails.jobTitle,
