@@ -20,7 +20,7 @@ module.exports = {
 		const user = await client
 			.api('/me')
 			.select(
-				'displayName,mail,mailboxSettings,userPrincipalName,jobTitle,createdDateTime'
+				'displayName,mail,mailboxSettings,userPrincipalName,jobTitle,createdDateTime,employeeHireDate'
 			)
 			.get();
 		return user;

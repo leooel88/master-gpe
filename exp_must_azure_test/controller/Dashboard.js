@@ -92,6 +92,7 @@ exports.getPage = async (req, res, next) => {
 	let userInfos = {
 		jobTitle: userDetails.jobTitle,
 		arrivalDate: arrivalDate,
+		employeeHireDate: userDetails.employeeHireDate,
 	};
 
 	params.userInfos = userInfos;
