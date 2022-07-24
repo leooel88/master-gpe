@@ -75,7 +75,7 @@ exports.getPage = async (req, res, next) => {
 		req.app.locals.msalClient,
 		req.session.userId
 	);
-	let date = new Date(userDetails.createdDateTime);
+	let date = new Date(userDetails.employeeHireDate);
 	let year = date.getFullYear();
 	let month = date.getMonth() + 1;
 	let dt = date.getDate();
@@ -87,14 +87,12 @@ exports.getPage = async (req, res, next) => {
 		month = '0' + month;
 	}
 
-	//let arrivalDate = '' + year + '\n ' + dt + '\n' + month + '';
-	let arrivalDate = dt + ' ' + month + ' ' + year;
+	let employeeHireDate = dt + ' ' + month + ' ' + year;
 
 
 	let userInfos = {
 		jobTitle: userDetails.jobTitle,
-		arrivalDate: arrivalDate,
-		employeeHireDate: userDetails.employeeHireDate,
+		employeeHireDate: employeeHireDate,
 	};
 
 	params.userInfos = userInfos;
