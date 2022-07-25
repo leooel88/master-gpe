@@ -94,6 +94,7 @@ exports.create = (req, res) => {
 		prenom : req.body.candidature_prenom,
 		telephone : req.body.candidature_telephone,
 		fichePosteId : req.body.ficheposteid,
+		mail : req.body.candidature_mail,
 	};
 	// Save Tutorial in the database
 	candidature.cv = req.file.originalname;

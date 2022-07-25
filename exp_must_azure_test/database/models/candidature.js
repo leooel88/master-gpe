@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			prenom: {
 				type: DataTypes.STRING,
+				allowNull: false,
 				validate: {
 					isAlpha: true,
 					len: [2, 50],
@@ -24,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			nom: {
 				type: DataTypes.STRING,
+				allowNull: false,
 				validate: {
 					isAlpha: true,
 					len: [2, 50],
@@ -31,12 +33,14 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			mail: {
 				type: DataTypes.STRING,
+				allowNull: false,
 				validate: {
 					isEmail: true,
 				},
 			},
 			telephone: {
 				type: DataTypes.STRING,
+				allowNull: false,
 				validate: {
 					validator: function(v) {
 						return phoneValidationRegex.test(v); 
