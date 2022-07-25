@@ -918,6 +918,10 @@ video {
   fill: #ef4444;
 }
 
+.p-4 {
+  padding: 1rem;
+}
+
 .p-6 {
   padding: 1.5rem;
 }
