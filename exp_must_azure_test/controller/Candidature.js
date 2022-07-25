@@ -96,8 +96,7 @@ exports.create = (req, res) => {
 		fichePosteId : req.body.ficheposteid,
 	};
 	// Save Tutorial in the database
-	const file = req.file;
-	console.log(file);
+	candidature.cv = req.file.originalname;
 	Candidature.create(candidature)
 		.then((data) => {
 			console.log(data);
