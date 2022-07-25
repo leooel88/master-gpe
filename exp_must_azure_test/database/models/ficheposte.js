@@ -110,6 +110,18 @@ module.exports = (sequelize, DataTypes) => {
 					notNull: true,
 				},
 			},
+			validationRH: {
+				type: DataTypes.BOOLEAN,
+				allowNull: true,
+			},
+			validationFinance: {
+				type: DataTypes.BOOLEAN,
+				allowNull: true,
+			},
+			publicationRH: {
+				type: DataTypes.BOOLEAN,
+				allowNull: true,
+			},
 		},
 		{
 			sequelize,
