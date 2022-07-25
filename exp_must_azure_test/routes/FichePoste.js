@@ -18,6 +18,14 @@ router.get('/list', fichePoste.getListPage);
 
 router.get('/read/:fichePosteId', fichePoste.getReadPage);
 
+router.get('/rhvalid/:fichePosteId', fichePoste.rhValid);
+
+router.get('/financevalid/:fichePosteId', fichePoste.financeValid);
+
+router.get('/rhrefuse/:fichePosteId', fichePoste.rhRefuse);
+
+router.get('/financerefuse/:fichePosteId', fichePoste.financeRefuse);
+
 router.get;
 
 module.exports = router;
