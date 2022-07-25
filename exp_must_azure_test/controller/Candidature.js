@@ -93,10 +93,10 @@ exports.create = (req, res) => {
 		nom : req.body.candidature_nom,
 		prenom : req.body.candidature_prenom,
 		telephone : req.body.candidature_telephone,
-		fichePostId : req.body.ficheposteid,
+		fichePosteId : req.body.ficheposteid,
 	};
 	// Save Tutorial in the database
-	const file = req.files;
+	const file = req.file;
 	console.log(file);
 	Candidature.create(candidature)
 		.then((data) => {

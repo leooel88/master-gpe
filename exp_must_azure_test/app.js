@@ -5,7 +5,6 @@ var logger = require('morgan');
 const session = require('express-session');
 const flash = require('connect-flash');
 const msal = require('@azure/msal-node');
-const fileUpload = require('express-fileupload')
 require('dotenv').config();
 
 var app = express();
@@ -21,10 +20,6 @@ app.use(
 		unset: 'destroy',
 	})
 );
-
-
-// fileupload for file upload
-app.use(fileUpload());
 
 // Flash middleware
 app.use(flash());
