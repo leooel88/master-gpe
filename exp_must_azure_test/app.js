@@ -93,7 +93,7 @@ app.locals.msalClient = new msal.ConfidentialClientApplication(msalConfig);
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
 	express.static(path.join(__dirname, 'public'), {
@@ -146,6 +146,7 @@ const authRouter = require('./routes/auth');
 const calendarRouter = require('./routes/calendar');
 const fichePosteRouter = require('./routes/FichePoste');
 const dashboardRouter = require('./routes/dashboard');
+const candidatureRouter = require('./routes/candidature');
 
 app.use('/', homeRouter);
 app.use('/home', homeRouter);
@@ -153,5 +154,6 @@ app.use('/auth', authRouter);
 app.use('/calendar', calendarRouter);
 app.use('/ficheposte', fichePosteRouter);
 app.use('/dashboard', dashboardRouter);
+app.use('/candidature', candidatureRouter);
 
 module.exports = app;
