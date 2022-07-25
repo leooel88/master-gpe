@@ -1,5 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
+
+const phoneValidationRegex = /^(\+33 |0)[1-9]( \d\d){4}$/
 module.exports = (sequelize, DataTypes) => {
 	class Candidature extends Model {
 		/**
@@ -25,6 +27,31 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					isAlpha: true,
 					len: [2, 50],
+				},
+			},
+			mail: {
+				type: DataTypes.STRING,
+				validate: {
+					isEmail: true,
+				},
+			},
+			telephone: {
+				type: DataTypes.STRING,
+				validate: {
+					validator: function(v) {
+						return phoneValidationRegex.test(v); 
+					},
+				},
+			},
+			fichePosteId: {
+				type: DataTypes.TINYINT,
+				allowNull: false,
+			},
+			cv: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					len: [1, 255],
 				},
 			},
 		},
