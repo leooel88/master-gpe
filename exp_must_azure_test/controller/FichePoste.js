@@ -3,8 +3,9 @@ const Op = db.Sequelize.Op;
 const FichePoste = db.FichePoste;
 const errorHandler = require('../helper/errorHandler');
 const loggerHandler = require('../helper/loggerHandler');
+const azureService = require('../azureService/graph')
 
-exports.getReadPage = (req, res, next) => {
+exports.getReadPage = async (req, res, next) => {
 	if (loggerHandler.checkLoggedIn(req, res) === false) {
 		return;
 	}
@@ -12,6 +13,20 @@ exports.getReadPage = (req, res, next) => {
 	const fichePosteId = parseInt(req.params.fichePosteId, 10);
 
 	let params = {};
+	const groups = await azureService.getMainGroups(
+        req.app.locals.msalClient,
+        req.session.userId
+    );
+	if (groups.includes('RH')) {
+		params.rh=true;
+		params.rhValidLink="/ficheposte/rhvalid/" + fichePosteId;
+		params.rhRefuseLink="/ficheposte/rhrefuse/" + fichePosteId;
+	}
+	else if(groups.includes('FINANCE')){
+		params.finance=true;
+		params.financeValidLink="/ficheposte/financevalid/" + fichePosteId;
+		params.financeRefuseLink="/ficheposte/financerefuse/" + fichePosteId;
+	};
 
 	FichePoste.findAll({
 		where: {
@@ -19,9 +34,6 @@ exports.getReadPage = (req, res, next) => {
 		},
 	})
 		.then((foundFichePoste) => {
-			console.log('HEY');
-			console.log(typeof foundFichePoste[0].dataValues.entryDate);
-
 			if (foundFichePoste[0].dataValues.entryDate) {
 				let offset_1 =
 					foundFichePoste[0].dataValues.entryDate.getTimezoneOffset();
@@ -47,11 +59,19 @@ exports.getReadPage = (req, res, next) => {
 						.toISOString()
 						.split('T')[0];
 			}
+			if (foundFichePoste[0].dataValues.validationRH == null) {
+				params.validationRhIsNull = true;
+			}
+			else if (foundFichePoste[0].dataValues.validationRH == true) {
+				params.validationRhIsTrue = true;
+			}
+			else if (foundFichePoste[0].dataValues.validationRH == false) {
+				params.validationRhIsFalse = true;
+			}
 
-			params = {
-				active: { fichePosteRead: true },
-				fichePoste: foundFichePoste[0].dataValues,
-			};
+			params.active = { fichePosteRead: true };
+			params.fichePoste = foundFichePoste[0].dataValues;
+
 			res.render('fichePosteRead', params);
 		})
 		.catch((err) => {
@@ -299,6 +319,59 @@ exports.update = () => {
 
 exports.delete = () => {
 	res.end();
+};
+
+exports.rhValid = async (req, res, next) => {
+	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const updatedRows = await FichePoste.update(
+		{
+			validationRH: true
+		},
+		{
+			where: { id: fichePosteId },
+		}
+	  );
+	  res.redirect ("/fichePoste/read/" + fichePosteId)
+};
+
+exports.rhRefuse = async (req, res, next) => {
+	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const updatedRows = await FichePoste.update(
+		{
+			validationRH: false
+		},
+		{
+			where: { id: fichePosteId },
+		}
+	  );
+	  res.redirect ("/fichePoste/read/" + fichePosteId)
+};
+
+exports.financeValid = async (req, res, next) => {
+	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const updatedRows = await FichePoste.update(
+		{
+			validationFinance: true
+		},
+		{
+			where: { id: fichePosteId },
+		}
+	  );
+	  res.redirect ("/fichePoste/read/" + fichePosteId)
+
+};
+
+exports.financeRefuse = async (req, res, next) => {
+	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const updatedRows = await FichePoste.update(
+		{
+			validationFinance: false
+		},
+		{
+			where: { id: fichePosteId },
+		}
+	  );
+	  res.redirect ("/fichePoste/read/" + fichePosteId)
 };
 
 function isEmptyOrSpaces(str) {
