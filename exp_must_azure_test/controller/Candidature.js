@@ -6,9 +6,6 @@ const errorHandler = require('../helper/errorHandler');
 const loggerHandler = require('../helper/loggerHandler');
 
 exports.getReadPage = (req, res, next) => {
-	if (loggerHandler.checkLoggedIn(req, res) === false) {
-		return;
-	}
 
 	const fichePosteId = parseInt(req.params.fichePosteId, 10);
 
@@ -74,9 +71,6 @@ exports.create = (req, res) => {
 	console.log(req.body.candidature_prenom)
 	console.log(req.body.candidature_telephone)
 	console.log(req.body.ficheposteid)
-	if (loggerHandler.checkLoggedIn(req, res) === false) {
-		return;
-	}
 
 	// Validate request
 	if (
