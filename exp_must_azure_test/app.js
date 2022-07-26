@@ -147,6 +147,8 @@ const calendarRouter = require('./routes/calendar');
 const fichePosteRouter = require('./routes/FichePoste');
 const dashboardRouter = require('./routes/dashboard');
 const candidatureRouter = require('./routes/candidature');
+const uploadFileRouter = require('./routes/uploadAdminFile');
+
 
 app.use('/', homeRouter);
 app.use('/home', homeRouter);
@@ -155,5 +157,6 @@ app.use('/calendar', calendarRouter);
 app.use('/ficheposte', fichePosteRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/candidature', candidatureRouter);
+app.use('/uploadFile', uploadFileRouter);
 
 module.exports = app;
