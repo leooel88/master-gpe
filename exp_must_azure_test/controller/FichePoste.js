@@ -3,30 +3,40 @@ const Op = db.Sequelize.Op;
 const FichePoste = db.FichePoste;
 const errorHandler = require('../helper/errorHandler');
 const loggerHandler = require('../helper/loggerHandler');
-const azureService = require('../azureService/graph')
+const azureService = require('../azureService/graph');
 
 exports.getReadPage = async (req, res, next) => {
 	if (loggerHandler.checkLoggedIn(req, res) === false) {
 		return;
 	}
 
+	let { error } = req.query;
+
 	const fichePosteId = parseInt(req.params.fichePosteId, 10);
 
 	let params = {};
-	const groups = await azureService.getMainGroups(
-        req.app.locals.msalClient,
-        req.session.userId
-    );
-	if (groups.includes('RH')) {
-		params.rh=true;
-		params.rhValidLink="/ficheposte/rhvalid/" + fichePosteId;
-		params.rhRefuseLink="/ficheposte/rhrefuse/" + fichePosteId;
+
+	if (error != null && error.length > 0) {
+		params.error = [{ message: error }];
 	}
-	else if(groups.includes('FINANCE')){
-		params.finance=true;
-		params.financeValidLink="/ficheposte/financevalid/" + fichePosteId;
-		params.financeRefuseLink="/ficheposte/financerefuse/" + fichePosteId;
-	};
+
+	const groups = await azureService.getMainGroups(
+		req.app.locals.msalClient,
+		req.session.userId
+	);
+	console.log(groups);
+	if (groups.includes('RH')) {
+		params.rh = true;
+		params.rhValidLink = '/ficheposte/rhvalid/' + fichePosteId;
+		params.rhRefuseLink = '/ficheposte/rhrefuse/' + fichePosteId;
+	} else if (groups.includes('FINANCE')) {
+		params.finance = true;
+		params.financeValidLink = '/ficheposte/financevalid/' + fichePosteId;
+		params.financeRefuseLink = '/ficheposte/financerefuse/' + fichePosteId;
+	} else if (groups.includes('MANAGER')) {
+		params.manager = true;
+		params.managerUpdateLink = '/ficheposte/update/' + fichePosteId;
+	}
 
 	FichePoste.findAll({
 		where: {
@@ -59,15 +69,16 @@ exports.getReadPage = async (req, res, next) => {
 						.toISOString()
 						.split('T')[0];
 			}
-			if (foundFichePoste[0].dataValues.validationRH == null) {
+			if (foundFichePoste[0].dataValues.validationRH == 0) {
 				params.validationRhIsNull = true;
-			}
-			else if (foundFichePoste[0].dataValues.validationRH == true) {
+			} else if (foundFichePoste[0].dataValues.validationRH == 1) {
 				params.validationRhIsTrue = true;
-			}
-			else if (foundFichePoste[0].dataValues.validationRH == false) {
+			} else if (foundFichePoste[0].dataValues.validationRH == 2) {
 				params.validationRhIsFalse = true;
 			}
+
+			params.updateLink =
+				'/ficheposte/update/' + foundFichePoste[0].dataValues.id;
 
 			params.active = { fichePosteRead: true };
 			params.fichePoste = foundFichePoste[0].dataValues;
@@ -300,10 +311,10 @@ exports.create = (req, res) => {
 
 	// Validate request
 	if (
-		!req.body.fichePoste_label ||
-		!req.body.fichePoste_type ||
-		!req.body.fichePoste_jobDescription ||
-		!req.body.fichePoste_urgency
+		!isEmptyOrSpaces(req.body.fichePoste_label) ||
+		!isEmptyOrSpaces(req.body.fichePoste_type) ||
+		!isEmptyOrSpaces(req.body.fichePoste_jobDescription) ||
+		!isEmptyOrSpaces(req.body.fichePoste_urgency)
 	) {
 		errorHandler.sendInvalidBodyError(res, 'fichePoste');
 		return;
@@ -367,12 +378,215 @@ exports.create = (req, res) => {
 		});
 };
 
-exports.getUpdatePage = () => {
-	res.end();
-};
+exports.update = async (req, res) => {
+	if (loggerHandler.checkLoggedIn(req, res) === false) {
+		return;
+	}
 
-exports.update = () => {
-	res.end();
+	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+
+	let foundFichePoste = await FichePoste.findAll({
+		where: {
+			id: fichePosteId,
+		},
+	});
+
+	foundFichePoste = foundFichePoste[0];
+
+	if (!isEmptyOrSpaces(req.body.input_update_label)) {
+		try {
+			await FichePoste.update(
+				{
+					label: req.body.input_update_label,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
+				{ where: { id: fichePosteId } }
+			);
+		} catch (err) {
+			errorHandler.catchDataCreationError(
+				err,
+				res,
+				'ficheposte/read/' + fichePosteId
+			);
+			return;
+		}
+	} else if (!isEmptyOrSpaces(req.body.input_update_type)) {
+		try {
+			await FichePoste.update(
+				{
+					type: req.body.input_update_type,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
+				{ where: { id: fichePosteId } }
+			);
+		} catch (err) {
+			errorHandler.catchDataCreationError(
+				err,
+				res,
+				'ficheposte/read/' + fichePosteId
+			);
+			return;
+		}
+	} else if (!isEmptyOrSpaces(req.body.input_update_urgency)) {
+		try {
+			await FichePoste.update(
+				{
+					urgency: req.body.input_update_urgency,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
+				{ where: { id: fichePosteId } }
+			);
+		} catch (err) {
+			errorHandler.catchDataCreationError(
+				err,
+				res,
+				'ficheposte/read/' + fichePosteId
+			);
+			return;
+		}
+	} else if (!isEmptyOrSpaces(req.body.input_update_jobDescription)) {
+		try {
+			await FichePoste.update(
+				{
+					jobDescription: req.body.input_update_jobDescription,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
+				{ where: { id: fichePosteId } }
+			);
+		} catch (err) {
+			errorHandler.catchDataCreationError(
+				err,
+				res,
+				'ficheposte/read/' + fichePosteId
+			);
+			return;
+		}
+	} else if (req.body.input_update_localisation) {
+		try {
+			await FichePoste.update(
+				{
+					localisation: req.body.input_update_localisation,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
+				{ where: { id: fichePosteId } }
+			);
+		} catch (err) {
+			errorHandler.catchDataCreationError(
+				err,
+				res,
+				'ficheposte/read/' + fichePosteId
+			);
+			return;
+		}
+	} else if (req.body.input_update_destinationService) {
+		try {
+			await FichePoste.update(
+				{
+					destinationService:
+						req.body.input_update_destinationService,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
+				{ where: { id: fichePosteId } }
+			);
+		} catch (err) {
+			errorHandler.catchDataCreationError(
+				err,
+				res,
+				'ficheposte/read/' + fichePosteId
+			);
+			return;
+		}
+	} else if (req.body.input_update_entryDate) {
+		try {
+			await FichePoste.update(
+				{
+					entryDate: req.body.input_update_entryDate,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
+				{ where: { id: fichePosteId } }
+			);
+		} catch (err) {
+			errorHandler.catchDataCreationError(
+				err,
+				res,
+				'ficheposte/read/' + fichePosteId
+			);
+			return;
+		}
+	} else if (req.body.input_update_endDate) {
+		try {
+			await FichePoste.update(
+				{
+					endDate: req.body.input_update_endDate,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
+				{ where: { id: fichePosteId } }
+			);
+		} catch (err) {
+			errorHandler.catchDataCreationError(
+				err,
+				res,
+				'ficheposte/read/' + fichePosteId
+			);
+			return;
+		}
+	} else if (req.body.input_update_experience) {
+		try {
+			await FichePoste.update(
+				{
+					experience: req.body.input_update_experience,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
+				{ where: { id: fichePosteId } }
+			);
+		} catch (err) {
+			errorHandler.catchDataCreationError(
+				err,
+				res,
+				'ficheposte/read/' + fichePosteId
+			);
+			return;
+		}
+	} else if (req.body.input_update_compensation) {
+		try {
+			await FichePoste.update(
+				{
+					compensation: req.body.input_update_compensation,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
+				{ where: { id: fichePosteId } }
+			);
+		} catch (err) {
+			errorHandler.catchDataCreationError(
+				err,
+				res,
+				'ficheposte/read/' + fichePosteId
+			);
+			return;
+		}
+	}
+
+	res.redirect('/ficheposte/read/' + fichePosteId);
 };
 
 exports.delete = () => {
@@ -383,53 +597,52 @@ exports.rhValid = async (req, res, next) => {
 	const fichePosteId = parseInt(req.params.fichePosteId, 10);
 	const updatedRows = await FichePoste.update(
 		{
-			validationRH: true
+			validationRH: 1,
 		},
 		{
 			where: { id: fichePosteId },
 		}
-	  );
-	  res.redirect ("/fichePoste/read/" + fichePosteId)
+	);
+	res.redirect('/fichePoste/read/' + fichePosteId);
 };
 
 exports.rhRefuse = async (req, res, next) => {
 	const fichePosteId = parseInt(req.params.fichePosteId, 10);
 	const updatedRows = await FichePoste.update(
 		{
-			validationRH: false
+			validationRH: 2,
 		},
 		{
 			where: { id: fichePosteId },
 		}
-	  );
-	  res.redirect ("/fichePoste/read/" + fichePosteId)
+	);
+	res.redirect('/fichePoste/read/' + fichePosteId);
 };
 
 exports.financeValid = async (req, res, next) => {
 	const fichePosteId = parseInt(req.params.fichePosteId, 10);
 	const updatedRows = await FichePoste.update(
 		{
-			validationFinance: true
+			validationFinance: 1,
 		},
 		{
 			where: { id: fichePosteId },
 		}
-	  );
-	  res.redirect ("/fichePoste/read/" + fichePosteId)
-
+	);
+	res.redirect('/fichePoste/read/' + fichePosteId);
 };
 
 exports.financeRefuse = async (req, res, next) => {
 	const fichePosteId = parseInt(req.params.fichePosteId, 10);
 	const updatedRows = await FichePoste.update(
 		{
-			validationFinance: false
+			validationFinance: 2,
 		},
 		{
 			where: { id: fichePosteId },
 		}
-	  );
-	  res.redirect ("/fichePoste/read/" + fichePosteId)
+	);
+	res.redirect('/fichePoste/read/' + fichePosteId);
 };
 
 function isEmptyOrSpaces(str) {

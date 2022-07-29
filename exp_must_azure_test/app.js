@@ -109,8 +109,58 @@ var hbs = exphbs.create({
 		sayHello: function () {
 			alert('Hello World');
 		},
-		ifEquals: function (arg1, arg2, options) {
-			return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+		compare: function (lvalue, rvalue, options) {
+			if (arguments.length < 3)
+				throw new Error(
+					"Handlerbars Helper 'compare' needs 2 parameters"
+				);
+
+			var operator = options.hash.operator || '==';
+
+			var operators = {
+				'==': function (l, r) {
+					return l == r;
+				},
+				'===': function (l, r) {
+					return l === r;
+				},
+				'!=': function (l, r) {
+					return l != r;
+				},
+				'<': function (l, r) {
+					return l < r;
+				},
+				'>': function (l, r) {
+					return l > r;
+				},
+				'<=': function (l, r) {
+					return l <= r;
+				},
+				'>=': function (l, r) {
+					return l >= r;
+				},
+				typeof: function (l, r) {
+					return typeof l == r;
+				},
+			};
+
+			if (!operators[operator])
+				throw new Error(
+					"Handlerbars Helper 'compare' doesn't know the operator " +
+						operator
+				);
+
+			var result = operators[operator](lvalue, rvalue);
+
+			if (result) {
+				return options.fn(this);
+			} else {
+				if (typeof options.inverse == 'function') {
+					return options.inverse(this);
+				} else {
+					return null;
+				}
+			}
 		},
 	},
 	defaultLayout: 'main',

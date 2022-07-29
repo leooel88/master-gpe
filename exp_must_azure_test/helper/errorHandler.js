@@ -14,9 +14,13 @@ exports.sendInvalidBodyError = (res, page) => {
 
 exports.catchDataCreationError = (errors, res, page) => {
 	let errorMessage = 'Invalid body :\n';
-	errors.forEach((error) => {
-		errorMessage += ' - ' + error.message + '\n';
-	});
+	if (Array.isArray(errors)) {
+		errors.forEach((error) => {
+			errorMessage += ' - ' + error.message + '\n';
+		});
+	} else {
+		errorMessage += ' - ' + errors + '\n';
+	}
 	res.status(400);
 	res.redirect('/' + page + '?error=' + errorMessage);
 };
