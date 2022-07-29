@@ -4,19 +4,22 @@ const dashboardController = require('../controller/Dashboard.js');
 const managerDashboardController = require('../controller/DashboardManager.controller.js');
 const rhDashboardController = require('../controller/DashboardRh.controller.js')
 
+const financeDashboardController = require('../controller/DashboardFinance.controller.js');
+
 router.get('/', dashboardController.getPage);
 
 router.get('/manager', managerDashboardController.getPage);
+router.get('/finance', financeDashboardController.getPage);
 
 router.get('/rh', rhDashboardController.getPage);
 
-router.get('/finance', function (req, res, next) {
-	let params = {
-		active: { dashboardFinance: true },
-	};
-
-	res.render('dashboardFinance', params);
-});
+// router.get('/finance', function (req, res, next) {
+// 	let params = {
+// 		active: { dashboardFinance: true },
+// 	};
+//
+// 	res.render('dashboardFinance', params);
+// });
 
 router.get('/default', function (req, res, next) {
 	let params = {

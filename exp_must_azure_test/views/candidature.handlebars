@@ -1,0 +1,184 @@
+<div class="relative top-6 flex justify-center">
+    <div class="grow p-4 max-w-2xl bg-slate-800 rounded-lg border shadow-md sm:p-8">
+        <div class="flex justify-between items-center mb-4">
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Fiche de poste</h5>
+            <p class="text-sm font-medium text-blue-600 dark:text-blue-500">
+                Id : {{fichePoste.id}}
+            </p>
+    </div>
+    <div class="grow flow-root">
+            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                <li class="py-3 sm:py-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                Label du poste
+                            </p>
+                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                {{fichePoste.label}}
+                            </p>
+                        </div>
+                        <div class="flex flex-col text-base font-semibold text-gray-900 dark:text-white">
+                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                {{fichePoste.type}}
+                            </p>
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                {{fichePoste.urgency}}
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li class="py-3 sm:py-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+                                </svg>
+                        </div>
+                        <div class="grow flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                Description du poste
+                            </p>
+                            <p class="text-sm text-gray-500 text-ellipsis overflow-hidden dark:text-gray-400">
+                                {{fichePoste.jobDescription}}
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li class="py-3 sm:py-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                Localisation de l'emploi
+                            </p>
+                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                {{fichePoste.localisation}}
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                Service de destination
+                            </p>
+                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                {{fichePoste.destinationService}}
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li class="py-3 sm:py-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                Date de début
+                            </p>
+                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                {{#if fichePoste.entryDate}}
+                                {{fichePoste.entryDate}}
+                                {{else}}
+                                Aucune date indiquée
+                                {{/if}}
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                Date de fin
+                            </p>
+                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                {{#if fichePoste.endDate}}
+                                {{fichePoste.endDate}}
+                                {{else}}
+                                Aucune date indiquée
+                                {{/if}}
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li class="py-3 sm:py-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                Experience requise
+                            </p>
+                            <p class="text-sm text-gray-500 text-ellipsis overflow-hidden dark:text-gray-400">
+                                {{#if fichePoste.experience}}
+                                {{fichePoste.experience}}
+                                {{else}}
+                                Aucune experience requise
+                                {{/if}}
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        <div class="flex-1 flex flex-col text-base font-semibold text-gray-900 dark:text-white">
+                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                Rémunération
+                            </p>
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                {{#if fichePoste.compensation}}
+                                {{fichePoste.compensation}}
+                                {{else}}
+                                Aucune rémunération
+                                {{/if}}
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+    </div>
+    </div>
+</div>
+
+<h1>postuler</h1>
+<form action="/candidature/create" method="post" enctype='multipart/form-data'>
+	<label for='candidature_nom'>nom</label>
+	<input type='text' id='candidature_nom' name='candidature_nom' required />
+    </br>
+    <label for='candidature_prenom'>prenom</label>
+	<input type='text' id='candidature_prenom' name='candidature_prenom' required />
+    </br>
+    <label for='candidature_mail'>mail</label>
+	<input type='text' id='candidature_mail' name='candidature_mail' required />
+    </br>
+    <label for='candidature_telephone'>telephone</label>
+	<input type='number' id='candidature_telephone' name='candidature_telephone' required />
+    </br>
+    <label for='candidature_CV'>CV</label>
+    <input name='candidature_CV' type='file' id='candidature_CV' />
+    <input name='ficheposteid' id='ficheposteid' type='hidden' value='{{fichePoste.id}}'/>
+	<input type='submit' value='créer une fiche candidat' />
+</form>
