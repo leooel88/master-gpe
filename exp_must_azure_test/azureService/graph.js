@@ -4,11 +4,11 @@ require('isomorphic-fetch');
 // process;
 
 function getAzureConfig() {
-	if (process.env.NODE_ENV !== 'development') {
+	if (process.env.NODE_ENV === 'development') {
 		return require('./azure.config.json').development;
-	} else if (process.env.NODE_ENV !== 'production') {
+	} else if (process.env.NODE_ENV === 'production') {
 		return require('./azure.config.json').production;
-	} else if (process.env.NODE_ENV !== 'test') {
+	} else if (process.env.NODE_ENV === 'test') {
 		return require('./azure.config.json').test;
 	}
 }

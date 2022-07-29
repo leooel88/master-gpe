@@ -111,16 +111,31 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			},
 			validationRH: {
-				type: DataTypes.BOOLEAN,
+				type: DataTypes.TINYINT,
 				allowNull: true,
+				defaultValue: 0,
+				allowNull: false,
+				validate: {
+					len: [0, 2],
+				},
 			},
 			validationFinance: {
-				type: DataTypes.BOOLEAN,
+				type: DataTypes.TINYINT,
 				allowNull: true,
+				defaultValue: 0,
+				allowNull: false,
+				validate: {
+					len: [0, 2],
+				},
 			},
 			publicationRH: {
-				type: DataTypes.BOOLEAN,
+				type: DataTypes.TINYINT,
 				allowNull: true,
+				defaultValue: 0,
+				allowNull: false,
+				validate: {
+					len: [0, 2],
+				},
 			},
 		},
 		{

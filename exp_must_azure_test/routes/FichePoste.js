@@ -8,9 +8,7 @@ router.get('/create/test', fichePoste.createTestFicheposte);
 
 router.post('/create', fichePoste.create);
 
-router.get('/update', fichePoste.getUpdatePage);
-
-router.post('/update', fichePoste.update);
+router.post('/update/:fichePosteId', fichePoste.update);
 
 router.delete('/delete:fichePosteId', fichePoste.delete);
 
