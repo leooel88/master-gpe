@@ -338,7 +338,12 @@ exports.update = async (req, res) => {
 	if (!isEmptyOrSpaces(req.body.input_update_label)) {
 		try {
 			await FichePoste.update(
-				{ label: req.body.input_update_label },
+				{
+					label: req.body.input_update_label,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
 				{ where: { id: fichePosteId } }
 			);
 		} catch (err) {
@@ -352,7 +357,12 @@ exports.update = async (req, res) => {
 	} else if (!isEmptyOrSpaces(req.body.input_update_type)) {
 		try {
 			await FichePoste.update(
-				{ type: req.body.input_update_type },
+				{
+					type: req.body.input_update_type,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
 				{ where: { id: fichePosteId } }
 			);
 		} catch (err) {
@@ -366,7 +376,12 @@ exports.update = async (req, res) => {
 	} else if (!isEmptyOrSpaces(req.body.input_update_urgency)) {
 		try {
 			await FichePoste.update(
-				{ urgency: req.body.input_update_urgency },
+				{
+					urgency: req.body.input_update_urgency,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
 				{ where: { id: fichePosteId } }
 			);
 		} catch (err) {
@@ -380,7 +395,12 @@ exports.update = async (req, res) => {
 	} else if (!isEmptyOrSpaces(req.body.input_update_jobDescription)) {
 		try {
 			await FichePoste.update(
-				{ jobDescription: req.body.input_update_jobDescription },
+				{
+					jobDescription: req.body.input_update_jobDescription,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
 				{ where: { id: fichePosteId } }
 			);
 		} catch (err) {
@@ -394,7 +414,12 @@ exports.update = async (req, res) => {
 	} else if (req.body.input_update_localisation) {
 		try {
 			await FichePoste.update(
-				{ localisation: req.body.input_update_localisation },
+				{
+					localisation: req.body.input_update_localisation,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
+				},
 				{ where: { id: fichePosteId } }
 			);
 		} catch (err) {
@@ -411,6 +436,9 @@ exports.update = async (req, res) => {
 				{
 					destinationService:
 						req.body.input_update_destinationService,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
 				},
 				{ where: { id: fichePosteId } }
 			);
@@ -427,6 +455,9 @@ exports.update = async (req, res) => {
 			await FichePoste.update(
 				{
 					entryDate: req.body.input_update_entryDate,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
 				},
 				{ where: { id: fichePosteId } }
 			);
@@ -443,6 +474,9 @@ exports.update = async (req, res) => {
 			await FichePoste.update(
 				{
 					endDate: req.body.input_update_endDate,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
 				},
 				{ where: { id: fichePosteId } }
 			);
@@ -459,6 +493,9 @@ exports.update = async (req, res) => {
 			await FichePoste.update(
 				{
 					experience: req.body.input_update_experience,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
 				},
 				{ where: { id: fichePosteId } }
 			);
@@ -475,6 +512,9 @@ exports.update = async (req, res) => {
 			await FichePoste.update(
 				{
 					compensation: req.body.input_update_compensation,
+					validationRH: 0,
+					validationFinance: 0,
+					publicationRH: 0,
 				},
 				{ where: { id: fichePosteId } }
 			);
