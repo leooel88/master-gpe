@@ -8,7 +8,7 @@ const iana = require('windows-iana');
 const loggerHandler = require('../helper/loggerHandler');
 
 exports.getPage = async (req, res, next) => {
-	if (loggerHandler.checkLoggedIn(req, res) === false) {
+	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
 	}
 
@@ -88,7 +88,6 @@ exports.getPage = async (req, res, next) => {
 	}
 
 	let employeeHireDate = dt + ' ' + month + ' ' + year;
-
 
 	let userInfos = {
 		jobTitle: userDetails.jobTitle,

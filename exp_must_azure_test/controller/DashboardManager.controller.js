@@ -3,7 +3,7 @@ const errorHandler = require('../helper/errorHandler');
 const loggerHandler = require('../helper/loggerHandler');
 
 exports.getPage = async (req, res, next) => {
-	if (loggerHandler.checkLoggedIn(req, res) === false) {
+	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
 	}
 

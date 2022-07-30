@@ -6,9 +6,7 @@ const loggerHandler = require('../helper/loggerHandler');
 const azureService = require('../azureService/graph');
 
 exports.getReadPage = async (req, res, next) => {
-	if (loggerHandler.checkLoggedIn(req, res) === false) {
-		return;
-	}
+	const isLoggedIn = loggerHandler.checkLoggedIn(req);
 
 	let { error } = req.query;
 
@@ -20,22 +18,27 @@ exports.getReadPage = async (req, res, next) => {
 		params.error = [{ message: error }];
 	}
 
-	const groups = await azureService.getMainGroups(
-		req.app.locals.msalClient,
-		req.session.userId
-	);
-	console.log(groups);
-	if (groups.includes('RH')) {
-		params.rh = true;
-		params.rhValidLink = '/ficheposte/rhvalid/' + fichePosteId;
-		params.rhRefuseLink = '/ficheposte/rhrefuse/' + fichePosteId;
-	} else if (groups.includes('FINANCE')) {
-		params.finance = true;
-		params.financeValidLink = '/ficheposte/financevalid/' + fichePosteId;
-		params.financeRefuseLink = '/ficheposte/financerefuse/' + fichePosteId;
-	} else if (groups.includes('MANAGER')) {
-		params.manager = true;
-		params.managerUpdateLink = '/ficheposte/update/' + fichePosteId;
+	if (isLoggedIn === true) {
+		const groups = await azureService.getMainGroups(
+			req.app.locals.msalClient,
+			req.session.userId
+		);
+		console.log(groups);
+		if (groups.includes('RH')) {
+			params.rh = true;
+			params.rhValidLink = '/ficheposte/rhvalid/' + fichePosteId;
+			params.rhRefuseLink = '/ficheposte/rhrefuse/' + fichePosteId;
+			params.rhPublishLink = '/ficheposte/rhpublish/' + fichePosteId;
+		} else if (groups.includes('FINANCE')) {
+			params.finance = true;
+			params.financeValidLink =
+				'/ficheposte/financevalid/' + fichePosteId;
+			params.financeRefuseLink =
+				'/ficheposte/financerefuse/' + fichePosteId;
+		} else if (groups.includes('MANAGER')) {
+			params.manager = true;
+			params.managerUpdateLink = '/ficheposte/update/' + fichePosteId;
+		}
 	}
 
 	FichePoste.findAll({
@@ -69,16 +72,23 @@ exports.getReadPage = async (req, res, next) => {
 						.toISOString()
 						.split('T')[0];
 			}
-			if (foundFichePoste[0].dataValues.validationRH == 0) {
-				params.validationRhIsNull = true;
-			} else if (foundFichePoste[0].dataValues.validationRH == 1) {
-				params.validationRhIsTrue = true;
-			} else if (foundFichePoste[0].dataValues.validationRH == 2) {
-				params.validationRhIsFalse = true;
-			}
+			if (isLoggedIn === true) {
+				params.isLoggedIn = true;
+				if (foundFichePoste[0].dataValues.validationRH == 0) {
+					params.validationRhIsNull = true;
+				} else if (foundFichePoste[0].dataValues.validationRH == 1) {
+					params.validationRhIsTrue = true;
+				} else if (foundFichePoste[0].dataValues.validationRH == 2) {
+					params.validationRhIsFalse = true;
+				}
 
-			params.updateLink =
-				'/ficheposte/update/' + foundFichePoste[0].dataValues.id;
+				params.updateLink =
+					'/ficheposte/update/' + foundFichePoste[0].dataValues.id;
+			} else {
+				params.isLoggedIn = false;
+				params.candidateLink =
+					'/candidature/create/' + foundFichePoste[0].dataValues.id;
+			}
 
 			params.active = { fichePosteRead: true };
 			params.fichePoste = foundFichePoste[0].dataValues;
@@ -99,7 +109,7 @@ exports.getReadPage = async (req, res, next) => {
 };
 
 exports.getListPage = (req, res, next) => {
-	if (loggerHandler.checkLoggedIn(req, res) === false) {
+	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
 	}
 
@@ -158,11 +168,10 @@ exports.getListPage = (req, res, next) => {
 		});
 };
 exports.getPublish = (req, res, next) => {
-
 	let result = [];
 
 	FichePoste.findAll({
-		where: { publicationRH: true }
+		where: { publicationRH: true },
 	})
 		.then((foundFichePosteList) => {
 			foundFichePosteList = foundFichePosteList.forEach(
@@ -216,7 +225,7 @@ exports.getPublish = (req, res, next) => {
 		});
 };
 exports.getCreatePage = (req, res, next) => {
-	if (loggerHandler.checkLoggedIn(req, res) === false) {
+	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
 	}
 
@@ -232,9 +241,8 @@ exports.getCreatePage = (req, res, next) => {
 	res.render('fichePoste', params);
 };
 
-
 exports.createTestFicheposte = (req, res, next) => {
-	if (loggerHandler.checkLoggedIn(req, res) === false) {
+	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
 	}
 
@@ -275,7 +283,39 @@ exports.createTestFicheposte = (req, res, next) => {
 			FichePoste.create(fichePoste)
 				.then((data) => {
 					console.log(data);
-					res.send(data);
+
+					const fichePoste = {
+						label: 'Lead dev',
+						type: 'ALTERNANCE',
+						jobDescription: 'Lead dev pour un projet de chatbot',
+						urgency: 'URGENT',
+						entryDate: addDays(new Date(), 30).toISOString(),
+						endDate: addDays(new Date(), 60).toISOString(),
+						localisation: 'Paris',
+						destinationService: 'DSI',
+						compensation: '5000$/mois',
+						question1: "Combien d'années en tant que lead dev ?",
+						question2:
+							'Avez vous deja travaillé en méthode scrum ?',
+						validationRH: 1,
+						validationFinance: 1,
+						publicationRH: 1,
+					};
+
+					FichePoste.create(fichePoste)
+						.then((data) => {
+							console.log(data);
+							res.send(data);
+						})
+						.catch((err) => {
+							console.log('ERROR : ');
+							console.log(err);
+							errorHandler.catchDataCreationError(
+								err.errors,
+								res,
+								'fichePoste/create'
+							);
+						});
 				})
 				.catch((err) => {
 					console.log('ERROR : ');
@@ -305,7 +345,7 @@ function addDays(date, days) {
 }
 
 exports.create = (req, res) => {
-	if (loggerHandler.checkLoggedIn(req, res) === false) {
+	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
 	}
 
@@ -379,7 +419,7 @@ exports.create = (req, res) => {
 };
 
 exports.update = async (req, res) => {
-	if (loggerHandler.checkLoggedIn(req, res) === false) {
+	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
 	}
 
@@ -611,6 +651,19 @@ exports.rhRefuse = async (req, res, next) => {
 	const updatedRows = await FichePoste.update(
 		{
 			validationRH: 2,
+		},
+		{
+			where: { id: fichePosteId },
+		}
+	);
+	res.redirect('/fichePoste/read/' + fichePosteId);
+};
+
+exports.rhPublish = async (req, res, next) => {
+	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const updatedRows = await FichePoste.update(
+		{
+			publicationRH: 1,
 		},
 		{
 			where: { id: fichePosteId },

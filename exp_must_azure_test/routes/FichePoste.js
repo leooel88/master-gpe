@@ -18,9 +18,11 @@ router.get('/read/:fichePosteId', fichePoste.getReadPage);
 
 router.get('/rhvalid/:fichePosteId', fichePoste.rhValid);
 
-router.get('/financevalid/:fichePosteId', fichePoste.financeValid);
-
 router.get('/rhrefuse/:fichePosteId', fichePoste.rhRefuse);
+
+router.get('/rhpublish/:fichePosteId', fichePoste.rhPublish);
+
+router.get('/financevalid/:fichePosteId', fichePoste.financeValid);
 
 router.get('/financerefuse/:fichePosteId', fichePoste.financeRefuse);
 
