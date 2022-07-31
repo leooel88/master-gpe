@@ -27,6 +27,8 @@
 		"mysql2": "^2.3.3",
 		"postcss-cli": "^10.0.0",
 		"sequelize": "^6.20.1",
+		"serve-index": "^1.9.1",
+		"server": "^1.0.37",
 		"windows-iana": "^5.0.2"
 	},
 	"devDependencies": {

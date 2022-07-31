@@ -1,0 +1,10 @@
+{{#each files }}
+<a href="/documents/{{this.name}}">
+{{this.name}}
+
+</a>
+<embed src="/documents/{{this.name}}" width=200 height=100 type='application/pdf'/>
+
+<button>delete</button>
+<br>
+{{/each}}
