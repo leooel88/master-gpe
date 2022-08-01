@@ -1,5 +1,6 @@
 const fs = require('fs');
 
+
 exports.getListFile = (req, res) => {
 
 	console.log('list files')
@@ -36,10 +37,10 @@ fs.readdir('./adminFile', (err, files) => {
   }) 
  
 }
+/*
+exports.deleteFile = (req, res,next) => {
 
-exports.deleteFile = (req, res) => {
-
-	console.log('list files')
+	prouct
     // include node fs module
 
  
@@ -48,5 +49,13 @@ fs.unlink('./adminFile/'+req.params.filename, function (err) {
     if (err) throw err;
     // if no error, file has been deleted successfully
     console.log('File deleted!');
+})
+}*/
+exports.deleteFile = (req, res, next) => {
+    fs.unlink('./adminFile/'+req.body.filename, function (err) {
+        if (err) throw err;
+        // if no error, file has been deleted successfully
+        console.log('File deleted!');
+        res.redirect('/listFile');
 })
 }
