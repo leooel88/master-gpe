@@ -25,6 +25,13 @@ module.exports = {
 			.get();
 		return user;
 	},
+	getusers: async function (msalClient, userId, filters) {
+		const client = getAuthenticatedClient(msalClient, userId);
+
+		let allusers = await client.api('/users').get();
+		return allusers;
+	}
+	,
 	getGroups: async function (msalClient, userId, filters) {
 		const client = getAuthenticatedClient(msalClient, userId);
 
