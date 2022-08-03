@@ -208,6 +208,8 @@ const dashboardRouter = require('./routes/dashboard');
 const candidatureRouter = require('./routes/candidature');
 const uploadFileRouter = require('./routes/uploadAdminFile');
 const listFileRouter = require('./routes/listFile');
+const listUserRouter = require('./routes/listUser');
+
 
 app.use('/', homeRouter);
 app.use('/home', homeRouter);
@@ -218,4 +220,6 @@ app.use('/dashboard', dashboardRouter);
 app.use('/candidature', candidatureRouter);
 app.use('/uploadFile', uploadFileRouter);
 app.use('/listFile', listFileRouter);
+app.use('/listUser', listUserRouter);
+
 module.exports = app;
