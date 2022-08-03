@@ -1,0 +1,29 @@
+<p>hey</p>
+<ul class="my-4 space-y-3">
+{{#each users }}
+    <li>
+        <div class="my-4 space-y-3">
+            <h>displayName :{{this.displayName}}</h>
+            <br>
+            <h>givenName : {{this.givenName}}</h>
+            <br>
+            <h>jobTitle :{{this.jobTitle}}</h>
+            <br>
+            <h>mail :{{this.mail}}</h>
+            <br>
+            <h>mobilePhone :{{this.mobilePhone}}</h>
+            <br>
+            <h>officeLocation :{{this.officeLocation}}</h>
+            <br>
+            <h>preferredLanguage :{{this.preferredLanguage}}</h>
+            <br>
+            <h>surname :{{this.surname}}</h>
+            <br>
+            <h>userPrincipalName :{{this.userPrincipalName}}</h>
+            <br>
+        </div>
+        <p>--------------------------------------------</p>
+    </li>
+<br>
+{{/each}}
+</ul>

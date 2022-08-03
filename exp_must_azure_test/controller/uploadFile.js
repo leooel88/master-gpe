@@ -17,5 +17,5 @@ exports.create = (req, res) => {
 		description : req.body.description,
 		tag : req.body.tag,
 	};
-	res.send();
+	res.redirect('/listFile');
 };

@@ -6,7 +6,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const msal = require('@azure/msal-node');
 require('dotenv').config();
-
+var serveIndex = require('serve-index');
 var app = express();
 
 // Session middleware
@@ -100,7 +100,9 @@ app.use(
 		index: false,
 	})
 );
+//-------------------------------------------
 
+//-------------------------------------------
 // View configuration
 var exphbs = require('express-handlebars');
 
@@ -171,6 +173,13 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views/');
 
+
+
+app.use('/CV', express.static('CV'));
+app.use('/CV', serveIndex('CV'));
+app.use('/documents', express.static('adminFile', {'icons': true}));
+app.use('/documents', serveIndex('adminFile', {'icons': true}));
+
 // app.set('views', path.join(__dirname, '/views'));
 // app.set('views', './views');
 // app.set('views', __dirname + '/views');
@@ -198,6 +207,9 @@ const fichePosteRouter = require('./routes/FichePoste');
 const dashboardRouter = require('./routes/dashboard');
 const candidatureRouter = require('./routes/candidature');
 const uploadFileRouter = require('./routes/uploadAdminFile');
+const listFileRouter = require('./routes/listFile');
+const listUserRouter = require('./routes/listUser');
+const organigrammeRouter = require('./routes/organigramme');
 
 
 app.use('/', homeRouter);
@@ -208,5 +220,8 @@ app.use('/ficheposte', fichePosteRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/candidature', candidatureRouter);
 app.use('/uploadFile', uploadFileRouter);
+app.use('/listFile', listFileRouter);
+app.use('/listUser', listUserRouter);
 
+app.use('/organigramme', organigrammeRouter);
 module.exports = app;
