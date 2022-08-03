@@ -1,7 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 
-const phoneValidationRegex = /^(\+33 |0)[1-9]( \d\d){4}$/
+const phoneValidationRegex = /^(\+33 |0)[1-9]( \d\d){4}$/;
 module.exports = (sequelize, DataTypes) => {
 	class Candidature extends Model {
 		/**
@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					isAlpha: true,
+					validator: function (v) {
+						const nameFormat = /^[ a-zA-Z\-/']+$/;
+						return nameFormat.test(v);
+					},
 					len: [2, 50],
 				},
 			},
@@ -27,7 +30,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					isAlpha: true,
+					validator: function (v) {
+						const nameFormat = /^[ a-zA-Z\-/']+$/;
+						return nameFormat.test(v);
+					},
 					len: [2, 50],
 				},
 			},
@@ -42,8 +48,8 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					validator: function(v) {
-						return phoneValidationRegex.test(v); 
+					validator: function (v) {
+						return phoneValidationRegex.test(v);
 					},
 				},
 			},

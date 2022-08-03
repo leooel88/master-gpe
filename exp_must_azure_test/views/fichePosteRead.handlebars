@@ -8,53 +8,80 @@
 					class='text-xl font-bold leading-none text-gray-900 dark:text-white'
 				>Fiche de poste</h5>
 				<div class='flex justify-center gap-6 items-center'>
-					<div>Validation </div>
-					{{#if validationRhIsNull}}
-						<div class='flex-shrink-0'>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								class='h-5 w-5 fill-grey-500'
-								viewBox='0 0 20 20'
-								fill='currentColor'
-							>
-								<path
-									fill-rule='evenodd'
-									d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z'
-									clip-rule='evenodd'
-								></path>
-							</svg>
+				{{#compare isLoggedIn 1 operator="=="}}
+					{{#compare fichePoste.publicationRH 1 operator="=="}}
+						<div class='m-3 flex items-center p-1 text-sm font-bold text-white bg-blue-800 rounded'>
+							<span class='flex-1 whitespace-nowrap'>Publié</span>
 						</div>
-					{{else if validationRhIsTrue}}
-						<div class='flex-shrink-0'>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								class='w-5 h-5 fill-lime-500'
-								viewBox='0 0 20 20'
-								fill='currentColor'
-							>
-								<path
-									fill-rule='evenodd'
-									d='M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-									clip-rule='evenodd'
-								></path>
-							</svg>
-						</div>
-					{{else if validationRhIsFalse}}
-						<div class='flex-shrink-0'>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								class='h-5 w-5 fill-red-500'
-								viewBox='0 0 20 20'
-								fill='currentColor'
-							>
-								<path
-									fill-rule='evenodd'
-									d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-									clip-rule='evenodd'
-								></path>
-							</svg>
-						</div>
-					{{/if}}
+					{{else}}
+						<div>Validation</div>
+						{{#compare fichePoste.validationRH 0 operator="=="}}
+							{{#compare fichePoste.validationFinance 0 operator="=="}}
+								<div class='flex-shrink-0'>
+									<svg
+										xmlns='http://www.w3.org/2000/svg'
+										class='h-5 w-5 fill-grey-500'
+										viewBox='0 0 20 20'
+										fill='currentColor'
+									>
+										<path
+											fill-rule='evenodd'
+											d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z'
+											clip-rule='evenodd'
+										></path>
+									</svg>
+								</div>
+							{{/compare}}
+						{{else compare fichePoste.validationRH 1 operator="=="}}
+							{{#compare fichePoste.validationFinance 1 operator="=="}}
+								<div class='flex-shrink-0'>
+									<svg
+										xmlns='http://www.w3.org/2000/svg'
+										class='w-5 h-5 fill-lime-500'
+										viewBox='0 0 20 20'
+										fill='currentColor'
+									>
+										<path
+											fill-rule='evenodd'
+											d='M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
+											clip-rule='evenodd'
+										></path>
+									</svg>
+								</div>
+							{{else compare fichePoste.validationFinance 0 operator="=="}}
+								<div class='flex-shrink-0'>
+									<svg
+										xmlns='http://www.w3.org/2000/svg'
+										class='w-5 h-5 fill-lime-300'
+										viewBox='0 0 20 20'
+										fill='currentColor'
+									>
+										<path
+											fill-rule='evenodd'
+											d='M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
+											clip-rule='evenodd'
+										></path>
+									</svg>
+								</div>
+							{{/compare}}
+						{{else}}
+							<div class='flex-shrink-0'>
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									class='h-5 w-5 fill-red-500'
+									viewBox='0 0 20 20'
+									fill='currentColor'
+								>
+									<path
+										fill-rule='evenodd'
+										d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+										clip-rule='evenodd'
+									></path>
+								</svg>
+							</div>
+						{{/compare}}
+					{{/compare}}
+				{{/compare}}
 				</div>
 				<p class='text-sm font-medium text-blue-600 dark:text-blue-500'>
 					Id :
@@ -94,26 +121,28 @@
 									>
 										{{fichePoste.label}}
 									</p>
-									<a
-										id='link-label'
-										class='hover:cursor-pointer'
-									>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											class='h-4 w-4'
-											viewBox='0 0 20 20'
-											fill='currentColor'
+									{{#compare isLoggedIn 1 operator="=="}}
+										<a
+											id='link-label'
+											class='hover:cursor-pointer'
 										>
-											<path
-												d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
-											></path>
-											<path
-												fill-rule='evenodd'
-												d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-												clip-rule='evenodd'
-											></path>
-										</svg>
-									</a>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												class='h-4 w-4'
+												viewBox='0 0 20 20'
+												fill='currentColor'
+											>
+												<path
+													d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
+												></path>
+												<path
+													fill-rule='evenodd'
+													d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+													clip-rule='evenodd'
+												></path>
+											</svg>
+										</a>
+									{{/compare}}
 								</div>
 
 							</div>
@@ -126,26 +155,28 @@
 									>
 										{{fichePoste.type}}
 									</p>
-									<a
-										id='link-type'
-										class='hover:cursor-pointer'
-									>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											class='h-4 w-4'
-											viewBox='0 0 20 20'
-											fill='currentColor'
+									{{#compare isLoggedIn 1 operator="=="}}
+										<a
+											id='link-type'
+											class='hover:cursor-pointer'
 										>
-											<path
-												d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
-											></path>
-											<path
-												fill-rule='evenodd'
-												d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-												clip-rule='evenodd'
-											></path>
-										</svg>
-									</a>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												class='h-4 w-4'
+												viewBox='0 0 20 20'
+												fill='currentColor'
+											>
+												<path
+													d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
+												></path>
+												<path
+													fill-rule='evenodd'
+													d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+													clip-rule='evenodd'
+												></path>
+											</svg>
+										</a>
+									{{/compare}}
 								</div>
 								<div class='flex gap-4 items-center'>
 									<p
@@ -153,26 +184,28 @@
 									>
 										{{fichePoste.urgency}}
 									</p>
-									<a
-										id='link-urgency'
-										class='hover:cursor-pointer'
-									>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											class='h-4 w-4'
-											viewBox='0 0 20 20'
-											fill='currentColor'
+									{{#compare isLoggedIn 1 operator="=="}}
+										<a
+											id='link-urgency'
+											class='hover:cursor-pointer'
 										>
-											<path
-												d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
-											></path>
-											<path
-												fill-rule='evenodd'
-												d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-												clip-rule='evenodd'
-											></path>
-										</svg>
-									</a>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												class='h-4 w-4'
+												viewBox='0 0 20 20'
+												fill='currentColor'
+											>
+												<path
+													d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
+												></path>
+												<path
+													fill-rule='evenodd'
+													d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+													clip-rule='evenodd'
+												></path>
+											</svg>
+										</a>
+									{{/compare}}
 								</div>
 							</div>
 						</div>
@@ -203,26 +236,28 @@
 									>
 										{{fichePoste.jobDescription}}
 									</p>
-									<a
-										id='link-jobDescription'
-										class='hover:cursor-pointer'
-									>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											class='h-4 w-4'
-											viewBox='0 0 20 20'
-											fill='currentColor'
+									{{#compare isLoggedIn 1 operator="=="}}
+										<a
+											id='link-jobDescription'
+											class='hover:cursor-pointer'
 										>
-											<path
-												d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
-											></path>
-											<path
-												fill-rule='evenodd'
-												d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-												clip-rule='evenodd'
-											></path>
-										</svg>
-									</a>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												class='h-4 w-4'
+												viewBox='0 0 20 20'
+												fill='currentColor'
+											>
+												<path
+													d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
+												></path>
+												<path
+													fill-rule='evenodd'
+													d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+													clip-rule='evenodd'
+												></path>
+											</svg>
+										</a>
+									{{/compare}}
 								</div>
 							</div>
 						</div>
@@ -255,23 +290,25 @@
 									>
 										{{fichePoste.localisation}}
 									</p>
-									<a id='link-localisation' class='hover:cursor-pointer'>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											class='h-4 w-4'
-											viewBox='0 0 20 20'
-											fill='currentColor'
-										>
-											<path
-												d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
-											></path>
-											<path
-												fill-rule='evenodd'
-												d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-												clip-rule='evenodd'
-											></path>
-										</svg>
-									</a>
+									{{#compare isLoggedIn 1 operator="=="}}
+										<a id='link-localisation' class='hover:cursor-pointer'>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												class='h-4 w-4'
+												viewBox='0 0 20 20'
+												fill='currentColor'
+											>
+												<path
+													d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
+												></path>
+												<path
+													fill-rule='evenodd'
+													d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+													clip-rule='evenodd'
+												></path>
+											</svg>
+										</a>
+									{{/compare}}
 								</div>
 							</div>
 							<div class='flex-shrink-0'>
@@ -300,23 +337,25 @@
 									>
 										{{fichePoste.destinationService}}
 									</p>
-									<a id='link-destinationService' class='hover:cursor-pointer'>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											class='h-4 w-4'
-											viewBox='0 0 20 20'
-											fill='currentColor'
-										>
-											<path
-												d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
-											></path>
-											<path
-												fill-rule='evenodd'
-												d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-												clip-rule='evenodd'
-											></path>
-										</svg>
-									</a>
+									{{#compare isLoggedIn 1 operator="=="}}
+										<a id='link-destinationService' class='hover:cursor-pointer'>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												class='h-4 w-4'
+												viewBox='0 0 20 20'
+												fill='currentColor'
+											>
+												<path
+													d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
+												></path>
+												<path
+													fill-rule='evenodd'
+													d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+													clip-rule='evenodd'
+												></path>
+											</svg>
+										</a>
+									{{/compare}}
 								</div>
 							</div>
 						</div>
@@ -353,23 +392,25 @@
 											Aucune date indiquée
 										{{/if}}
 									</p>
-									<a id='link-entryDate' class='hover:cursor-pointer'>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											class='h-4 w-4'
-											viewBox='0 0 20 20'
-											fill='currentColor'
-										>
-											<path
-												d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
-											></path>
-											<path
-												fill-rule='evenodd'
-												d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-												clip-rule='evenodd'
-											></path>
-										</svg>
-									</a>
+									{{#compare isLoggedIn 1 operator="=="}}
+										<a id='link-entryDate' class='hover:cursor-pointer'>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												class='h-4 w-4'
+												viewBox='0 0 20 20'
+												fill='currentColor'
+											>
+												<path
+													d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
+												></path>
+												<path
+													fill-rule='evenodd'
+													d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+													clip-rule='evenodd'
+												></path>
+											</svg>
+										</a>
+									{{/compare}}
 								</div>
 							</div>
 							<div class='flex-shrink-0'>
@@ -404,23 +445,25 @@
 											Aucune date indiquée
 										{{/if}}
 									</p>
-									<a id='link-endDate' class='hover:cursor-pointer'>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											class='h-4 w-4'
-											viewBox='0 0 20 20'
-											fill='currentColor'
-										>
-											<path
-												d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
-											></path>
-											<path
-												fill-rule='evenodd'
-												d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-												clip-rule='evenodd'
-											></path>
-										</svg>
-									</a>
+									{{#compare isLoggedIn 1 operator="=="}}
+										<a id='link-endDate' class='hover:cursor-pointer'>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												class='h-4 w-4'
+												viewBox='0 0 20 20'
+												fill='currentColor'
+											>
+												<path
+													d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
+												></path>
+												<path
+													fill-rule='evenodd'
+													d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+													clip-rule='evenodd'
+												></path>
+											</svg>
+										</a>
+									{{/compare}}
 								</div>
 							</div>
 						</div>
@@ -460,23 +503,25 @@
 											Aucune experience requise
 										{{/if}}
 									</p>
-									<a id='link-experience' class='hover:cursor-pointer'>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											class='h-4 w-4'
-											viewBox='0 0 20 20'
-											fill='currentColor'
-										>
-											<path
-												d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
-											></path>
-											<path
-												fill-rule='evenodd'
-												d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-												clip-rule='evenodd'
-											></path>
-										</svg>
-									</a>
+									{{#compare isLoggedIn 1 operator="=="}}
+										<a id='link-experience' class='hover:cursor-pointer'>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												class='h-4 w-4'
+												viewBox='0 0 20 20'
+												fill='currentColor'
+											>
+												<path
+													d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
+												></path>
+												<path
+													fill-rule='evenodd'
+													d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+													clip-rule='evenodd'
+												></path>
+											</svg>
+										</a>
+									{{/compare}}
 								</div>
 							</div>
 							<div class='flex-shrink-0'>
@@ -514,23 +559,25 @@
 											Aucune rémunération
 										{{/if}}
 									</p>
-									<a id='link-compensation' class='hover:cursor-pointer'>
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											class='h-4 w-4'
-											viewBox='0 0 20 20'
-											fill='currentColor'
-										>
-											<path
-												d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
-											></path>
-											<path
-												fill-rule='evenodd'
-												d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
-												clip-rule='evenodd'
-											></path>
-										</svg>
-									</a>
+									{{#compare isLoggedIn 1 operator="=="}}
+										<a id='link-compensation' class='hover:cursor-pointer'>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												class='h-4 w-4'
+												viewBox='0 0 20 20'
+												fill='currentColor'
+											>
+												<path
+													d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z'
+												></path>
+												<path
+													fill-rule='evenodd'
+													d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z'
+													clip-rule='evenodd'
+												></path>
+											</svg>
+										</a>
+									{{/compare}}
 								</div>
 							</div>
 						</div>
@@ -621,9 +668,7 @@
 									</svg>
 								</div>
 								<div class='flex-1 min-w-0'>
-									<p
-										class='text-sm font-medium text-gray-900 truncate dark:text-white'
-									>
+									<p class='text-sm font-medium text-gray-900 truncate dark:text-white'>
 										Question 3
 									</p>
 									<div class='flex gap-4 items-center'>
@@ -707,69 +752,92 @@
 					{{/if}}
 				</ul>
 			</div>
-			{{#if manager}}
-				<div class='grow flex justify-center bg-slate-800 gap-6'>
-					<a
-						href={{managerUpdateLink}}
-						class='flex items-center p-3 text-base font-bold text-white bg-blue-700 rounded-lg hover:bg-blue-600 group hover:shadow'
-					>
-						<span class='flex-1 whitespace-nowrap'>Modifier la fiche
-							de poste</span>
-					</a>
-				</div>
-			{{else if rh}}
-				<div class='grow flex justify-center bg-slate-800 gap-6'>
-					<a
-						href={{rhValidLink}}
-						class='flex items-center p-3 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow'
-					>
-						<span class='flex-1 whitespace-nowrap'>Valider</span>
-					</a>
-					<a
-						href={{rhRefuseLink}}
-						class='flex items-center p-3 text-base font-bold text-white bg-red-700 rounded-lg hover:bg-red-600 group hover:shadow'
-					>
-						<span class='flex-1 whitespace-nowrap'>Refuser</span>
-					</a>
-				</div>
+			{{#if rh}}
+				{{#compare fichePoste.validationFinance 0 operator="=="}}
+					{{#compare fichePoste.publicationRH 0 operator="=="}}
+						<div class='grow flex justify-center bg-slate-800 gap-6'>
+							<a
+								href={{rhValidLink}}
+								class='flex items-center p-3 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow'
+							>
+								<span class='flex-1 whitespace-nowrap'>Valider</span>
+							</a>
+							<a
+								href={{rhRefuseLink}}
+								class='flex items-center p-3 text-base font-bold text-white bg-red-700 rounded-lg hover:bg-red-600 group hover:shadow'
+							>
+								<span class='flex-1 whitespace-nowrap'>Refuser</span>
+							</a>
+						</div>
+					{{/compare}}
+				{{else compare fichePoste.validationFinance 1 operator="=="}}
+					{{#compare fichePoste.validationRH 1 operator="=="}}
+						{{#compare fichePoste.publicationRH 0 operator="=="}}
+							<div class='grow flex justify-center bg-slate-800 gap-6'>
+								<a
+									href={{rhPublishLink}}
+									class='flex items-center p-2 text-base font-bold text-white bg-blue-700 rounded-lg hover:bg-blue-600 group hover:shadow'
+								>
+									<span class='flex-1 whitespace-nowrap'>Publier la fiche de poste</span>
+								</a>
+							</div>
+						{{/compare}}
+					{{/compare}}
+				{{/compare}}
 			{{else if finance}}
+				{{#compare fichePoste.validationRH 1 operator="=="}}
+					<div class='grow flex justify-center bg-slate-800 gap-6'>
+						<a
+							href={{financeValidLink}}
+							class='flex items-center p-3 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow'
+						>
+							<span class='flex-1 whitespace-nowrap'>Valider</span>
+						</a>
+						<a
+							href={{financeRefuseLink}}
+							class='flex items-center p-3 text-base font-bold text-white bg-red-700 rounded-lg hover:bg-red-600 group hover:shadow'
+						>
+							<span class='flex-1 whitespace-nowrap'>Refuser</span>
+						</a>
+					</div>
+				{{/compare}}
+			{{/if}}
+
+			{{#compare isLoggedIn 0 operator="=="}}
 				<div class='grow flex justify-center bg-slate-800 gap-6'>
 					<a
-						href={{financeValidLink}}
-						class='flex items-center p-3 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow'
+						href={{candidateLink}}
+						class='flex items-center p-1 text-base font-bold text-white bg-blue-700 rounded-lg hover:bg-blue-600 group hover:shadow'
 					>
-						<span class='flex-1 whitespace-nowrap'>Valider</span>
-					</a>
-					<a
-						href={{financeRefuseLink}}
-						class='flex items-center p-3 text-base font-bold text-white bg-red-700 rounded-lg hover:bg-red-600 group hover:shadow'
-					>
-						<span class='flex-1 whitespace-nowrap'>Refuser</span>
+						<span class='flex-1 whitespace-nowrap'>Candidater</span>
 					</a>
 				</div>
-			{{/if}}
+			{{/compare}}
 		</div>
 	</div>
 
-	{{>labelModifier}}
+	{{#compare isLoggedIn 1 operator="=="}}
 
-	{{>typeModifier}}
+		{{>labelModifier}}
 
-	{{>urgencyModifier}}
+		{{>typeModifier}}
 
-	{{>jobDescriptionModifier}}
+		{{>urgencyModifier}}
 
-	{{>localisationModifier}}
+		{{>jobDescriptionModifier}}
 
-	{{>destinationServiceModifier}}
+		{{>localisationModifier}}
 
-	{{>entryDateModifier}}
+		{{>destinationServiceModifier}}
 
-	{{>endDateModifier}}
+		{{>entryDateModifier}}
 
-	{{>experienceModifier}}
+		{{>endDateModifier}}
 
-	{{>compensationModifier}}
+		{{>experienceModifier}}
+
+		{{>compensationModifier}}
+	{{/compare}}
 </div>
 
 <script type='text/javascript' src='/javascripts/fichePosteRead.js'></script>

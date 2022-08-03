@@ -1,0 +1,29 @@
+<div
+	class='m-auto top-6 flex flex-col items-center rounded-lg border shadow-md md:flex-row md:max-w-xl border-gray-700 bg-gray-800'
+>
+	<a href='#' class='bg-slate-600 hover:bg-slate-500'>
+		<img
+			class='object-cover overflow-hidden w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg'
+			src='/images/image.png'
+			alt=''
+		/>
+	</a>
+
+	<div class='flex flex-col justify-between p-4 leading-normal'>
+		<div class='grow flex gap-4'>
+			<h5
+				class='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'
+			>{{candidature.prenom}}</h5>
+			<h5
+				class='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'
+			>{{candidature.nom}}</h5>
+		</div>
+
+		<p class='mb-3 font-normal text-gray-700 dark:text-gray-400'>
+			{{candidature.mail}}
+		</p>
+		<p class='mb-3 font-normal text-gray-700 dark:text-gray-400'>
+			{{candidature.telephone}}
+		</p>
+	</div>
+</div>
