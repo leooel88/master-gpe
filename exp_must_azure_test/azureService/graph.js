@@ -32,6 +32,30 @@ module.exports = {
 		return allusers;
 	}
 	,
+	getManager: async function (msalClient, userId) {
+		const client = getAuthenticatedClient(msalClient, userId);
+
+		const manager = await client
+			.api('/me/manager')
+			.select(
+				'displayName,mail,businessPhones,jobTitle'
+			)
+			.get();
+
+		return manager;
+	},
+	getDirectReports: async function (msalClient, userId) {
+		const client = getAuthenticatedClient(msalClient, userId);
+	const directReports = await client
+			.api('/me/directReports')
+			.select(
+				'displayName,mail,businessPhones,jobTitle'
+			)
+			.get();
+
+		return directReports;
+	},
+
 	getGroups: async function (msalClient, userId, filters) {
 		const client = getAuthenticatedClient(msalClient, userId);
 

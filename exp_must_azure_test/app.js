@@ -209,6 +209,7 @@ const candidatureRouter = require('./routes/candidature');
 const uploadFileRouter = require('./routes/uploadAdminFile');
 const listFileRouter = require('./routes/listFile');
 const listUserRouter = require('./routes/listUser');
+const organigrammeRouter = require('./routes/organigramme');
 
 
 app.use('/', homeRouter);
@@ -222,4 +223,5 @@ app.use('/uploadFile', uploadFileRouter);
 app.use('/listFile', listFileRouter);
 app.use('/listUser', listUserRouter);
 
+app.use('/organigramme', organigrammeRouter);
 module.exports = app;
