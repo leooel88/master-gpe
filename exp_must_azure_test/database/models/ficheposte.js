@@ -112,7 +112,6 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			validationRH: {
 				type: DataTypes.TINYINT,
-				allowNull: true,
 				defaultValue: 0,
 				allowNull: false,
 				validate: {
@@ -121,7 +120,6 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			validationFinance: {
 				type: DataTypes.TINYINT,
-				allowNull: true,
 				defaultValue: 0,
 				allowNull: false,
 				validate: {
@@ -130,7 +128,6 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			publicationRH: {
 				type: DataTypes.TINYINT,
-				allowNull: true,
 				defaultValue: 0,
 				allowNull: false,
 				validate: {

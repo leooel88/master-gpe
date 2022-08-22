@@ -5,7 +5,7 @@
 		>
 			<div class='flex justify-between items-center mb-4'>
 				<h5
-					class='text-xl font-bold leading-none text-gray-900 dark:text-white'
+					class='text-xl font-bold leading-none text-white'
 				>Fiche de poste</h5>
 				<div class='flex justify-center gap-6 items-center'>
 				{{#compare isLoggedIn 1 operator="=="}}
@@ -83,7 +83,7 @@
 					{{/compare}}
 				{{/compare}}
 				</div>
-				<p class='text-sm font-medium text-blue-600 dark:text-blue-500'>
+				<p class='text-sm font-medium text-blue-500'>
 					Id :
 					{{fichePoste.id}}
 				</p>
@@ -91,7 +91,7 @@
 			<div class='grow flow-root'>
 				<ul
 					role='list'
-					class='divide-y divide-gray-200 dark:divide-gray-700'
+					class='divide-y divide-gray-700'
 				>
 					<li class='py-3 sm:py-4'>
 						<div class='flex items-center space-x-4'>
@@ -111,13 +111,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-gray-900 truncate dark:text-white'
+									class='text-sm font-medium text-white truncate'
 								>
 									Label du poste
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-500 truncate dark:text-gray-400'
+										class='text-sm text-gray-400 truncate'
 									>
 										{{fichePoste.label}}
 									</p>
@@ -147,11 +147,11 @@
 
 							</div>
 							<div
-								class='flex flex-col text-base font-semibold text-gray-900 dark:text-white'
+								class='flex flex-col text-base font-semibold text-white'
 							>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-500 truncate dark:text-gray-400'
+										class='text-sm text-gray-400 truncate'
 									>
 										{{fichePoste.type}}
 									</p>
@@ -180,7 +180,7 @@
 								</div>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm font-medium text-gray-900 truncate dark:text-white'
+										class='text-sm font-medium text-white truncate'
 									>
 										{{fichePoste.urgency}}
 									</p>
@@ -226,13 +226,13 @@
 							</div>
 							<div class='grow flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-gray-900 truncate dark:text-white'
+									class='text-sm font-medium text-white truncate'
 								>
 									Description du poste
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-500 text-ellipsis overflow-hidden dark:text-gray-400'
+										class='text-sm text-gray-400 text-ellipsis overflow-hidden'
 									>
 										{{fichePoste.jobDescription}}
 									</p>
@@ -280,13 +280,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-gray-900 truncate dark:text-white'
+									class='text-sm font-medium text-white truncate'
 								>
 									Localisation de l'emploi
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-500 truncate dark:text-gray-400'
+										class='text-sm text-gray-400 truncate'
 									>
 										{{fichePoste.localisation}}
 									</p>
@@ -327,13 +327,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-gray-900 truncate dark:text-white'
+									class='text-sm font-medium text-white truncate'
 								>
 									Service de destination
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-500 truncate dark:text-gray-400'
+										class='text-sm text-gray-400 truncate'
 									>
 										{{fichePoste.destinationService}}
 									</p>
@@ -378,13 +378,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-gray-900 truncate dark:text-white'
+									class='text-sm font-medium text-white truncate'
 								>
 									Date de début
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-500 truncate dark:text-gray-400'
+										class='text-sm text-gray-400 truncate'
 									>
 										{{#if fichePoste.entryDate}}
 											{{fichePoste.entryDate}}
@@ -431,13 +431,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-gray-900 truncate dark:text-white'
+									class='text-sm font-medium text-white truncate'
 								>
 									Date de fin
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-500 truncate dark:text-gray-400'
+										class='text-sm text-gray-400 truncate'
 									>
 										{{#if fichePoste.endDate}}
 											{{fichePoste.endDate}}
@@ -489,13 +489,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-gray-900 truncate dark:text-white'
+									class='text-sm font-medium text-white truncate'
 								>
 									Experience requise
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-500 text-ellipsis overflow-hidden dark:text-gray-400'
+										class='text-sm text-gray-400 text-ellipsis overflow-hidden'
 									>
 										{{#if fichePoste.experience}}
 											{{fichePoste.experience}}
@@ -542,16 +542,16 @@
 								</svg>
 							</div>
 							<div
-								class='flex-1 flex flex-col text-base font-semibold text-gray-900 dark:text-white'
+								class='flex-1 flex flex-col text-base font-semibold text-white'
 							>
 								<p
-									class='text-sm text-gray-500 truncate dark:text-gray-400'
+									class='text-sm text-gray-400 truncate'
 								>
 									Rémunération
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm font-medium text-gray-900 truncate dark:text-white'
+										class='text-sm font-medium text-white truncate'
 									>
 										{{#if fichePoste.compensation}}
 											{{fichePoste.compensation}}
@@ -601,13 +601,13 @@
 								</div>
 								<div class='flex-1 min-w-0'>
 									<p
-										class='text-sm font-medium text-gray-900 truncate dark:text-white'
+										class='text-sm font-medium text-white truncate'
 									>
 										Question 1
 									</p>
 									<div class='flex gap-4 items-center'>
 										<p
-											class='text-sm text-gray-500 truncate dark:text-gray-400'
+											class='text-sm text-gray-400 truncate'
 										>
 											{{fichePoste.question1}}
 										</p>
@@ -635,13 +635,13 @@
 								</div>
 								<div class='flex-1 min-w-0'>
 									<p
-										class='text-sm font-medium text-gray-900 truncate dark:text-white'
+										class='text-sm font-medium text-white truncate'
 									>
 										Question 2
 									</p>
 									<div class='flex gap-4 items-center'>
 										<p
-											class='text-sm text-gray-500 truncate dark:text-gray-400'
+											class='text-sm text-gray-400 truncate'
 										>
 											{{fichePoste.question2}}
 										</p>
@@ -668,12 +668,12 @@
 									</svg>
 								</div>
 								<div class='flex-1 min-w-0'>
-									<p class='text-sm font-medium text-gray-900 truncate dark:text-white'>
+									<p class='text-sm font-medium text-white truncate'>
 										Question 3
 									</p>
 									<div class='flex gap-4 items-center'>
 										<p
-											class='text-sm text-gray-500 truncate dark:text-gray-400'
+											class='text-sm text-gray-400 truncate'
 										>
 											{{fichePoste.question3}}
 										</p>
@@ -701,13 +701,13 @@
 								</div>
 								<div class='flex-1 min-w-0'>
 									<p
-										class='text-sm font-medium text-gray-900 truncate dark:text-white'
+										class='text-sm font-medium text-white truncate'
 									>
 										Question 4
 									</p>
 									<div class='flex gap-4 items-center'>
 										<p
-											class='text-sm text-gray-500 truncate dark:text-gray-400'
+											class='text-sm text-gray-400 truncate'
 										>
 											{{fichePoste.question4}}
 										</p>
@@ -735,13 +735,13 @@
 								</div>
 								<div class='flex-1 min-w-0'>
 									<p
-										class='text-sm font-medium text-gray-900 truncate dark:text-white'
+										class='text-sm font-medium text-white truncate'
 									>
 										Question 5
 									</p>
 									<div class='flex gap-4 items-center'>
 										<p
-											class='text-sm text-gray-500 truncate dark:text-gray-400'
+											class='text-sm text-gray-400 truncate'
 										>
 											{{fichePoste.question5}}
 										</p>
