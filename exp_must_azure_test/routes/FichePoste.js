@@ -14,6 +14,8 @@ router.delete('/delete:fichePosteId', fichePoste.delete);
 
 router.get('/list', fichePoste.getListPage);
 
+router.get('/kanban', fichePoste.getKanbanPage);
+
 router.get('/read/:fichePosteId', fichePoste.getReadPage);
 
 router.get('/rhvalid/:fichePosteId', fichePoste.rhValid);

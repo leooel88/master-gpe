@@ -42,32 +42,36 @@
                         {{/if}}
                         <span class="flex-1 ml-3 whitespace-nowrap">{{this.label}}</span>
                         <span class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">{{this.urgency}}</span>
-                        <div class="ml-6 w-20 bg-slate-100 h-3.5 rounded-[3px] flex items-center">
+                        <div class="ml-6  h-6 rounded-[3px] flex items-center gap-4">
 
                         {{#compare this.validationRH 0 operator="=="}}
-                            <div class="bg-grey-400 h-2 rounded" style="width: 33%"></div>
+                            <div class="bg-slate-300  rounded p-2" >RH</div>
                         {{else compare this.validationRH 1 operator="=="}}
-                            <div class="bg-green-400 h-2 rounded" style="width: 33%"></div>
+                            <div class="bg-green-400  rounded p-2" >RH</div>
                         {{else compare this.validationRH 2 operator="=="}}
-                            <div class="bg-red-400 h-2 rounded" style="width: 33%"></div>
+                            <div class="bg-red-400  rounded p-2" >RH</div>
                         {{/compare}}
 
                         {{#compare this.validationFinance 0 operator="=="}}
-                            <div class="bg-grey-400 h-2 rounded" style="width: 33%"></div>
+                            <div class="bg-slate-300 p-2 rounded" >FI</div>
                         {{else compare this.validationFinance 1 operator="=="}}
-                            <div class="bg-green-400 h-2 rounded" style="width: 33%"></div>
+                            <div class="bg-green-400 p-2 rounded" >FI</div>
                         {{else compare this.validationFinance 2 operator="=="}}
-                            <div class="bg-red-400 h-2 rounded" style="width: 33%"></div>
+                            <div class="bg-red-400 p-2 rounded" >FI</div>
                         {{/compare}}
 
                         {{#compare this.publicationRH 0 operator="=="}}
-                            <div class="bg-grey-400 h-2 rounded" style="width: 33%"></div>
+                            <div class="bg-slate-300 p-2 rounded" >PU</div>
                         {{else compare this.publicationRH 1 operator="=="}}
-                            <div class="bg-green-400 h-2 rounded" style="width: 33%"></div>
+                            <div class="bg-green-400 p-2 rounded" >PU</div>
                         {{else compare this.publicationRH 2 operator="=="}}
-                            <div class="bg-red-400 h-2 rounded" style="width: 33%"></div>
+                            <div class="bg-red-400 p-2 rounded" >PU</div>
                         {{/compare}}
+
                         </div>
+
+
+                        <span class=" text-sm text-white rounded-full bg-slate-600 flex items-center justify-center font-mono p-1 ml-3 w-6 h-6">{{this.nbCandidature}}</span>
                     </a>
                 </li>
             {{/each}}

@@ -1,6 +1,7 @@
 const db = require('../database/models');
 const Op = db.Sequelize.Op;
 const FichePoste = db.FichePoste;
+const Candidature = db.Candidature;
 const errorHandler = require('../helper/errorHandler');
 const loggerHandler = require('../helper/loggerHandler');
 const azureService = require('../azureService/graph');
@@ -144,6 +145,77 @@ exports.getListPage = (req, res, next) => {
 						result[index].endDate = new Date(
 							result[index].endDate.getTime() -
 								offset_2 * 60 * 1000
+						);
+						result[index].endDate = result[index].endDate
+							.toISOString()
+							.split('T')[0];
+					}
+				}
+			);
+
+			let params = {
+				active: { fichePosteList: true },
+				fichePosteList: result,
+			};
+
+			res.render('fichePosteList', params);
+		})
+		.catch((err) => {
+			console.log('ERROR : ');
+			console.log(err);
+			errorHandler.catchDataCreationError(err.errors, res, '');
+
+			return;
+		});
+};
+
+exports.getKanbanPage = (req, res, next) => {
+	if (loggerHandler.checkLoggedIn(req, res) === false) {
+		return;
+	}
+
+	let result = [];
+
+	FichePoste.findAll()
+		.then((foundFichePosteList) => {
+			foundFichePosteList = foundFichePosteList.forEach(
+				(fichePoste, index) => {
+					result.push(fichePoste.dataValues);
+					let idFichePoste = fichePoste.dataValues.id;
+					Candidature.count({
+						where: {
+							fichePosteId: idFichePoste
+						}
+					})
+						.then(function (foundCandidatureList){
+							console.log("==============",foundCandidatureList);
+							result[index].nbCandidature = foundCandidatureList;
+						});
+
+					if (index % 2 == 0) {
+						result[index].even = true;
+					}
+					result[index].readLink =
+						'/ficheposte/read/' + fichePoste.dataValues.id;
+
+					if (result[index].entryDate) {
+						let offset_1 =
+							result[index].entryDate.getTimezoneOffset();
+						result[index].entryDate = new Date(
+							result[index].entryDate.getTime() -
+							offset_1 * 60 * 1000
+						);
+						result[index].entryDate = result[index].entryDate
+							.toISOString()
+							.split('T')[0];
+					}
+
+					if (result[index].endDate) {
+						let offset_2 =
+							result[index].endDate.getTimezoneOffset();
+						result[index].endDate = new Date(
+							result[index].endDate.getTime() -
+							offset_2 * 60 * 1000
 						);
 						result[index].endDate = result[index].endDate
 							.toISOString()
