@@ -184,13 +184,12 @@ exports.getKanbanPage = (req, res, next) => {
 					let idFichePoste = fichePoste.dataValues.id;
 					Candidature.count({
 						where: {
-							fichePosteId: idFichePoste
-						}
-					})
-						.then(function (foundCandidatureList){
-							console.log("==============",foundCandidatureList);
-							result[index].nbCandidature = foundCandidatureList;
-						});
+							fichePosteId: idFichePoste,
+						},
+					}).then(function (foundCandidatureList) {
+						console.log('==============', foundCandidatureList);
+						result[index].nbCandidature = foundCandidatureList;
+					});
 
 					if (index % 2 == 0) {
 						result[index].even = true;
@@ -203,7 +202,7 @@ exports.getKanbanPage = (req, res, next) => {
 							result[index].entryDate.getTimezoneOffset();
 						result[index].entryDate = new Date(
 							result[index].entryDate.getTime() -
-							offset_1 * 60 * 1000
+								offset_1 * 60 * 1000
 						);
 						result[index].entryDate = result[index].entryDate
 							.toISOString()
@@ -215,7 +214,7 @@ exports.getKanbanPage = (req, res, next) => {
 							result[index].endDate.getTimezoneOffset();
 						result[index].endDate = new Date(
 							result[index].endDate.getTime() -
-							offset_2 * 60 * 1000
+								offset_2 * 60 * 1000
 						);
 						result[index].endDate = result[index].endDate
 							.toISOString()
@@ -310,6 +309,8 @@ exports.getCreatePage = (req, res, next) => {
 	if (error != null && error.length > 0) {
 		params.error = [{ message: error }];
 	}
+	console.log('==========================');
+	console.log(params);
 	res.render('fichePoste', params);
 };
 
@@ -423,11 +424,12 @@ exports.create = (req, res) => {
 
 	// Validate request
 	if (
-		!isEmptyOrSpaces(req.body.fichePoste_label) ||
-		!isEmptyOrSpaces(req.body.fichePoste_type) ||
-		!isEmptyOrSpaces(req.body.fichePoste_jobDescription) ||
-		!isEmptyOrSpaces(req.body.fichePoste_urgency)
+		isEmptyOrSpaces(req.body.fichePoste_label) ||
+		isEmptyOrSpaces(req.body.fichePoste_type) ||
+		isEmptyOrSpaces(req.body.fichePoste_jobDescription) ||
+		isEmptyOrSpaces(req.body.fichePoste_urgency)
 	) {
+		console.log('OIAEUOZIEUROZEIURZOEIRU');
 		errorHandler.sendInvalidBodyError(res, 'fichePoste');
 		return;
 	}
