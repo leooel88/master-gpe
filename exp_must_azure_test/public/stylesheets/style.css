@@ -1706,10 +1706,6 @@ video {
     background-color: transparent;
   }
 
-  .md\:p-0 {
-    padding: 0px;
-  }
-
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
