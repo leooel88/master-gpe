@@ -479,7 +479,8 @@ exports.create = (req, res) => {
 	FichePoste.create(fichePoste)
 		.then((data) => {
 			console.log(data);
-			res.send(data);
+			//res.send(data);
+			res.redirect(`/ficheposte/read/${data.id}`);
 		})
 		.catch((err) => {
 			console.log('ERROR : ');

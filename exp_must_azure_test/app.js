@@ -9,6 +9,15 @@ require('dotenv').config();
 var serveIndex = require('serve-index');
 var app = express();
 
+const bodyparser = require('body-parser');//
+app.use(bodyparser.urlencoded({extended:false}));//
+
+/*app.post('/ficheposte/create',(req,res,next)=>{//
+	console.log(req.body);//
+	res.redirect('/ficheposte/list');//
+})//*/
+
+
 // Session middleware
 // NOTE: Uses default in-memory session store, which is not
 // suitable for production
