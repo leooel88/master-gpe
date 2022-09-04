@@ -134,6 +134,11 @@ module.exports = (sequelize, DataTypes) => {
 					len: [0, 2],
 				},
 			},
+
+			creatorName:{
+				type: DataTypes.STRING,
+				allowNull: true,
+			}
 		},
 		{
 			sequelize,

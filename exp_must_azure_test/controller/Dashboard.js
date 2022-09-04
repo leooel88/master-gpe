@@ -6,6 +6,7 @@ const startOfWeek = require('date-fns/startOfWeek');
 const zonedTimeToUtc = require('date-fns-tz/zonedTimeToUtc');
 const iana = require('windows-iana');
 const loggerHandler = require('../helper/loggerHandler');
+const azureService = require("../azureService/graph");
 
 exports.getPage = async (req, res, next) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
@@ -97,4 +98,30 @@ exports.getPage = async (req, res, next) => {
 	params.userInfos = userInfos;
 
 	res.render('dashboard', params);
+};
+
+exports.getEmployeePage = async (req, res, next) => {
+	const isLoggedIn = loggerHandler.checkLoggedIn(req);
+
+	let { error } = req.query;
+	let params = {};
+
+	if (error != null && error.length > 0) {
+		params.error = [{ message: error }];
+	}
+
+	params.organigramme = '/organigramme';
+
+	res.render('employeePage', params);
+		// .catch((err) => {
+		// 	console.log('ERROR : ');
+		// 	console.log(err);
+		// 	errorHandler.catchDataCreationError(
+		// 		err.errors,
+		// 		res,
+		// 		'fichePosteList'
+		// 	);
+		//
+		// 	return;
+		// });
 };
