@@ -6,8 +6,8 @@ const rhDashboardController = require('../controller/DashboardRh.controller.js')
 
 const financeDashboardController = require('../controller/DashboardFinance.controller.js');
 
+router.get('/employee', dashboardController.getEmployeePage);
 router.get('/', dashboardController.getPage);
-
 router.get('/manager', managerDashboardController.getPage);
 router.get('/finance', financeDashboardController.getPage);
 

@@ -190,7 +190,21 @@ exports.getKanbanPage = (req, res, next) => {
 						.then(function (foundCandidatureList){
 							console.log("==============",foundCandidatureList);
 							result[index].nbCandidature = foundCandidatureList;
+
 						});
+
+					if (result[index].createdAt) {
+						let offset_2 =
+							result[index].createdAt.getTimezoneOffset();
+						result[index].createdAt = new Date(
+							result[index].createdAt.getTime() -
+							offset_2 * 60 * 1000
+						);
+						result[index].createdAt = result[index].createdAt
+							.toISOString()
+							.split('T')[0];
+						console.log("!!!!!",result[index].createdAt);
+					}
 
 					if (index % 2 == 0) {
 						result[index].even = true;
