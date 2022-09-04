@@ -1,0 +1,16 @@
+#modifier-label,
+#modifier-type,
+#modifier-urgency,
+#modifier-jobDescription,
+#modifier-localisation,
+#modifier-destinationService,
+#modifier-entryDate,
+#modifier-endDate,
+#modifier-experience,
+#modifier-compensation {
+	display: none;
+}
+
+body {
+	overflow-x: hidden;
+}

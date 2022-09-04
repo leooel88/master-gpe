@@ -9,7 +9,7 @@
 	"test": {
 		"username": "application",
 		"password": "password",
-		"database": "database_test",
+		"database": "eashire_db",
 		"host": "localhost",
 		"dialect": "mysql"
 	},

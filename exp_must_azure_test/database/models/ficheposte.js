@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					isAlphanumeric: true,
 					notNull: true,
 				},
 			},
@@ -27,6 +26,112 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					is: /Prestation||CDI||CDD||Alternance||Stage/i,
 					notNull: true,
+				},
+			},
+			experience: {
+				type: DataTypes.STRING,
+				allowNull: true,
+				validate: {
+					len: [0, 200],
+				},
+			},
+			entryDate: {
+				type: DataTypes.DATE,
+				allowNull: true,
+				validate: {
+					customValidator(value) {
+						if (new Date(value) < new Date()) {
+							throw new Error('invalid entryDate');
+						}
+					},
+				},
+			},
+			endDate: {
+				type: DataTypes.DATE,
+				allowNull: true,
+				validate: {
+					customValidator(value) {
+						if (new Date(value) < new Date()) {
+							throw new Error('invalid endDate');
+						}
+					},
+				},
+			},
+			localisation: {
+				type: DataTypes.STRING,
+				allowNull: true,
+				validate: {
+					isAlphanumeric: true,
+				},
+			},
+			destinationService: {
+				type: DataTypes.STRING,
+				allowNull: true,
+				validate: {
+					isAlphanumeric: true,
+				},
+			},
+			jobDescription: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					len: [1, 255],
+				},
+			},
+			compensation: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+			question1: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+			question2: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+			question3: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+			question4: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+			question5: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+			urgency: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					is: /NON-URGENT||PEU-URGENT||URGENT||TRES-URGENT/i,
+					notNull: true,
+				},
+			},
+			validationRH: {
+				type: DataTypes.TINYINT,
+				defaultValue: 0,
+				allowNull: false,
+				validate: {
+					len: [0, 2],
+				},
+			},
+			validationFinance: {
+				type: DataTypes.TINYINT,
+				defaultValue: 0,
+				allowNull: false,
+				validate: {
+					len: [0, 2],
+				},
+			},
+			publicationRH: {
+				type: DataTypes.TINYINT,
+				defaultValue: 0,
+				allowNull: false,
+				validate: {
+					len: [0, 2],
 				},
 			},
 		},
