@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.1.7 | MIT License | https://tailwindcss.com
+! tailwindcss v3.1.6 | MIT License | https://tailwindcss.com
 *//*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
 2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
@@ -643,8 +643,8 @@ video {
   margin-left: 0.75rem;
 }
 
-.mt-4 {
-  margin-top: 1rem;
+.mt-6 {
+  margin-top: 1.5rem;
 }
 
 .ml-6 {
@@ -1112,6 +1112,11 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-slate-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
+}
+
 .bg-blue-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(30 58 138 / var(--tw-bg-opacity));
@@ -1167,12 +1172,12 @@ video {
   padding: 1.5rem;
 }
 
-.p-1 {
-  padding: 0.25rem;
-}
-
 .p-2\.5 {
   padding: 0.625rem;
+}
+
+.p-1 {
+  padding: 0.25rem;
 }
 
 .py-2\.5 {
@@ -1218,6 +1223,11 @@ video {
 .py-0 {
   padding-top: 0px;
   padding-bottom: 0px;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .py-3 {
@@ -1328,6 +1338,11 @@ video {
 .text-blue-700 {
   --tw-text-opacity: 1;
   color: rgb(29 78 216 / var(--tw-text-opacity));
+}
+
+.text-gray-600 {
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 
 .text-gray-900 {
@@ -1457,7 +1472,12 @@ video {
   background-color: rgb(100 116 139 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-gray-700:hover {
+.hover\:bg-gray-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-lime-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity));
 }
@@ -1704,10 +1724,6 @@ video {
 
   .md\:bg-transparent {
     background-color: transparent;
-  }
-
-  .md\:p-0 {
-    padding: 0px;
   }
 
   .md\:text-xl {
