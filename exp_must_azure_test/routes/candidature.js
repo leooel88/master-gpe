@@ -27,4 +27,14 @@ router.get('/create/:fichePosteId', Candidature.getCreatePage);
 
 router.post('/create', upload.single('candidature_CV'), Candidature.create);
 
+router.get('/rhvalid/:candidatureId', Candidature.rhValid);
+
+router.get('/rhrefuse/:candidatureId', Candidature.rhRefuse);
+
+router.get('/managervalid/:candidatureId', Candidature.managerValid);
+
+router.get('/managerrefuse/:candidatureId', Candidature.managerRefuse);
+
+router.post('/savenote/:candidatureId', Candidature.saveNote);
+
 module.exports = router;

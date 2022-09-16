@@ -6,42 +6,124 @@ const errorHandler = require('../helper/errorHandler');
 const loggerHandler = require('../helper/loggerHandler');
 const azureService = require('../azureService/graph');
 
+const { dirname } = require('path');
+
 // Methods 'READ'
 exports.getReadPage = async (req, res, next) => {
 	const candidatureId = parseInt(req.params.candidatureId, 10);
 
+	const isLoggedIn = loggerHandler.checkLoggedIn(req);
+
 	let params = {};
+
+	if (req.query.notes && req.query.notes == 'true') {
+		params.displayNotes = true;
+	} else {
+		params.displayNotes = false;
+	}
+
+	if (req.query.tab && req.query.tab == 'rh') {
+		params.displayTabRh = true;
+		params.displayTabManager = false;
+	} else {
+		params.displayTabRh = false;
+		params.displayTabManager = true;
+	}
+
+	let userParams;
+
+	if (isLoggedIn === true) {
+		const groups = await azureService.getMainGroups(
+			req.app.locals.msalClient,
+			req.session.userId
+		);
+		console.log(groups);
+
+		if (groups.includes('RH')) {
+			userParams = {
+				where: { id: candidatureId },
+			}
+			params.rh = true;
+			params.rhValidLink = '/candidature/rhvalid/' + candidatureId;
+			params.rhRefuseLink = '/candidature/rhrefuse/' + candidatureId;
+		} else if (groups.includes('MANAGER')) {
+			userParams = {
+				where: { 
+					id: candidatureId, 
+					validationRh: 1 
+				}
+			}
+			params.manager = true;
+			params.managerValidLink =
+				'/candidature/managervalid/' + candidatureId;
+			params.managerRefuseLink =
+				'/candidature/managerrefuse/' + candidatureId;
+		} else if (groups.includes('FINANCE')) {
+			userParams = {
+				where: { id: candidatureId, validationRh: 1, validationManager: 1  },
+			}
+		} else {
+			res.redirect('/')
+		}
+	}
 
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
 	}
 
-	const groups = await azureService.getMainGroups(
-		req.app.locals.msalClient,
-		req.session.userId
-	);
+	Candidature.findAll(userParams).then(async (foundCandidature) => {
+		const fichePosteId = foundCandidature[0].dataValues.fichePosteId;
 
-	if (groups.includes('RH')) {
-		params.rh = true;
-	} else if (groups.includes('FINANCE')) {
-		params.finance = true;
-		'/ficheposte/financevalid/' + fichePosteId;
-		params.financeRefuseLink = '/ficheposte/financerefuse/' + fichePosteId;
-	} else if (groups.includes('MANAGER')) {
-		params.manager = true;
-	}
+		let currentFichePoste;
+		await FichePoste.findAll({
+			where: { id: fichePosteId },
+		}).then((foundFichePoste) => {
+			if (foundFichePoste[0].dataValues.entryDate) {
+				let offset_1 =
+					foundFichePoste[0].dataValues.entryDate.getTimezoneOffset();
+				foundFichePoste[0].dataValues.entryDate = new Date(
+					foundFichePoste[0].dataValues.entryDate.getTime() -
+						offset_1 * 60 * 1000
+				);
+				foundFichePoste[0].dataValues.entryDate =
+					foundFichePoste[0].dataValues.entryDate
+						.toISOString()
+						.split('T')[0];
+			}
 
-	Candidature.findAll({
-		where: { id: candidatureId },
-	}).then((foundCandidature) => {
-		const fichePosteId = foundCandidature[0].datavalues;
+			if (foundFichePoste[0].dataValues.endDate) {
+				let offset_2 =
+					foundFichePoste[0].dataValues.endDate.getTimezoneOffset();
+				foundFichePoste[0].dataValues.endDate = new Date(
+					foundFichePoste[0].dataValues.endDate.getTime() -
+						offset_2 * 60 * 1000
+				);
+				foundFichePoste[0].dataValues.endDate =
+					foundFichePoste[0].dataValues.endDate
+						.toISOString()
+						.split('T')[0];
+			}
+			currentFichePoste = foundFichePoste;
+		});
 		params = {
+			...params,
 			active: {
 				candidatureRead: true,
 			},
 			candidature: foundCandidature[0].dataValues,
+			managerNote: foundCandidature[0].dataValues.managerComment,
+			rhNote: foundCandidature[0].dataValues.rhComment,
 			fichePosteLink: '/ficheposte/read/' + fichePosteId,
+			fichePoste: currentFichePoste[0].dataValues,
+			displayValidationButtons: false,
+			displayQuestions: true,
+			isLoggedIn: isLoggedIn,
+			imageUrl: '/cv/' + foundCandidature[0].dataValues.cv,
+			saveNoteLink:
+				'/candidature/savenote/' + foundCandidature[0].dataValues.id,
 		};
+		console.log('PARAMS ======================');
+		console.log(params);
 		res.render('candidatureRead', params);
 	});
 };
@@ -50,6 +132,7 @@ exports.getListPage = async (req, res, next) => {
 	const candidatureId = parseInt(req.params.candidatureId, 10);
 	let params = {};
 	let result = [];
+	let userParams;
 
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
@@ -63,21 +146,48 @@ exports.getListPage = async (req, res, next) => {
 	if (groups.includes('RH')) {
 		params.rh = true;
 	} else if (groups.includes('FINANCE')) {
-		params.finance = true;
-		'/ficheposte/financevalid/' + fichePosteId;
-		params.financeRefuseLink = '/ficheposte/financerefuse/' + fichePosteId;
+		userParams = {
+			where: { validationRh: 1, validationManager: 1 },
+		}
 	} else if (groups.includes('MANAGER')) {
+		userParams = {
+			where: { validationRh: 1 },
+		}
 		params.manager = true;
+		userRole = 'MANAGER';
+	} else {
+		res.redirect('/');
 	}
 
-	Candidature.findAll().then((foundCandidatures) => {
+	Candidature.findAll(userParams).then((foundCandidatures) => {
+		if (typeof foundCandidatures == 'undefined') {
+			res.redirect('/dashboard');
+			return;
+		}
+
 		foundCandidatures = foundCandidatures.forEach((candidature, index) => {
+			let offset_1 = candidature.dataValues.createdAt.getTimezoneOffset();
+			candidature.dataValues.createdAt = new Date(
+				candidature.dataValues.createdAt.getTime() -
+					offset_1 * 60 * 1000
+			);
+			candidature.dataValues.createdAt = candidature.dataValues.createdAt
+				.toISOString()
+				.split('T')[0];
+
 			result.push(candidature.dataValues);
+
 			if (index % 2 == 0) {
 				result[index].even = true;
 			}
+
 			result[index].readLink =
 				'/candidature/read/' + candidature.dataValues.id;
+			FichePoste.findAll({
+				where: { id: candidature.dataValues.fichePosteId },
+			}).then((foundFichePoste) => {
+				result[index].fichePoste = foundFichePoste[0].dataValues;
+			});
 		});
 
 		params.active = { candidatureList: true };
@@ -165,4 +275,103 @@ exports.create = (req, res) => {
 				'candidature/create/' + req.body.ficheposteid
 			);
 		});
+};
+
+exports.rhValid = async (req, res, next) => {
+	console.log('==================================');
+	console.log('==================================');
+	console.log('==================================');
+	console.log('==================================');
+	console.log('==================================');
+
+	const candidatureId = parseInt(req.params.candidatureId, 10);
+	const updatedRows = await Candidature.update(
+		{
+			validationRh: 1,
+		},
+		{
+			where: { id: candidatureId },
+		}
+	);
+	res.redirect('/candidature/read/' + candidatureId);
+};
+
+exports.rhRefuse = async (req, res, next) => {
+	const candidatureId = parseInt(req.params.candidatureId, 10);
+	const updatedRows = await Candidature.update(
+		{
+			validationRh: 2,
+		},
+		{
+			where: { id: candidatureId },
+		}
+	);
+	res.redirect('/candidature/read/' + candidatureId);
+};
+
+exports.managerValid = async (req, res, next) => {
+	const candidatureId = parseInt(req.params.candidatureId, 10);
+	const updatedRows = await Candidature.update(
+		{
+			validationManager: 1,
+		},
+		{
+			where: { id: candidatureId },
+		}
+	);
+	res.redirect('/candidature/read/' + candidatureId);
+};
+
+exports.managerRefuse = async (req, res, next) => {
+	const candidatureId = parseInt(req.params.candidatureId, 10);
+	const updatedRows = await Candidature.update(
+		{
+			validationManager: 2,
+		},
+		{
+			where: { id: candidatureId },
+		}
+	);
+	res.redirect('/candidature/read/' + candidatureId);
+};
+
+exports.saveNote = async (req, res, next) => {
+	const candidatureId = parseInt(req.params.candidatureId, 10);
+	const newNote = req.body['text-area'];
+
+	console.log("=================================");
+	console.log("=================================");
+	console.log("=================================");
+	console.log("=================================");
+	console.log("=================================");
+	console.log(newNote);
+
+	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
+		return;
+	}
+
+	const groups = await azureService.getMainGroups(
+		req.app.locals.msalClient,
+		req.session.userId
+	);
+
+	if (groups.includes('RH')) {
+		await Candidature.update(
+			{
+				rhComment: newNote
+			},
+			{ where: { id: candidatureId } }
+		)
+		res.redirect(`/candidature/read/${candidatureId}/?notes=true&tab=rh`)
+	} else if (groups.includes('MANAGER')) {
+		await Candidature.update(
+			{
+				managerComment: newNote
+			},
+			{ where: { id: candidatureId } }
+		)
+		res.redirect(`/candidature/read/${candidatureId}/?notes=true&tab=manager`)
+	} else {
+		res.redirect('/');
+	}
 };
