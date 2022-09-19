@@ -85,7 +85,11 @@ exports.getReadPage = async (req, res, next) => {
 
 				params.updateLink =
 					'/ficheposte/update/' + foundFichePoste[0].dataValues.id;
+				params.displayValidationButtons = true;
+				params.displayQuestions = true;
 			} else {
+				params.displayValidationButtons = false;
+				params.displayQuestions = false;
 				params.isLoggedIn = false;
 				params.candidateLink =
 					'/candidature/create/' + foundFichePoste[0].dataValues.id;
@@ -156,7 +160,21 @@ exports.getListPage = (req, res, next) => {
 			let params = {
 				active: { fichePosteList: true },
 				fichePosteList: result,
+				displayValidationIcons: true,
+				testArray: [
+					{ value: 1 },
+					{ value: 2 },
+					{ value: 3 },
+					{ value: 4 },
+					{ value: 5 },
+				],
 			};
+
+			console.log('==================================');
+			console.log('==================================');
+			console.log(params);
+			console.log('==================================');
+			console.log('==================================');
 
 			res.render('fichePosteList', params);
 		})
@@ -241,6 +259,7 @@ exports.getKanbanPage = (req, res, next) => {
 			let params = {
 				active: { fichePosteList: true },
 				fichePosteList: result,
+				displayValidationIcons: true,
 			};
 
 			res.render('fichePosteList', params);
@@ -298,6 +317,7 @@ exports.getPublish = (req, res, next) => {
 			let params = {
 				active: { fichePosteList: true },
 				fichePosteList: result,
+				displayValidationIcons: false,
 			};
 
 			res.render('fichePosteList', params);

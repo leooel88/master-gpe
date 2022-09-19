@@ -1,0 +1,12 @@
+<a
+	href={{href}}
+	class='flex items-center p-3 text-base font-bold text-white bg-sky-700 rounded-lg hover:bg-sky-500 group hover:shadow'
+>
+	{{#if svg}}
+		{{{svg}}}
+		<span class='flex-1 whitespace-nowrap ml-3'>{{title}}</span>
+	{{else}}
+		<span class='flex-1 whitespace-nowrap'>{{title}}</span>
+	{{/if}}
+
+</a>
