@@ -9,6 +9,15 @@ require('dotenv').config();
 var serveIndex = require('serve-index');
 var app = express();
 
+const bodyparser = require('body-parser');//
+app.use(bodyparser.urlencoded({extended:false}));//
+
+/*app.post('/ficheposte/create',(req,res,next)=>{//
+	console.log(req.body);//
+	res.redirect('/ficheposte/list');//
+})//*/
+
+
 // Session middleware
 // NOTE: Uses default in-memory session store, which is not
 // suitable for production
@@ -100,6 +109,8 @@ app.use(
 		index: false,
 	})
 );
+
+app.use('cv', express.static('cv'));
 //-------------------------------------------
 
 //-------------------------------------------
@@ -173,12 +184,10 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views/');
 
-
-
 app.use('/CV', express.static('CV'));
 app.use('/CV', serveIndex('CV'));
-app.use('/documents', express.static('adminFile', {'icons': true}));
-app.use('/documents', serveIndex('adminFile', {'icons': true}));
+app.use('/documents', express.static('adminFile', { icons: true }));
+app.use('/documents', serveIndex('adminFile', { icons: true }));
 
 // app.set('views', path.join(__dirname, '/views'));
 // app.set('views', './views');
@@ -210,7 +219,6 @@ const uploadFileRouter = require('./routes/uploadAdminFile');
 const listFileRouter = require('./routes/listFile');
 const listUserRouter = require('./routes/listUser');
 const organigrammeRouter = require('./routes/organigramme');
-
 
 app.use('/', homeRouter);
 app.use('/home', homeRouter);
