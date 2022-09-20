@@ -46,7 +46,7 @@ module.exports = {
 	},
 	getDirectReports: async function (msalClient, userId) {
 		const client = getAuthenticatedClient(msalClient, userId);
-	const directReports = await client
+		const directReports = await client
 			.api('/me/directReports')
 			.select(
 				'displayName,mail,businessPhones,jobTitle'
@@ -54,6 +54,25 @@ module.exports = {
 			.get();
 
 		return directReports;
+	},
+	getCoworker: async function (msalClient, userId) {
+		const client = getAuthenticatedClient(msalClient, userId);
+
+		const managerId = await client
+			.api('/me/manager')
+			.select(
+				'id'
+			)
+			.get();
+
+		const coworker = await client
+			.api('/users/'+managerId.id+'/directReports')
+			.select(
+				'displayName'
+			)
+			.get();
+
+		return coworker;
 	},
 
 	getGroups: async function (msalClient, userId, filters) {
