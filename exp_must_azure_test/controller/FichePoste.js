@@ -113,11 +113,26 @@ exports.getReadPage = async (req, res, next) => {
 		});
 };
 
-exports.getListPage = (req, res, next) => {
+exports.getListPage = async (req, res, next) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
 	}
+	let group = "";
+	const groups = await azureService.getMainGroups(
+		req.app.locals.msalClient,
+		req.session.userId
+	);
 
+	if (groups.includes('RH')) {
+		group = "rh"
+	}
+	if (groups.includes('MANAGER')) {
+		group = "manager"
+	}
+	if (groups.includes('FINANCE')) {
+		group = "finance"
+	}
+	console.log(group);
 	let result = [];
 
 	FichePoste.findAll()
@@ -161,6 +176,7 @@ exports.getListPage = (req, res, next) => {
 				active: { fichePosteList: true },
 				fichePosteList: result,
 				displayValidationIcons: true,
+				group: group,
 				testArray: [
 					{ value: 1 },
 					{ value: 2 },
@@ -187,11 +203,26 @@ exports.getListPage = (req, res, next) => {
 		});
 };
 
-exports.getKanbanPage = (req, res, next) => {
+exports.getKanbanPage = async(req, res, next) => {
 	if (loggerHandler.checkLoggedIn(req, res) === false) {
 		return;
 	}
+	let group = "";
+	const groups = await azureService.getMainGroups(
+		req.app.locals.msalClient,
+		req.session.userId
+	);
 
+	if (groups.includes('RH')) {
+		group = "rh"
+	}
+	if (groups.includes('MANAGER')) {
+		group = "manager"
+	}
+	if (groups.includes('FINANCE')) {
+		group = "finance"
+	}
+	console.log(group);
 	let result = [];
 
 	FichePoste.findAll()
@@ -260,8 +291,8 @@ exports.getKanbanPage = (req, res, next) => {
 				active: { fichePosteList: true },
 				fichePosteList: result,
 				displayValidationIcons: true,
+				group: group,
 			};
-
 			res.render('fichePosteList', params);
 		})
 		.catch((err) => {
