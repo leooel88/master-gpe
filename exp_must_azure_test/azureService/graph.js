@@ -68,7 +68,7 @@ module.exports = {
 		const coworker = await client
 			.api('/users/'+managerId.id+'/directReports')
 			.select(
-				'displayName'
+				'displayName,mail,businessPhones,jobTitle'
 			)
 			.get();
 
