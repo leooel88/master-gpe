@@ -10,11 +10,6 @@ const manager = await azureService.getManager(
     req.session.userId  
 );
 
-const user = await azureService.getUserDetails(
-    req.app.locals.msalClient,
-    req.session.userId  
-);
-
 const directReports = await azureService.getDirectReports(
     req.app.locals.msalClient,
     req.session.userId  
@@ -26,11 +21,10 @@ const coworker = await azureService.getCoworker(
 );
 
 params.manager = manager;
-params.user = user;
 params.directReports = directReports;
 params.coworker = coworker;
 console.log(directReports);
-console.log(coworker);
-res.render('organigramme',{manager:manager,user:user,directReports:directReports.value});
+console.log(coworker)
+res.render('organigramme',{manager:manager,directReports:directReports.value, coworker: coworker.value});
 
 }
