@@ -12,7 +12,7 @@ router.post('/update/:fichePosteId', fichePoste.update);
 
 router.delete('/delete:fichePosteId', fichePoste.delete);
 
-router.get('/list', fichePoste.getListPage);
+router.get('/list', fichePoste.getKanbanPage);
 
 router.get('/kanban', fichePoste.getKanbanPage);
 

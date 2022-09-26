@@ -1,29 +1,241 @@
-<div
-	class='m-auto top-6 flex flex-col items-center rounded-lg border shadow-md md:flex-row md:max-w-xl border-gray-700 bg-gray-800'
->
-	<a href='#' class='bg-slate-600 hover:bg-slate-500'>
-		<img
-			class='object-cover overflow-hidden w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg'
-			src='/images/image.png'
-			alt=''
-		/>
-	</a>
+<div class="flex">
+	<div class="grow mt-4">
+		{{>fichePosteReadComponent}}
+	</div>
 
-	<div class='flex flex-col justify-between p-4 leading-normal'>
-		<div class='grow flex gap-4'>
-			<h5
-				class='mb-2 text-2xl font-bold tracking-tight text-white'
-			>{{candidature.prenom}}</h5>
-			<h5
-				class='mb-2 text-2xl font-bold tracking-tight text-white'
-			>{{candidature.nom}}</h5>
+	<div class="grow mt-4 p-6">
+		{{#compare displayNotes 1 operator="=="}}
+		<div id="validation-container" class="hidden gap-4 m-4 items-center">
+		{{else}}
+		<div id="validation-container" class="flex gap-4 m-4 items-center">
+		{{/compare}}
+			{{#compare candidature.validationRh 0 operator="=="}}
+				<div class="relative w-fit h-5 rounded-full bg-gray-500 flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+					<span class="absolute left-0 top-0 text-purple-800 bg-gray-500">
+					</span>
+					RH
+				</div>
+			{{else compare candidature.validationRh 1 operator="=="}}
+				<div class="relative w-fit h-5 bg-lime-500 rounded-full flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+					<span class="absolute left-0 top-0 text-purple-800">
+					</span>
+					RH
+				</div>
+			{{else compare candidature.validationRh 2 operator="=="}}
+				<div class="relative w-fit h-5 bg-red-500 rounded-full flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+					<span class="absolute left-0 top-0 text-purple-800">
+					</span>
+					RH
+				</div>
+			{{/compare}}
+
+			{{#compare candidature.validationManager 0 operator="=="}}
+				<div class="relative w-fit h-5 rounded-full bg-gray-500 flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+					<span class="absolute left-0 top-0 text-purple-800 bg-gray-500">
+					</span>
+					MANAGER
+				</div>
+			{{else compare candidature.validationManager 1 operator="=="}}
+				<div class="relative w-fit h-5 bg-lime-500 rounded-full flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+					<span class="absolute left-0 top-0 text-purple-800">
+					</span>
+					MANAGER
+				</div>
+			{{else compare candidature.validationManager 2 operator="=="}}
+				<div class="relative w-fit h-5 bg-red-500 rounded-full flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+					<span class="absolute left-0 top-0 text-purple-800">
+					</span>
+					MANAGER
+				</div>
+			{{/compare}}
+
+			{{#if rh}}
+				<div id="open-notes-button" class="flex-1 flex flex-row-reverse">
+					{{>button5 href='#' title='Ouvrir les notes' svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+						<path d="M11.25 4.533A9.707 9.707 0 006 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v14.25a.75.75 0 001 .707A8.237 8.237 0 016 18.75c1.995 0 3.823.707 5.25 1.886V4.533zM12.75 20.636A8.214 8.214 0 0118 18.75c.966 0 1.89.166 2.75.47a.75.75 0 001-.708V4.262a.75.75 0 00-.5-.707A9.735 9.735 0 0018 3a9.707 9.707 0 00-5.25 1.533v16.103z" />
+					</svg>'}}
+				</div>
+			{{else if manager}}
+				<div id="open-notes-button" class="flex-1 flex flex-row-reverse">
+					{{>button5 href='#' title='Ouvrir les notes' svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+						<path d="M11.25 4.533A9.707 9.707 0 006 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v14.25a.75.75 0 001 .707A8.237 8.237 0 016 18.75c1.995 0 3.823.707 5.25 1.886V4.533zM12.75 20.636A8.214 8.214 0 0118 18.75c.966 0 1.89.166 2.75.47a.75.75 0 001-.708V4.262a.75.75 0 00-.5-.707A9.735 9.735 0 0018 3a9.707 9.707 0 00-5.25 1.533v16.103z" />
+					</svg>'}}
+				</div>
+			{{/if}}
 		</div>
 
-		<p class='mb-3 font-normal text-gray-400'>
-			{{candidature.mail}}
-		</p>
-		<p class='mb-3 font-normal text-gray-400'>
-			{{candidature.telephone}}
-		</p>
+		<div
+			class='p-4 h-fit flex flex-col items-center rounded-lg border shadow-md md:flex-row border-gray-700 bg-gray-800'
+		>
+			<a href={{imageUrl}} class='bg-slate-600 hover:bg-slate-500 rounded-lg'>
+				<div class="flex center-items">
+					<span class="text-2xl font-bold mx-auto">CV</span>
+				</div>
+				<img
+					class='object-cover overflow-hidden rounded-t-lg md:h-auto md:h-40 md:rounded-none md:rounded-l-lg'
+					src='/images/image.png'
+					alt=''
+				/>
+			</a>
+
+			<div class='flex flex-col justify-between p-4 leading-normal'>
+				<div class='flex'>
+					<h5
+						class='mb-2 text-2xl font-bold tracking-tight text-white'
+					>{{candidature.prenom}}</h5>
+					<h5
+						class='mb-2 ml-4 text-2xl font-bold tracking-tight text-white'
+					>{{candidature.nom}}</h5>
+				</div>
+				<div class="flex">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+					</svg>
+					<p class='mb-2 ml-4 font-normal text-gray-400'>
+						{{candidature.mail}}
+					</p>
+				</div>
+
+				<div class="flex">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+					</svg>
+					<p class='mb-2 ml-4 font-normal text-gray-400'>
+						{{candidature.telephone}}
+					</p>
+				</div>
+
+				{{#if rh}}
+					{{#compare candidature.validationManager 0 operator="=="}}
+						<div class='mt-4 grow flex justify-center gap-6'>
+							{{>button1 href=rhValidLink title='Valider la candidature'}}
+							{{>button2 href=rhRefuseLink title='Refuser la candidature'}}
+						</div>
+					{{/compare}}
+				{{else if manager}}
+					{{#compare candidature.validationRh 1 operator="=="}}
+						<div class='mt-4 grow flex justify-center gap-6'>
+							{{>button1 href=managerValidLink title='Valider la candidature'}}
+							{{>button2 href=managerRefuseLink title='Refuser la candidature'}}
+						</div>
+					{{/compare}}
+				{{/if}}
+			</div>
+		</div>
+
+		{{#compare displayNotes 1 operator="=="}}
+		<div id="notes-container" class="block mt-4 rounded">
+		{{else}}
+		<div id="notes-container" class="hidden mt-4 rounded">
+		{{/compare}}
+			<!-- Tabs -->
+			<div class="flex h-12">
+				<ul id="tabs" class="mr-auto grow inline-flex text-white">
+					{{#compare displayTabRh 0 operator="=="}}
+					<li id="manager-note-button" class="px-4 py-2 font-semibold border-b-2 border-blue-400 rounded-t opacity-50"><a href="#">Manager</a></li>
+					{{else}}
+					<li id="manager-note-button" class="px-4 py-2 font-semibold rounded-t opacity-50"><a href="#">Manager</a></li>
+					{{/compare}}
+
+					{{#compare displayTabRh 1 operator="=="}}
+					<li id="rh-note-button" class="px-4 py-2 font-semibold border-b-2 border-blue-400 rounded-t opacity-50"><a href="#">Ressources Humaines</a></li>
+					{{else}}
+					<li id="rh-note-button" class="px-4 py-2 font-semibold rounded-t opacity-50"><a href="#">Ressources Humaines</a></li>
+					{{/compare}}
+				</ul>
+				{{#if manager}}
+					{{#compare displayTabRh 0 operator="=="}}
+					<div id="save-notes-button-manager" class="flex-1 flex flex-row-reverse">
+						{{>button5-small id="save-note-button" title='Sauvegarder la note' svg='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+							</svg>'
+						}}
+					</div>
+					{{else}}
+					<div id="save-notes-button-manager" class="hidden flex-1 flex flex-row-reverse">
+						{{>button5-small id="save-note-button" title='Sauvegarder la note' svg='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+							</svg>'
+						}}
+					</div>
+					{{/compare}}
+				{{else}}
+					{{#if rh}}
+						{{#compare displayTabRh 0 operator="=="}}
+						<div id="save-notes-button-rh" class="hidden flex-1 flex flex-row-reverse">
+							{{>button5-small id="save-note-button" title='Sauvegarder la note' svg='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+								</svg>'
+							}}
+						</div>
+						{{else}}
+						<div id="save-notes-button-rh" class="flex-1 flex flex-row-reverse">
+							{{>button5-small id="save-note-button" title='Sauvegarder la note' svg='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+								</svg>'
+							}}
+						</div>
+						{{/compare}}
+					{{/if}}
+				{{/if}}
+			</div>
+
+			<!-- Tab Contents -->
+			<div id="tab-contents" class="mt-4">
+				{{#if rh}}
+					{{#compare displayTabRh 0 operator="=="}}
+					<div id="manager-tab">
+						<form>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+						</form>
+					</div>
+					<div id="rh-tab" class="hidden">
+						<form id="form" method="post" action={{saveNoteLink}}>
+							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+						</form>
+					</div>
+					{{else}}
+					<div id="manager-tab" class="hidden">
+						<form>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+						</form>
+					</div>
+					<div id="rh-tab">
+						<form id="form" method="post" action={{saveNoteLink}}>
+							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+						</form>
+					</div>
+					{{/compare}}
+					
+				{{/if}}
+				{{#if manager}}
+					{{#compare displayTabRh 0 operator="=="}}
+					<div id="manager-tab">
+						<form id="form" method="post" action={{saveNoteLink}}>
+							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+						</form>
+					</div>
+					<div id="rh-tab" class="hidden">
+						<form>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+						</form>
+					</div>
+					{{else}}
+					<div id="manager-tab" class="hidden">
+						<form id="form" method="post" action={{saveNoteLink}}>
+							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+						</form>
+					</div>
+					<div id="rh-tab">
+						<form>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+						</form>
+					</div>
+					{{/compare}}
+				{{/if}}
+			</div>
+		</div>
 	</div>
 </div>
+
+<script type='text/javascript' src='/javascripts/candidatureRead.js'></script>

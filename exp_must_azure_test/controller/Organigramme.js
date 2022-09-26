@@ -20,11 +20,17 @@ const directReports = await azureService.getDirectReports(
     req.session.userId  
 );
 
+const coworker = await azureService.getCoworker(
+    req.app.locals.msalClient,
+    req.session.userId  
+);
+
 params.manager = manager;
 params.user = user;
 params.directReports = directReports;
-console.log(directReports.value);
-//console.log(manager);
-res.render('organigramme',{manager:manager,user:user,directReports:directReports.value[0]});
+params.coworker = coworker;
+console.log(directReports);
+console.log(coworker);
+res.render('organigramme',{manager:manager,user:user,directReports:directReports.value});
 
 }

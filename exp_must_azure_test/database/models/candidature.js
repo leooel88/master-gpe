@@ -64,6 +64,30 @@ module.exports = (sequelize, DataTypes) => {
 					len: [1, 255],
 				},
 			},
+			rhComment: {
+				type: DataTypes.TEXT('long'),
+				allowNull: true,
+			},
+			managerComment: {
+				type: DataTypes.TEXT('long'),
+				allowNull: true,
+			},
+			validationManager: {
+				type: DataTypes.TINYINT,
+				defaultValue: 0,
+				allowNull: false,
+				validate: {
+					len: [0, 2],
+				},
+			},
+			validationRh: {
+				type: DataTypes.TINYINT,
+				defaultValue: 0,
+				allowNull: false,
+				validate: {
+					len: [0, 2],
+				},
+			},
 		},
 		{
 			sequelize,

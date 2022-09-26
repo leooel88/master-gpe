@@ -85,7 +85,11 @@ exports.getReadPage = async (req, res, next) => {
 
 				params.updateLink =
 					'/ficheposte/update/' + foundFichePoste[0].dataValues.id;
+				params.displayValidationButtons = true;
+				params.displayQuestions = true;
 			} else {
+				params.displayValidationButtons = false;
+				params.displayQuestions = false;
 				params.isLoggedIn = false;
 				params.candidateLink =
 					'/candidature/create/' + foundFichePoste[0].dataValues.id;
@@ -156,7 +160,21 @@ exports.getListPage = (req, res, next) => {
 			let params = {
 				active: { fichePosteList: true },
 				fichePosteList: result,
+				displayValidationIcons: true,
+				testArray: [
+					{ value: 1 },
+					{ value: 2 },
+					{ value: 3 },
+					{ value: 4 },
+					{ value: 5 },
+				],
 			};
+
+			console.log('==================================');
+			console.log('==================================');
+			console.log(params);
+			console.log('==================================');
+			console.log('==================================');
 
 			res.render('fichePosteList', params);
 		})
@@ -184,12 +202,27 @@ exports.getKanbanPage = (req, res, next) => {
 					let idFichePoste = fichePoste.dataValues.id;
 					Candidature.count({
 						where: {
-							fichePosteId: idFichePoste,
-						},
-					}).then(function (foundCandidatureList) {
-						console.log('==============', foundCandidatureList);
-						result[index].nbCandidature = foundCandidatureList;
-					});
+							fichePosteId: idFichePoste
+						}
+					})
+						.then(function (foundCandidatureList){
+							console.log("==============",foundCandidatureList);
+							result[index].nbCandidature = foundCandidatureList;
+
+						});
+
+					if (result[index].createdAt) {
+						let offset_2 =
+							result[index].createdAt.getTimezoneOffset();
+						result[index].createdAt = new Date(
+							result[index].createdAt.getTime() -
+							offset_2 * 60 * 1000
+						);
+						result[index].createdAt = result[index].createdAt
+							.toISOString()
+							.split('T')[0];
+						console.log("!!!!!",result[index].createdAt);
+					}
 
 					if (index % 2 == 0) {
 						result[index].even = true;
@@ -226,6 +259,7 @@ exports.getKanbanPage = (req, res, next) => {
 			let params = {
 				active: { fichePosteList: true },
 				fichePosteList: result,
+				displayValidationIcons: true,
 			};
 
 			res.render('fichePosteList', params);
@@ -283,6 +317,7 @@ exports.getPublish = (req, res, next) => {
 			let params = {
 				active: { fichePosteList: true },
 				fichePosteList: result,
+				displayValidationIcons: false,
 			};
 
 			res.render('fichePosteList', params);
@@ -479,7 +514,8 @@ exports.create = (req, res) => {
 	FichePoste.create(fichePoste)
 		.then((data) => {
 			console.log(data);
-			res.send(data);
+			//res.send(data);
+			res.redirect(`/ficheposte/read/${data.id}`);
 		})
 		.catch((err) => {
 			console.log('ERROR : ');
