@@ -133,6 +133,7 @@ exports.getListPage = async (req, res, next) => {
 	let params = {};
 	let result = [];
 	let userParams;
+	let userRole = "";
 
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
@@ -144,8 +145,10 @@ exports.getListPage = async (req, res, next) => {
 	);
 
 	if (groups.includes('RH')) {
+		userRole = 'rh';
 		params.rh = true;
 	} else if (groups.includes('FINANCE')) {
+		userRole = 'finance';
 		userParams = {
 			where: { validationRh: 1, validationManager: 1 },
 		}
@@ -154,7 +157,7 @@ exports.getListPage = async (req, res, next) => {
 			where: { validationRh: 1 },
 		}
 		params.manager = true;
-		userRole = 'MANAGER';
+		userRole = 'manager';
 	} else {
 		res.redirect('/');
 	}
@@ -192,6 +195,7 @@ exports.getListPage = async (req, res, next) => {
 
 		params.active = { candidatureList: true };
 		params.candidatureList = result;
+		params.group = userRole;
 
 		res.render('candidatureList', params);
 	});
