@@ -11,7 +11,11 @@
 			<div class="relative">
 				{{#each error}}
 					<div role='alert'>
-						<p >{{this.message}}</p>
+						<div class="w-full bg-blue-900 p-6">
+							<p class="w-fit m-auto">
+								{{this.message}}
+							</p>
+						</div>
 						{{#if this.debug}}
 							<pre><code>{{this.debug}}</code></pre>
 						{{/if}}
