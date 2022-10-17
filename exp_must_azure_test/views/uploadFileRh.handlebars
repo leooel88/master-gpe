@@ -1,63 +1,71 @@
-<h1>postuler</h1>
-<form action='/uploadFile/create' method='post' enctype='multipart/form-data'>
-	<div class='m-8'>
-
-		<div class='relative z-0 mb-6 w-full group'>
-			<input
-				type='text'
-				name='titre'
-				id='titre'
-				class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer'
-				placeholder=' '
-				required
-			/>
-			<label
-				for='titre'
-				class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-			>texte</label>
-		</div>
-		<div class='relative z-0 mb-6 w-full group'>
-			<input
-				type='text'
-				name='description'
-				id='description'
-				class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer'
-				placeholder=''
-				required
-			/>
-			<label
-				for='description'
-				class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-			>description</label>
-		</div>
-		<div class='relative z-0 mb-6 w-full group'>
-			<input
-				type='text'
-				name='tag'
-				id='tag'
-				class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer'
-				placeholder=''
-				required
-			/>
-			<label
-				for='tag'
-				class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-			>tag</label>
-		</div>
-		<div>
-			<label
-				class='block mb-2 text-sm font-medium text-gray-300'
-				for='document'
-			>Document</label>
-			<input
-				class='block w-full text-sm text-gray-400 bg-gray-700 rounded-lg border border-gray-600 cursor-pointer focus:outline-none placeholder-gray-400'
-				name='document'
-				id='document'
-				type='file'
-			/>
-
-		</div>
-
-		<input type='submit' value='importer' />
+<div class="p-6 w-fit m-auto">
+		<h1 class="text-5xl font-semibold">Ajout d'une ressource d'entreprise</h1>
 	</div>
-</form>
+	<form action='/uploadFile/create' method='post' enctype='multipart/form-data'>
+		<div class='mx-12'>
+			<div class='relative z-0 mb-6 w-full group'>
+				<input
+					type='text'
+					name='titre'
+					id='titre'
+					class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer'
+					placeholder=' '
+					required
+				/>
+				<label
+					for='titre'
+					class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+				>texte</label>
+			</div>
+			<div class='relative z-0 mb-6 w-full group'>
+				<input
+					type='text'
+					name='description'
+					id='description'
+					class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer'
+					placeholder=''
+					required
+				/>
+				<label
+					for='description'
+					class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+				>description</label>
+			</div>
+			<div class='relative z-0 mb-6 w-full group'>
+				<input
+					type='text'
+					name='tag'
+					id='tag'
+					class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer'
+					placeholder=''
+					required
+				/>
+				<label
+					for='tag'
+					class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+				>tag</label>
+			</div>
+			<div>
+				<label
+					class='block mb-2 text-sm font-medium text-gray-300'
+					for='document'
+				>Document</label>
+				<input
+					class='block w-full text-sm text-gray-400 bg-gray-700 rounded-lg border border-gray-600 cursor-pointer focus:outline-none placeholder-gray-400'
+					name='document'
+					id='document'
+					type='file'
+				/>
+			</div>
+
+			<div class="flex mt-6">
+				<div class="w-fit m-auto">
+					<input type='submit' value='Créer la ressource' class='cursor-pointer flex items-center p-3 text-base font-bold text-orange-400 border-solid border border-orange-400 rounded-lg hover:bg-slate-800/50 group hover:shadow'/>
+				</div>
+				<div class="w-fit m-auto">
+				{{>button3 href="/listFile" title="Voir la liste des ressources"}}
+				<div>
+			</div>
+		</div>
+	</form>
+</div>
