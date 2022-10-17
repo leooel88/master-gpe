@@ -1,37 +1,59 @@
 <div>
-	{{#if createdCandidature}}
-		<p>Votre candidature a bien étée transmise. Merci !</p>
-	{{/if}}
-	{{#if user}}
-		<h4>Bienvenue {{user.displayName}}!</h4>
-		<p><br/>Commençons enssemble,<br/></p>
-		<br/>Vous voici sur la page home du site, pour accèder à votre Dashboard cliquez en haut à droite sur Dashboard, vous y retrouvez toutes les ressources nécéssaires à votre poste.
-		</p><br/>
-		<p>Qu'allez vous retrouvez ici ?<br/><br/>
-			<li>
-				Vous cherchez vos documents administratifs ? ils sont ici.
-			</li>
-			<li>
-				Vous venez d'arriver et vous cherchez de la documentation pour vous lancer dans votre nouveau poste ? Vous la trouverez sans nul doute.
-			</li>
-			<li>
-				Vous voulez savoir dans votre équipe qui sont vos collègues ? vous trouverez cette informations.
-			</li>
-			<li>
-				Vous avez eu un EAP recément, votre service RH a mis à votre disposition un résumé avec vos Objectifs annuels ! 
-			</li>
-			<li>
-				Vous vous demandez, mais quels sont mes accès aux ressources de l'entreprise ? en navigant un petit peu vous allez trouver cette information 
-			</li>
-			<li>
-				Vous êtes nouveau ! Et vous ne connaissez pas le lieu ou les personnes ? Dans votre profil vous trouverez le contact de votre Buddy ! Pousez lui toutes les questions que vous souhaitez ! 
-			</li>
-			<li>
-				Et pourquoi pas participer à une pause café avec tous les nouveaux arrivants ! ca serait chouette de faire connaisance non? Des dates organisées par votre service RH sont disponibles ! Inscrivez-vous !
-			</li>
-		</p>
-	{{else}}
-	<h1>Bienvenue sur le site Eashire</h1>
-		<a href='/auth/signin'>Cliquez ici pour vous connecter</a>
-	{{/if}}
+	<div class="absolute z-10">
+		<img src="images/home/page-accueil.jpg" class="opacity-30"></img>
+	</div>
+	<div class="absolute z-20 w-full">
+		<div class="">
+			{{#if createdCandidature}}
+				<div class="w-full bg-blue-900 p-6">
+					<p class="w-fit m-auto">
+						Votre candidature a bien étée transmise. Merci !
+					</p>
+				</div>
+			{{/if}}
+			{{#if user}}
+				<div class="w-fit m-auto mt-4">
+					<h1 class="text-5xl font-semibold">Bienvenue sur votre page {{user.displayName}}</h1>
+				</div>
+
+				<div class="w-full mt-16">
+					<div class="flex flex-row">
+						<div class="grow w-fit p-14">
+							<div class="text-xl font-medium">
+								Qu'allez vous retrouver ici :</br></br>
+								<li>
+									Vos documents administratifs
+								</li>
+								<li>
+									De la documentation pour vous lancer dans votre nouveau poste
+								</li>
+								<li>
+									Votre équipe qui sont vos collègues
+								</li>
+								<li>
+									Les récapitulatifs de vos EAP
+								</li>
+								<li>
+									Les ressources entreprises
+								</li>
+								<li>
+									Le contact de votre Buddy
+								</li>
+								<li>
+									Les pauses café
+								</li>
+							</div>
+						</div>
+					</div>
+				</div>
+			{{else}}
+				<div class="w-fit m-auto mt-4">
+					<h1 class="text-5xl font-semibold">Bienvenue sur Eashire</h1>
+				</div>
+				<div class="w-fit m-auto mt-16">
+					{{>button1 href='/auth/signin' title='Me connecter'}}
+				</div>
+			{{/if}}
+		</div>
+	</div>
 </div>

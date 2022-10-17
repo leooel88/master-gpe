@@ -267,7 +267,6 @@ exports.create = (req, res) => {
 		.then((data) => {
 			console.log(data);
 			params = { active: { home: true }, createdCandidature: true };
-
 			res.render('home', params);
 		})
 		.catch((err) => {
