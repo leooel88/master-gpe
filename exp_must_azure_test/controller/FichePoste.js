@@ -177,13 +177,6 @@ exports.getListPage = async (req, res, next) => {
 				fichePosteList: result,
 				displayValidationIcons: true,
 				group: group,
-				testArray: [
-					{ value: 1 },
-					{ value: 2 },
-					{ value: 3 },
-					{ value: 4 },
-					{ value: 5 },
-				],
 			};
 
 			console.log('==================================');
@@ -237,9 +230,7 @@ exports.getKanbanPage = async(req, res, next) => {
 						}
 					})
 						.then(function (foundCandidatureList){
-							console.log("==============",foundCandidatureList);
 							result[index].nbCandidature = foundCandidatureList;
-
 						});
 
 					if (result[index].createdAt) {
@@ -292,6 +283,7 @@ exports.getKanbanPage = async(req, res, next) => {
 				fichePosteList: result,
 				displayValidationIcons: true,
 				group: group,
+				fichePosteListNotNull: result.length > 0 ? 1 : 0
 			};
 			res.render('fichePosteList', params);
 		})
@@ -303,16 +295,31 @@ exports.getKanbanPage = async(req, res, next) => {
 			return;
 		});
 };
+
 exports.getPublish = (req, res, next) => {
 	let result = [];
 
 	FichePoste.findAll({
-		where: { publicationRH: true },
-	})
-		.then((foundFichePosteList) => {
+		where: {
+			publicationRH: 1,
+		}
+	}).then((foundFichePosteList) => {
 			foundFichePosteList = foundFichePosteList.forEach(
 				(fichePoste, index) => {
 					result.push(fichePoste.dataValues);
+					if (result[index].createdAt) {
+						let offset_2 =
+							result[index].createdAt.getTimezoneOffset();
+						result[index].createdAt = new Date(
+							result[index].createdAt.getTime() -
+							offset_2 * 60 * 1000
+						);
+						result[index].createdAt = result[index].createdAt
+							.toISOString()
+							.split('T')[0];
+						console.log("!!!!!",result[index].createdAt);
+					}
+
 					if (index % 2 == 0) {
 						result[index].even = true;
 					}
@@ -349,8 +356,8 @@ exports.getPublish = (req, res, next) => {
 				active: { fichePosteList: true },
 				fichePosteList: result,
 				displayValidationIcons: false,
+				fichePosteListNotNull: result.length > 0 ? 1 : 0
 			};
-
 			res.render('fichePosteList', params);
 		})
 		.catch((err) => {
@@ -360,7 +367,8 @@ exports.getPublish = (req, res, next) => {
 
 			return;
 		});
-};
+}
+
 exports.getCreatePage = (req, res, next) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return;
