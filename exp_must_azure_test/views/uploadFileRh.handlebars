@@ -1,8 +1,15 @@
 <div class="p-6 w-fit m-auto">
 		<h1 class="text-5xl font-semibold">Ajout d'une ressource d'entreprise</h1>
 	</div>
-	<form action='/uploadFile/create' method='post' enctype='multipart/form-data'>
-		<div class='mx-12'>
+
+	<div class="w-fit m-auto">
+		{{>button4 href='/listFile' title='Voir la liste des ressources' svg="<svg xmlns='http://www.w3.org/2000/svg' class='w-6 h-6' fill='currentColor' viewBox='0 0 20 20'><path d='M9 2a1 1 0 000 2h2a1 1 0 100-2H9z'></path>
+			<path fill-rule='evenodd' d='M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z' clip-rule='evenodd'></path></svg>"
+		}}
+	</div>
+
+	<div class='mx-24 px-20'>
+		<form action='/uploadFile/create' method='post' enctype='multipart/form-data'>
 			<div class='relative z-0 mb-6 w-full group'>
 				<input
 					type='text'
@@ -15,7 +22,7 @@
 				<label
 					for='titre'
 					class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-				>texte</label>
+				>Nom de la ressource</label>
 			</div>
 			<div class='relative z-0 mb-6 w-full group'>
 				<input
@@ -29,7 +36,7 @@
 				<label
 					for='description'
 					class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-				>description</label>
+				>Description</label>
 			</div>
 			<div class='relative z-0 mb-6 w-full group'>
 				<input
@@ -43,7 +50,7 @@
 				<label
 					for='tag'
 					class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-				>tag</label>
+				>Tag</label>
 			</div>
 			<div>
 				<label
@@ -62,10 +69,7 @@
 				<div class="w-fit m-auto">
 					<input type='submit' value='Créer la ressource' class='cursor-pointer flex items-center p-3 text-base font-bold text-orange-400 border-solid border border-orange-400 rounded-lg hover:bg-slate-800/50 group hover:shadow'/>
 				</div>
-				<div class="w-fit m-auto">
-				{{>button3 href="/listFile" title="Voir la liste des ressources"}}
-				<div>
 			</div>
-		</div>
-	</form>
+		</form>
+	</div>
 </div>
