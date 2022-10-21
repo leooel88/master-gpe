@@ -1,20 +1,21 @@
 const azureService = require('../azureService/graph');
+const url = require('url');
 const errorHandler = require('../helper/errorHandler');
 const loggerHandler = require('../helper/loggerHandler');
 
 exports.getListUsers = async (req, res, next) => {
-let params = {};
+    let params = {};
 
-const users = await azureService.getusers(
-    req.app.locals.msalClient,
-    req.session.userId  
-    
-);
-console.log(users);
+    const users = await azureService.getusers(
+        req.app.locals.msalClient,
+        req.session.userId  
+    );
 
-//params.users = JSON.stringify(users);
-
-
-res.render('listUser',{users:users.value });
+    res.render(
+        'listUser',
+        {
+            users: users.value
+        }
+    );
 
 }
