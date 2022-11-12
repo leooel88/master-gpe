@@ -10,16 +10,7 @@ router.get('/employee', dashboardController.getEmployeePage);
 router.get('/', dashboardController.getPage);
 router.get('/manager', managerDashboardController.getPage);
 router.get('/finance', financeDashboardController.getPage);
-
 router.get('/rh', rhDashboardController.getPage);
-
-// router.get('/finance', function (req, res, next) {
-// 	let params = {
-// 		active: { dashboardFinance: true },
-// 	};
-//
-// 	res.render('dashboardFinance', params);
-// });
 
 router.get('/default', function (req, res, next) {
 	let params = {
