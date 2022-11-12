@@ -1,10 +1,10 @@
 const router = require('express-promise-router')();
 
-const dashboardController = require('../controller/Dashboard.js');
-const managerDashboardController = require('../controller/DashboardManager.controller.js');
-const rhDashboardController = require('../controller/DashboardRh.controller.js')
+const dashboardController = require('../controllers/Dashboard.js');
+const managerDashboardController = require('../controllers/DashboardManager.controller.js');
+const rhDashboardController = require('../controllers/DashboardRh.controller.js')
 
-const financeDashboardController = require('../controller/DashboardFinance.controller.js');
+const financeDashboardController = require('../controllers/DashboardFinance.controller.js');
 
 router.get('/employee', dashboardController.getEmployeePage);
 router.get('/', dashboardController.getPage);

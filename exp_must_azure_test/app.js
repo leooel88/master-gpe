@@ -154,25 +154,17 @@ app.use('/documents', serveIndex('adminFile', { icons: true }));
 // Routers
 const routesManager = require('./utils/routes')
 routesManager.setRoutes(app, __dirname + '/modules')
+const homeRouter = require('./modules/home/routes/home')
+app.use('/', homeRouter)
 
-
-var homeRouter = require('./routes/home');
-const authRouter = require('./routes/auth');
 const calendarRouter = require('./routes/calendar');
-const fichePosteRouter = require('./routes/FichePoste');
-const dashboardRouter = require('./routes/dashboard');
 const candidatureRouter = require('./routes/candidature');
 const uploadFileRouter = require('./routes/uploadAdminFile');
 const listFileRouter = require('./routes/listFile');
 const listUserRouter = require('./routes/listUser');
 const organigrammeRouter = require('./routes/organigramme');
 
-app.use('/', homeRouter);
-app.use('/home', homeRouter);
-app.use('/auth', authRouter);
 app.use('/calendar', calendarRouter);
-app.use('/ficheposte', fichePosteRouter);
-app.use('/dashboard', dashboardRouter);
 app.use('/candidature', candidatureRouter);
 app.use('/uploadFile', uploadFileRouter);
 app.use('/listFile', listFileRouter);

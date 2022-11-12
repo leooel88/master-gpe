@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 // const router = require('express-promise-router')();
-const fichePoste = require('../controller/FichePoste.js');
+const homeController = require('../controllers/home.js');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -11,6 +11,6 @@ router.get('/', function (req, res, next) {
 
 	res.render('home', params);
 });
-router.get('/joblist', fichePoste.getPublish);
+router.get('/joblist', homeController.getPublish);
 
 module.exports = router;

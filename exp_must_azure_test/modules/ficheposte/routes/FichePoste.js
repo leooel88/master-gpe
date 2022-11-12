@@ -1,6 +1,6 @@
 const router = require('express-promise-router')();
 
-const fichePoste = require('../controller/FichePoste.js');
+const fichePoste = require('../controllers/FichePoste.js');
 
 router.get('/create', fichePoste.getCreatePage);
 
