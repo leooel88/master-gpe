@@ -1,6 +1,6 @@
 const router = require('express-promise-router')();
 
-const listUser = require('../controller/listUsers.js');
+const listUser = require('../controllers/listUsers.js');
 
 router.get('/', listUser.getListUsers);
 

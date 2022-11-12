@@ -158,18 +158,8 @@ const homeRouter = require('./modules/home/routes/home')
 app.use('/', homeRouter)
 
 const calendarRouter = require('./routes/calendar');
-const candidatureRouter = require('./modules/candidature/routes/candidature');
-const uploadFileRouter = require('./routes/uploadAdminFile');
-const listFileRouter = require('./routes/listFile');
-const listUserRouter = require('./routes/listUser');
-const organigrammeRouter = require('./routes/organigramme');
 
 app.use('/calendar', calendarRouter);
-app.use('/candidature', candidatureRouter);
-app.use('/uploadFile', uploadFileRouter);
-app.use('/listFile', listFileRouter);
-app.use('/listUser', listUserRouter);
-app.use('/organigramme', organigrammeRouter);
 
 app.use
 module.exports = app;

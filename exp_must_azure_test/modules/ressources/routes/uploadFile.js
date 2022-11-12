@@ -1,6 +1,6 @@
 const router = require('express-promise-router')();
 
-const uploadFile = require('../controller/uploadFile.js');
+const uploadFile = require('../controllers/uploadFile.js');
 
 const multer = require('multer');
 const storage = multer.diskStorage({
@@ -19,7 +19,6 @@ const upload = multer({ storage: storage })
 
 router.post('/create', upload.single('document'), uploadFile.create);
 router.get('/', function (req, res, next) {
-
 	res.render('uploadFileRh');
 });
 module.exports = router;

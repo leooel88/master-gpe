@@ -1,6 +1,6 @@
 const router = require('express-promise-router')();
 
-const organigramme = require('../controller/Organigramme.js');
+const organigramme = require('../controllers/Organigramme.js');
 
 router.get('/', organigramme.getOrganigrammePage);
 
