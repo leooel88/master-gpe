@@ -1,6 +1,6 @@
 const router = require('express-promise-router')();
 
-const Candidature = require('../controller/Candidature.js');
+const Candidature = require('../controllers/Candidature.js');
 
 const multer = require('multer');
 const storage = multer.diskStorage({

@@ -158,7 +158,7 @@ const homeRouter = require('./modules/home/routes/home')
 app.use('/', homeRouter)
 
 const calendarRouter = require('./routes/calendar');
-const candidatureRouter = require('./routes/candidature');
+const candidatureRouter = require('./modules/candidature/routes/candidature');
 const uploadFileRouter = require('./routes/uploadAdminFile');
 const listFileRouter = require('./routes/listFile');
 const listUserRouter = require('./routes/listUser');
