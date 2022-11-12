@@ -113,76 +113,19 @@ app.use(
 app.use('cv', express.static('cv'));
 //-------------------------------------------
 
-//-------------------------------------------
-// View configuration
-var exphbs = require('express-handlebars');
+//=====================================================================
+//===================== View configuration =============================
+//=====================================================================
 
-var hbs = exphbs.create({
-	helpers: {
-		sayHello: function () {
-			alert('Hello World');
-		},
-		compare: function (lvalue, rvalue, options) {
-			if (arguments.length < 3)
-				throw new Error(
-					"Handlerbars Helper 'compare' needs 2 parameters"
-				);
+const handlebarsConfig = require('./handlebars')
 
-			var operator = options.hash.operator || '==';
-
-			var operators = {
-				'==': function (l, r) {
-					return l == r;
-				},
-				'===': function (l, r) {
-					return l === r;
-				},
-				'!=': function (l, r) {
-					return l != r;
-				},
-				'<': function (l, r) {
-					return l < r;
-				},
-				'>': function (l, r) {
-					return l > r;
-				},
-				'<=': function (l, r) {
-					return l <= r;
-				},
-				'>=': function (l, r) {
-					return l >= r;
-				},
-				typeof: function (l, r) {
-					return typeof l == r;
-				},
-			};
-
-			if (!operators[operator])
-				throw new Error(
-					"Handlerbars Helper 'compare' doesn't know the operator " +
-						operator
-				);
-
-			var result = operators[operator](lvalue, rvalue);
-
-			if (result) {
-				return options.fn(this);
-			} else {
-				if (typeof options.inverse == 'function') {
-					return options.inverse(this);
-				} else {
-					return null;
-				}
-			}
-		},
-	},
-	defaultLayout: 'main',
-	partialsDir: ['views/layouts/'],
-	partialsDir: ['views/components/'],
-});
-app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-app.set('views', __dirname + '/views/');
+app.engine('handlebars', handlebarsConfig.getEngine());
+app.set('views', handlebarsConfig.getViews(__dirname + '/modules'))
+
+//=====================================================================
+
+
 
 app.use('/CV', express.static('CV'));
 app.use('/CV', serveIndex('CV'));
@@ -220,6 +163,8 @@ const listFileRouter = require('./routes/listFile');
 const listUserRouter = require('./routes/listUser');
 const organigrammeRouter = require('./routes/organigramme');
 
+const testRouter = require('./routes/test'); //
+
 app.use('/', homeRouter);
 app.use('/home', homeRouter);
 app.use('/auth', authRouter);
@@ -230,6 +175,9 @@ app.use('/candidature', candidatureRouter);
 app.use('/uploadFile', uploadFileRouter);
 app.use('/listFile', listFileRouter);
 app.use('/listUser', listUserRouter);
-
 app.use('/organigramme', organigrammeRouter);
+
+app.use('/test', testRouter);
+
+app.use
 module.exports = app;
