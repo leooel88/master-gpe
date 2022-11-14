@@ -14,12 +14,12 @@
 			{{#each files}}
 				<div class="w-full">
 					<div class="w-fit m-auto">
-						<a href='/documents/{{this.name}}'>
+						<a href='/servedFiles/adminFile/{{this.name}}'>
 							<h1 class="text-xl font-semibold">{{this.name}}</h1>
 						</a>
 					</div>
 					<iframe
-						src='/documents/{{this.name}}'
+						src='/servedFiles/adminFile/{{this.name}}'
 						width='700'
 						height='400'
 						type='application/pdf'

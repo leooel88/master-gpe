@@ -5,9 +5,9 @@ exports.getListFile = (req, res) => {
 
 	console.log('list files')
 
-// Function to get current filenames
-// in directory
-fs.readdir('./adminFile', (err, files) => {
+  // Function to get current filenames
+  // in directory
+  fs.readdir(__dirname + '/../../../public/servedFiles/adminFile', (err, files) => {
     if (err)
       console.log(err);
     else {
@@ -22,7 +22,7 @@ fs.readdir('./adminFile', (err, files) => {
   // in directory with "withFileTypes"
   // set to "true" 
     
-  fs.readdir('./adminFile', 
+  fs.readdir(__dirname + '/../../../public/servedFiles/adminFile', 
     { withFileTypes: true },
     (err, files) => {
     console.log("adminFile");
@@ -52,7 +52,7 @@ fs.unlink('./adminFile/'+req.params.filename, function (err) {
 })
 }*/
 exports.deleteFile = (req, res, next) => {
-    fs.unlink('./adminFile/'+req.body.filename, function (err) {
+    fs.unlink(__dirname + '/../../../public/servedFiles/adminFile/'+req.body.filename, function (err) {
         if (err) throw err;
         // if no error, file has been deleted successfully
         console.log('File deleted!');

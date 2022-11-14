@@ -1,3 +1,5 @@
+const errorHandler = require('../../../utils/errorHandler');
+
 exports.create = (req, res) => {
 
 	console.log('upload file')

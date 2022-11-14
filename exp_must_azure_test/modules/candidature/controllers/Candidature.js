@@ -2,8 +2,8 @@ const db = require('../../../database/models');
 const Op = db.Sequelize.Op;
 const FichePoste = db.FichePoste;
 const Candidature = db.Candidature;
-const errorHandler = require('../../../helper/errorHandler');
-const loggerHandler = require('../../../helper/loggerHandler');
+const errorHandler = require('../../../utils/errorHandler');
+const loggerHandler = require('../../../utils/loggerHandler');
 const azureService = require('../../../azureService/graph');
 
 const { dirname } = require('path');
@@ -118,7 +118,7 @@ exports.getReadPage = async (req, res, next) => {
 			displayValidationButtons: false,
 			displayQuestions: true,
 			isLoggedIn: isLoggedIn,
-			imageUrl: '/cv/' + foundCandidature[0].dataValues.cv,
+			imageUrl: '/servedFiles/CV/' + foundCandidature[0].dataValues.cv,
 			saveNoteLink:
 				'/candidature/savenote/' + foundCandidature[0].dataValues.id,
 		};

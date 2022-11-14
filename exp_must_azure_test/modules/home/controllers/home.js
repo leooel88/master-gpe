@@ -2,6 +2,8 @@ const db = require('../../../database/models');
 const Op = db.Sequelize.Op;
 const FichePoste = db.FichePoste;
 
+const errorHandler = require('../../../utils/errorHandler');
+
 exports.getPublish = (req, res, next) => {
 	let result = [];
 

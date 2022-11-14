@@ -6,7 +6,7 @@ const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         if (file.mimetype == "application/pdf" || file.mimetype == "image/jpeg"){
-            cb(null, './adminFile')
+            cb(null, './public/servedFiles/adminFile')
         }else{
             return cb(new Error('Only .pdf or .jpeg allowed'));
         }

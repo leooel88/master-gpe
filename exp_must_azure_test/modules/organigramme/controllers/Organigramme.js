@@ -1,6 +1,6 @@
 const azureService = require('../../../azureService/graph');
-const errorHandler = require('../../../helper/errorHandler');
-const loggerHandler = require('../../../helper/loggerHandler');
+const errorHandler = require('../../../utils/errorHandler');
+const loggerHandler = require('../../../utils/loggerHandler');
 
 exports.getOrganigrammePage = async (req, res, next) => {
 let params = {};

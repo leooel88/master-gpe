@@ -6,7 +6,7 @@ const multer = require('multer');
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		if (file.mimetype == 'application/pdf') {
-			cb(null, './CV');
+			cb(null, './public/servedFiles/CV');
 		} else {
 			return cb(new Error('Only .pdf allowed'));
 		}

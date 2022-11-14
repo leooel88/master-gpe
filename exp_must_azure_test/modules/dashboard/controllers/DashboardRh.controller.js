@@ -1,8 +1,8 @@
-const errorHandler = require('../../../helper/errorHandler');
+const errorHandler = require('../../../utils/errorHandler');
+const loggerHandler = require('../../../utils/loggerHandler');
 const db = require('../../../database/models');
 const Op = db.Sequelize.Op;
 const FichePoste = db.FichePoste;
-const loggerHandler = require('../../../helper/loggerHandler');
 
 exports.getPage = async (req, res, next) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {

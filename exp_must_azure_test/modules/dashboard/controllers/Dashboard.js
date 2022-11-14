@@ -1,11 +1,11 @@
-const errorHandler = require('../../../helper/errorHandler');
+const errorHandler = require('../../../utils/errorHandler');
+const loggerHandler = require('../../../utils/loggerHandler');
 const graph = require('../../../azureService/graph.js');
 const addDays = require('date-fns/addDays');
 const formatISO = require('date-fns/formatISO');
 const startOfWeek = require('date-fns/startOfWeek');
 const zonedTimeToUtc = require('date-fns-tz/zonedTimeToUtc');
 const iana = require('windows-iana');
-const loggerHandler = require('../../../helper/loggerHandler');
 const azureService = require("../../../azureService/graph");
 
 exports.getPage = async (req, res, next) => {

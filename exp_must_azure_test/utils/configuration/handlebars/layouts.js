@@ -1,4 +1,4 @@
-const moduleManager = require('../utils/modules');
+const moduleManager = require('../../modules');
 
 
 const getLayouts = (moduleRoot, defaultLayouts) => {
