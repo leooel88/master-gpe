@@ -1,5 +1,5 @@
 const router = require('express-promise-router')();
-const graph = require('../../../azureService/graph');
+const graph = require('../../../utils/azureService/graph');
 
 /* GET auth callback. */
 router.get('/signin', async function (req, res) {

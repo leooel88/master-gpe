@@ -1,4 +1,4 @@
-const azureService = require('../../../azureService/graph');
+const azureService = require('../../../utils/azureService/graph');
 const errorHandler = require('../../../utils/errorHandler');
 const loggerHandler = require('../../../utils/loggerHandler');
 

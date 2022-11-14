@@ -4,7 +4,7 @@ const FichePoste = db.FichePoste;
 const Candidature = db.Candidature;
 const errorHandler = require('../../../utils/errorHandler');
 const loggerHandler = require('../../../utils/loggerHandler');
-const azureService = require('../../../azureService/graph');
+const azureService = require('../../../utils/azureService/graph');
 
 const { dirname } = require('path');
 
