@@ -1,158 +1,142 @@
-var graph = require('@microsoft/microsoft-graph-client');
+const graph = require('@microsoft/microsoft-graph-client')
 
-require('isomorphic-fetch');
+require('isomorphic-fetch')
 // process;
 
 function getAzureConfig() {
 	if (process.env.NODE_ENV === 'development') {
-		return require('./azure.config.json').development;
-	} else if (process.env.NODE_ENV === 'production') {
-		return require('./azure.config.json').production;
-	} else if (process.env.NODE_ENV === 'test') {
-		return require('./azure.config.json').test;
+		return require('./azure.config.json').development
+	}
+	if (process.env.NODE_ENV === 'production') {
+		return require('./azure.config.json').production
+	}
+	if (process.env.NODE_ENV === 'test') {
+		return require('./azure.config.json').test
 	}
 }
 
 module.exports = {
 	getPhotoByUpn: async function (msalClient, userId, Upn) {
-		const client = getAuthenticatedClient(msalClient, userId);
-		console.log("================================")
-		console.log("================================")
-		console.log("================================")
-		console.log("================================")
+		const client = getAuthenticatedClient(msalClient, userId)
+		console.log('================================')
+		console.log('================================')
+		console.log('================================')
+		console.log('================================')
 
-		console.log(Upn);
+		console.log(Upn)
 		return await client.api(`/users/${Upn}/photo/$value`).get()
 	},
 	getUserDetails: async function (msalClient, userId) {
-		const client = getAuthenticatedClient(msalClient, userId);
+		const client = getAuthenticatedClient(msalClient, userId)
 
 		const user = await client
 			.api('/me')
 			.select(
-				'displayName,mail,mailboxSettings,userPrincipalName,jobTitle,createdDateTime,employeeHireDate'
+				'displayName,mail,mailboxSettings,userPrincipalName,jobTitle,createdDateTime,employeeHireDate',
 			)
-			.get();
-		return user;
+			.get()
+		return user
 	},
 	getusers: async function (msalClient, userId, filters) {
-		const client = getAuthenticatedClient(msalClient, userId);
+		const client = getAuthenticatedClient(msalClient, userId)
 
-		let allusers = await client.api('/users').get();
-		return allusers;
-	}
-	,
+		const allusers = await client.api('/users').get()
+		return allusers
+	},
 	getManager: async function (msalClient, userId) {
-		const client = getAuthenticatedClient(msalClient, userId);
+		const client = getAuthenticatedClient(msalClient, userId)
 
 		const manager = await client
 			.api('/me/manager')
-			.select(
-				'displayName,mail,businessPhones,jobTitle'
-			)
-			.get();
+			.select('displayName,mail,businessPhones,jobTitle')
+			.get()
 
-		return manager;
+		return manager
 	},
 	getDirectReports: async function (msalClient, userId) {
-		const client = getAuthenticatedClient(msalClient, userId);
+		const client = getAuthenticatedClient(msalClient, userId)
 		const directReports = await client
 			.api('/me/directReports')
-			.select(
-				'displayName,mail,businessPhones,jobTitle'
-			)
-			.get();
+			.select('displayName,mail,businessPhones,jobTitle')
+			.get()
 
-		return directReports;
+		return directReports
 	},
 	getCoworker: async function (msalClient, userId) {
-		const client = getAuthenticatedClient(msalClient, userId);
+		const client = getAuthenticatedClient(msalClient, userId)
 
-		const managerId = await client
-			.api('/me/manager')
-			.select(
-				'id'
-			)
-			.get();
+		const managerId = await client.api('/me/manager').select('id').get()
 
 		const coworker = await client
-			.api('/users/'+managerId.id+'/directReports')
-			.select(
-				'displayName,mail,businessPhones,jobTitle'
-			)
-			.get();
+			.api(`/users/${managerId.id}/directReports`)
+			.select('displayName,mail,businessPhones,jobTitle')
+			.get()
 
-		return coworker;
+		return coworker
 	},
 
 	getGroups: async function (msalClient, userId, filters) {
-		const client = getAuthenticatedClient(msalClient, userId);
+		const client = getAuthenticatedClient(msalClient, userId)
 
-		let allGroups = await client.api('/me/memberOf').get();
-		return allGroups;
+		const allGroups = await client.api('/me/memberOf').get()
+		return allGroups
 	},
 	getGroupsNames: async function (msalClient, userId) {
-		let allGroups = await this.getGroups(msalClient, userId);
+		const allGroups = await this.getGroups(msalClient, userId)
 
-		let result = allGroups.value.map(function (group) {
-			return group.displayName;
-		});
-		return result;
+		const result = allGroups.value.map(function (group) {
+			return group.displayName
+		})
+		return result
 	},
 	getMainGroups: async function (msalClient, userId) {
-		const azureConfig = getAzureConfig();
+		const azureConfig = getAzureConfig()
 
-		let allGroups = await this.getGroups(msalClient, userId);
+		const allGroups = await this.getGroups(msalClient, userId)
 
-		let result = allGroups.value.map(function (group) {
+		const result = allGroups.value.map(function (group) {
 			if (group.displayName == azureConfig.RH_GROUP_NAME) {
-				return 'RH';
-			} else if (group.displayName == azureConfig.MANAGER_GROUP_NAME) {
-				return 'MANAGER';
-			} else if (group.displayName == azureConfig.FINANCE_GROUP_NAME) {
-				return 'FINANCE';
-			} else {
-				return [];
+				return 'RH'
 			}
-		});
-		return result;
+			if (group.displayName == azureConfig.MANAGER_GROUP_NAME) {
+				return 'MANAGER'
+			}
+			if (group.displayName == azureConfig.FINANCE_GROUP_NAME) {
+				return 'FINANCE'
+			}
+			return []
+		})
+		return result
 	},
 	isRh: async function (msalClient, userId) {
-		const azureConfig = getAzureConfig();
+		const azureConfig = getAzureConfig()
 
-		let allGroups = await this.getGroups(msalClient, userId);
+		const allGroups = await this.getGroups(msalClient, userId)
 
 		return allGroups.value.some(function (group) {
-			return group.displayName == azureConfig.RH_GROUP_NAME;
-		});
+			return group.displayName == azureConfig.RH_GROUP_NAME
+		})
 	},
 	isFinance: async function (msalClient, userId) {
-		const azureConfig = getAzureConfig();
+		const azureConfig = getAzureConfig()
 
-		let allGroups = await this.getGroups(msalClient, userId);
+		const allGroups = await this.getGroups(msalClient, userId)
 
 		return allGroups.value.some(function (group) {
-			return group.displayName == azureConfig.FINANCE_GROUP_NAME;
-		});
+			return group.displayName == azureConfig.FINANCE_GROUP_NAME
+		})
 	},
 	isManager: async function (msalClient, userId) {
-		const azureConfig = getAzureConfig();
+		const azureConfig = getAzureConfig()
 
-		let allGroups = await this.getGroups(msalClient, userId);
+		const allGroups = await this.getGroups(msalClient, userId)
 
 		return allGroups.value.some(function (group) {
-			return group.displayName == azureConfig.MANAGER_GROUP_NAME;
-		});
+			return group.displayName == azureConfig.MANAGER_GROUP_NAME
+		})
 	},
-	getCalendarView: async function (
-		msalClient,
-		userId,
-		start,
-		end,
-		timeZone,
-		nbrEvent
-	) {
-		const client = getAuthenticatedClient(msalClient, userId);
+	getCalendarView: async function (msalClient, userId, start, end, timeZone, nbrEvent) {
+		const client = getAuthenticatedClient(msalClient, userId)
 		const events = await client
 			.api('/me/calendarview')
 			// Add Prefer header to get back times in user's timezone
@@ -165,19 +149,19 @@ module.exports = {
 			.orderby('start/dateTime')
 			// Get at most 50 results
 			.top(nbrEvent)
-			.get();
+			.get()
 
-		return events;
+		return events
 	},
-};
+}
 
 function getAuthenticatedClient(msalClient, userId) {
 	if (!msalClient || !userId) {
 		throw new Error(
-			`Invalid MSAL state. Client: ${
-				msalClient ? 'present' : 'missing'
-			}, User ID: ${userId ? 'present' : 'missing'}`
-		);
+			`Invalid MSAL state. Client: ${msalClient ? 'present' : 'missing'}, User ID: ${
+				userId ? 'present' : 'missing'
+			}`,
+		)
 	}
 
 	// Initialize Graph client
@@ -187,9 +171,7 @@ function getAuthenticatedClient(msalClient, userId) {
 		authProvider: async (done) => {
 			try {
 				// Get the user's account
-				const account = await msalClient
-					.getTokenCache()
-					.getAccountByHomeId(userId);
+				const account = await msalClient.getTokenCache().getAccountByHomeId(userId)
 
 				if (account) {
 					// Attempt to get the token silently
@@ -199,20 +181,18 @@ function getAuthenticatedClient(msalClient, userId) {
 						scopes: process.env.OAUTH_SCOPES.split(','),
 						redirectUri: process.env.OAUTH_REDIRECT_URI,
 						account: account,
-					});
+					})
 
 					// First param to callback is the error,
 					// Set to null in success case
-					done(null, response.accessToken);
+					done(null, response.accessToken)
 				}
 			} catch (err) {
-				console.log(
-					JSON.stringify(err, Object.getOwnPropertyNames(err))
-				);
-				done(err, null);
+				console.log(JSON.stringify(err, Object.getOwnPropertyNames(err)))
+				done(err, null)
 			}
 		},
-	});
+	})
 
-	return client;
+	return client
 }

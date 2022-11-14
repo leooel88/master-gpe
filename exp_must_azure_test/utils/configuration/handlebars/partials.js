@@ -1,15 +1,14 @@
-const moduleManager = require('../../modules');
-
+const moduleManager = require('../../modules')
 
 const getPartials = (moduleRoot, defaultPartials) => {
-  const modulesPaths = moduleManager.getModulesPaths(moduleRoot);
-  const partialsPaths = [...defaultPartials]
+	const modulesPaths = moduleManager.getModulesPaths(moduleRoot)
+	const partialsPaths = [...defaultPartials]
 
-  modulesPaths.forEach(modulePath => {
-    partialsPaths.push(modulePath.concat('/views/components'));
-  })
+	modulesPaths.forEach((modulePath) => {
+		partialsPaths.push(modulePath.concat('/views/components'))
+	})
 
-  return partialsPaths;
+	return partialsPaths
 }
 
 exports.getPartials = getPartials

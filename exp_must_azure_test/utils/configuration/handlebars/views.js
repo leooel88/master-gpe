@@ -1,15 +1,14 @@
-const moduleManager = require('../../modules');
-
+const moduleManager = require('../../modules')
 
 const getViews = (moduleRoot, defaultViews) => {
-  const modulesPaths = moduleManager.getModulesPaths(moduleRoot);
-  const viewsPaths = [...defaultViews]
+	const modulesPaths = moduleManager.getModulesPaths(moduleRoot)
+	const viewsPaths = [...defaultViews]
 
-  modulesPaths.forEach(modulePath => {
-    viewsPaths.push(modulePath.concat('/views/'));
-  })
+	modulesPaths.forEach((modulePath) => {
+		viewsPaths.push(modulePath.concat('/views/'))
+	})
 
-  return viewsPaths;
+	return viewsPaths
 }
 
 exports.getViews = getViews

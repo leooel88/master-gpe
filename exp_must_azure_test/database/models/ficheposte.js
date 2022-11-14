@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+'use strict'
+const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
 	class FichePoste extends Model {
 		/**
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					customValidator(value) {
 						if (new Date(value) < new Date()) {
-							throw new Error('invalid entryDate');
+							throw new Error('invalid entryDate')
 						}
 					},
 				},
@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					customValidator(value) {
 						if (new Date(value) < new Date()) {
-							throw new Error('invalid endDate');
+							throw new Error('invalid endDate')
 						}
 					},
 				},
@@ -135,15 +135,15 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			},
 
-			creatorName:{
+			creatorName: {
 				type: DataTypes.STRING,
 				allowNull: true,
-			}
+			},
 		},
 		{
 			sequelize,
 			modelName: 'FichePoste',
-		}
-	);
-	return FichePoste;
-};
+		},
+	)
+	return FichePoste
+}

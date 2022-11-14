@@ -1,17 +1,16 @@
-const errorHandler = require('../../../utils/errorHandler');
-
-const loggerHandler = require('../../../utils/loggerHandler');
+const errorHandler = require('../../../utils/errorHandler')
+const loggerHandler = require('../../../utils/loggerHandler')
 
 exports.getPage = async (req, res, next) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return;
+		return
 	}
 
-	let { error } = req.query;
+	const { error } = req.query
 
-	let params = {
+	const params = {
 		active: { dashboardManager: true },
-	};
+	}
 
-	res.render('dashboardManager', params);
-};
+	res.render('dashboardManager', params)
+}

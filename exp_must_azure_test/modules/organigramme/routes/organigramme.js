@@ -1,9 +1,9 @@
-const router = require('express-promise-router')();
+const router = require('express-promise-router')()
 
-const organigramme = require('../controllers/Organigramme.js');
+const organigramme = require('../controllers/Organigramme.js')
 
-router.get('/', organigramme.getOrganigrammePage);
+router.get('/', organigramme.getOrganigrammePage)
 
-router.get;
+router.get
 
-module.exports = router;
+module.exports = router

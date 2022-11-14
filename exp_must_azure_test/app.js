@@ -1,26 +1,51 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const session = require('express-session');
-const flash = require('connect-flash');
-const msal = require('@azure/msal-node');
-require('dotenv').config();
-var serveIndex = require('serve-index');
-var app = express();
+// import { LogLevel, ConfidentialClientApplication } from '@azure/msal-node'
+// import { urlencoded as _urlencoded } from 'body-parser'
+// import flash from 'connect-flash'
+// import cookieParser from 'cookie-parser'
+// import cors from 'cors'
+// import express, { json, urlencoded, static as Static } from 'express'
+// import session from 'express-session'
+// import logger from 'morgan'
 
-//=====================================================================
-//===================== Bodyparser configuration ======================
-//=====================================================================
+// import { dirname, join } from 'path'
+// import { fileURLToPath } from 'url'
 
-const bodyparser = require('body-parser');
-app.use(bodyparser.urlencoded({extended:false}));
+// import { sequelize } from './database/models'
+// import homeRouter from './modules/home/routes/home'
+// import { getEngine, getViews } from './utils/configuration/handlebars'
+// import { setRoutes } from './utils/routes'
 
-//=====================================================================
+const { LogLevel, ConfidentialClientApplication } = require('@azure/msal-node')
+const body_parser = require('body-parser')
+const flash = require('connect-flash')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
+const express = require('express')
+const session = require('express-session')
+const logger = require('morgan')
 
-//=====================================================================
-//====================== Session configuration ========================
-//=====================================================================
+const { join } = require('path')
+const { fileURLToPath } = require('url')
+
+const db = require('./database/models')
+const homeRouter = require('./modules/home/routes/home')
+const { getEngine, getViews } = require('./utils/configuration/handlebars')
+const routesManager = require('./utils/routes')
+
+require('dotenv').config()
+const app = express()
+
+// =====================================================================
+// ===================== Bodyparser configuration ======================
+// =====================================================================
+
+app.use(body_parser.urlencoded({ extended: false }))
+
+// =====================================================================
+
+// =====================================================================
+// ====================== Session configuration ========================
+// =====================================================================
 
 app.use(
 	session({
@@ -28,52 +53,51 @@ app.use(
 		resave: false,
 		saveUninitialized: false,
 		unset: 'destroy',
-	})
-);
+	}),
+)
 
 // Flash middleware
-app.use(flash());
+app.use(flash())
 
-//=====================================================================
+// =====================================================================
 
-//=====================================================================
-//================== Local vars for template layout ===================
-//=====================================================================
+// =====================================================================
+// ================== Local vars for template layout ===================
+// =====================================================================
 
 app.use(function (req, res, next) {
-	res.locals.error = req.flash('error_msg');
+	res.locals.error = req.flash('error_msg')
 
-	var errs = req.flash('error');
-	for (var i in errs) {
-		res.locals.error.push({ message: 'An error occurred', debug: errs[i] });
+	const errs = req.flash('error')
+	for (const i in errs) {
+		res.locals.error.push({ message: 'An error occurred', debug: errs[i] })
 	}
 
 	if (req.session.userId) {
-		res.locals.user = app.locals.users[req.session.userId];
+		res.locals.user = app.locals.users[req.session.userId]
 	}
 
-	next();
-});
+	next()
+})
 
-//=====================================================================
+// =====================================================================
 
-//=====================================================================
-//======================== CORS configuration =========================
-//=====================================================================
+// =====================================================================
+// ======================== CORS configuration =========================
+// =====================================================================
 
-const cors = require('cors');
-var corsOptions = {
+const corsOptions = {
 	origin: `http://localhost:${process.env.PORT}`,
-};
-app.use(cors(corsOptions));
+}
+app.use(cors(corsOptions))
 
-//=====================================================================
+// =====================================================================
 
-//=====================================================================
-//===================== Azure MSAL configuration ======================
-//=====================================================================
+// =====================================================================
+// ===================== Azure MSAL configuration ======================
+// =====================================================================
 
-app.locals.users = {};
+app.locals.users = {}
 
 const msalConfig = {
 	auth: {
@@ -84,77 +108,68 @@ const msalConfig = {
 	system: {
 		loggerOptions: {
 			loggerCallback(loglevel, message, containsPii) {
-				console.log(message);
+				console.log(message)
 			},
 			piiLoggingEnabled: false,
-			logLevel: msal.LogLevel.Verbose,
+			logLevel: LogLevel.Verbose,
 		},
 	},
-};
+}
 
-app.locals.msalClient = new msal.ConfidentialClientApplication(msalConfig);
+app.locals.msalClient = new ConfidentialClientApplication(msalConfig)
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 
-//=====================================================================
+// =====================================================================
 
-//=====================================================================
-//=================== Database configuration ==========================
-//=====================================================================
+// =====================================================================
+// =================== Database configuration ==========================
+// =====================================================================
 
-const db = require('./database/models');
 db.sequelize
 	.sync({ force: true })
 	.then(() => {
-		console.log('Synced db.');
+		console.log('Synced db.')
 	})
 	.catch((err) => {
-		console.log('Failed to sync db: ' + err.message);
-	});
+		console.log(`Failed to sync db: ${err.message}`)
+	})
 
-//=====================================================================
+// =====================================================================
 
-//=====================================================================
-//===================== View configuration ============================
-//=====================================================================
+// =====================================================================
+// ===================== View configuration ============================
+// =====================================================================
 
-const handlebarsConfig = require('./utils/configuration/handlebars')
+app.set('view engine', 'handlebars')
+app.engine('handlebars', getEngine())
+app.set('views', getViews(`${__dirname}/modules`))
 
-app.set('view engine', 'handlebars');
-app.engine('handlebars', handlebarsConfig.getEngine());
-app.set('views', handlebarsConfig.getViews(__dirname + '/modules'))
+// =====================================================================
 
-//=====================================================================
-
-//=====================================================================
-//===================== Public folders exposition =====================
-//=====================================================================
+// =====================================================================
+// ===================== Public folders exposition =====================
+// =====================================================================
 
 app.use(
-	express.static(path.join(__dirname, 'public'), {
+	express.static(join(__dirname, 'public'), {
 		index: false,
-	})
-);
-// app.use('/CV', express.static('/CV'));
-// app.use('/CV', serveIndex('/CV'));
-// app.use('/documents', express.static('/adminFile', { icons: true }));
-// app.use('/documents', serveIndex('/adminFile', { icons: true }));
+	}),
+)
 
-//=====================================================================
+// =====================================================================
 
-//=====================================================================
-//===================== Routes configuration ==========================
-//=====================================================================
+// =====================================================================
+// ===================== Routes configuration ==========================
+// =====================================================================
 
-const routesManager = require('./utils/routes')
-routesManager.setRoutes(app, __dirname + '/modules')
-const homeRouter = require('./modules/home/routes/home')
+routesManager.setRoutes(app, `${__dirname}/modules`)
 app.use('/', homeRouter)
 
-//=====================================================================
+// =====================================================================
 
 app.use
-module.exports = app;
+module.exports = app

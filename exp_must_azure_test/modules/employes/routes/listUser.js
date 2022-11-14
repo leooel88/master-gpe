@@ -1,9 +1,9 @@
-const router = require('express-promise-router')();
+const router = require('express-promise-router')()
 
-const listUser = require('../controllers/listUsers.js');
+const listUser = require('../controllers/listUsers.js')
 
-router.get('/', listUser.getListUsers);
+router.get('/', listUser.getListUsers)
 
-router.get;
+router.get
 
-module.exports = router;
+module.exports = router

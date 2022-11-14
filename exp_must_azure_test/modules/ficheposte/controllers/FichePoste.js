@@ -1,44 +1,39 @@
-const db = require('../../../database/models');
-const Op = db.Sequelize.Op;
-const FichePoste = db.FichePoste;
-const Candidature = db.Candidature;
-const errorHandler = require('../../../utils/errorHandler');
-const loggerHandler = require('../../../utils/loggerHandler');
-const azureService = require('../../../utils/azureService/graph');
+const db = require('../../../database/models')
+const { Op } = db.Sequelize
+const { FichePoste } = db
+const { Candidature } = db
+const azureService = require('../../../utils/azureService/graph')
+const errorHandler = require('../../../utils/errorHandler')
+const loggerHandler = require('../../../utils/loggerHandler')
 
 exports.getReadPage = async (req, res, next) => {
-	const isLoggedIn = loggerHandler.checkLoggedIn(req);
+	const isLoggedIn = loggerHandler.checkLoggedIn(req)
 
-	let { error } = req.query;
+	const { error } = req.query
 
-	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 
-	let params = {};
+	const params = {}
 
 	if (error != null && error.length > 0) {
-		params.error = [{ message: error }];
+		params.error = [{ message: error }]
 	}
 
 	if (isLoggedIn === true) {
-		const groups = await azureService.getMainGroups(
-			req.app.locals.msalClient,
-			req.session.userId
-		);
-		console.log(groups);
+		const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
+		console.log(groups)
 		if (groups.includes('RH')) {
-			params.rh = true;
-			params.rhValidLink = '/ficheposte/rhvalid/' + fichePosteId;
-			params.rhRefuseLink = '/ficheposte/rhrefuse/' + fichePosteId;
-			params.rhPublishLink = '/ficheposte/rhpublish/' + fichePosteId;
+			params.rh = true
+			params.rhValidLink = `/ficheposte/rhvalid/${fichePosteId}`
+			params.rhRefuseLink = `/ficheposte/rhrefuse/${fichePosteId}`
+			params.rhPublishLink = `/ficheposte/rhpublish/${fichePosteId}`
 		} else if (groups.includes('FINANCE')) {
-			params.finance = true;
-			params.financeValidLink =
-				'/ficheposte/financevalid/' + fichePosteId;
-			params.financeRefuseLink =
-				'/ficheposte/financerefuse/' + fichePosteId;
+			params.finance = true
+			params.financeValidLink = `/ficheposte/financevalid/${fichePosteId}`
+			params.financeRefuseLink = `/ficheposte/financerefuse/${fichePosteId}`
 		} else if (groups.includes('MANAGER')) {
-			params.manager = true;
-			params.managerUpdateLink = '/ficheposte/update/' + fichePosteId;
+			params.manager = true
+			params.managerUpdateLink = `/ficheposte/update/${fichePosteId}`
 		}
 	}
 
@@ -49,348 +44,275 @@ exports.getReadPage = async (req, res, next) => {
 	})
 		.then((foundFichePoste) => {
 			if (foundFichePoste[0].dataValues.entryDate) {
-				let offset_1 =
-					foundFichePoste[0].dataValues.entryDate.getTimezoneOffset();
+				const offset_1 = foundFichePoste[0].dataValues.entryDate.getTimezoneOffset()
 				foundFichePoste[0].dataValues.entryDate = new Date(
-					foundFichePoste[0].dataValues.entryDate.getTime() -
-						offset_1 * 60 * 1000
-				);
-				foundFichePoste[0].dataValues.entryDate =
-					foundFichePoste[0].dataValues.entryDate
-						.toISOString()
-						.split('T')[0];
+					foundFichePoste[0].dataValues.entryDate.getTime() - offset_1 * 60 * 1000,
+				)
+				foundFichePoste[0].dataValues.entryDate = foundFichePoste[0].dataValues.entryDate
+					.toISOString()
+					.split('T')[0]
 			}
 
 			if (foundFichePoste[0].dataValues.endDate) {
-				let offset_2 =
-					foundFichePoste[0].dataValues.endDate.getTimezoneOffset();
+				const offset_2 = foundFichePoste[0].dataValues.endDate.getTimezoneOffset()
 				foundFichePoste[0].dataValues.endDate = new Date(
-					foundFichePoste[0].dataValues.endDate.getTime() -
-						offset_2 * 60 * 1000
-				);
-				foundFichePoste[0].dataValues.endDate =
-					foundFichePoste[0].dataValues.endDate
-						.toISOString()
-						.split('T')[0];
+					foundFichePoste[0].dataValues.endDate.getTime() - offset_2 * 60 * 1000,
+				)
+				foundFichePoste[0].dataValues.endDate = foundFichePoste[0].dataValues.endDate
+					.toISOString()
+					.split('T')[0]
 			}
 			if (isLoggedIn === true) {
-				params.isLoggedIn = true;
+				params.isLoggedIn = true
 				if (foundFichePoste[0].dataValues.validationRH == 0) {
-					params.validationRhIsNull = true;
+					params.validationRhIsNull = true
 				} else if (foundFichePoste[0].dataValues.validationRH == 1) {
-					params.validationRhIsTrue = true;
+					params.validationRhIsTrue = true
 				} else if (foundFichePoste[0].dataValues.validationRH == 2) {
-					params.validationRhIsFalse = true;
+					params.validationRhIsFalse = true
 				}
 
-				params.updateLink =
-					'/ficheposte/update/' + foundFichePoste[0].dataValues.id;
-				params.displayValidationButtons = true;
-				params.displayQuestions = true;
+				params.updateLink = `/ficheposte/update/${foundFichePoste[0].dataValues.id}`
+				params.displayValidationButtons = true
+				params.displayQuestions = true
 			} else {
-				params.displayValidationButtons = false;
-				params.displayQuestions = false;
-				params.isLoggedIn = false;
-				params.candidateLink =
-					'/candidature/create/' + foundFichePoste[0].dataValues.id;
+				params.displayValidationButtons = false
+				params.displayQuestions = false
+				params.isLoggedIn = false
+				params.candidateLink = `/candidature/create/${foundFichePoste[0].dataValues.id}`
 			}
 
-			params.active = { fichePosteRead: true };
-			params.fichePoste = foundFichePoste[0].dataValues;
+			params.active = { fichePosteRead: true }
+			params.fichePoste = foundFichePoste[0].dataValues
 
-			res.render('fichePosteRead', params);
+			res.render('fichePosteRead', params)
 		})
 		.catch((err) => {
-			console.log('ERROR : ');
-			console.log(err);
-			errorHandler.catchDataCreationError(
-				err.errors,
-				res,
-				'fichePosteList'
-			);
-
-			return;
-		});
-};
+			console.log('ERROR : ')
+			console.log(err)
+			errorHandler.catchDataCreationError(err.errors, res, 'fichePosteList')
+		})
+}
 
 exports.getListPage = async (req, res, next) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return;
+		return
 	}
-	let group = "";
-	const groups = await azureService.getMainGroups(
-		req.app.locals.msalClient,
-		req.session.userId
-	);
+	let group = ''
+	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
 
 	if (groups.includes('RH')) {
-		group = "rh"
+		group = 'rh'
 	}
 	if (groups.includes('MANAGER')) {
-		group = "manager"
+		group = 'manager'
 	}
 	if (groups.includes('FINANCE')) {
-		group = "finance"
+		group = 'finance'
 	}
-	console.log(group);
-	let result = [];
+	console.log(group)
+	const result = []
 
 	FichePoste.findAll()
 		.then((foundFichePosteList) => {
-			foundFichePosteList = foundFichePosteList.forEach(
-				(fichePoste, index) => {
-					result.push(fichePoste.dataValues);
-					if (index % 2 == 0) {
-						result[index].even = true;
-					}
-					result[index].readLink =
-						'/ficheposte/read/' + fichePoste.dataValues.id;
-
-					if (result[index].entryDate) {
-						let offset_1 =
-							result[index].entryDate.getTimezoneOffset();
-						result[index].entryDate = new Date(
-							result[index].entryDate.getTime() -
-								offset_1 * 60 * 1000
-						);
-						result[index].entryDate = result[index].entryDate
-							.toISOString()
-							.split('T')[0];
-					}
-
-					if (result[index].endDate) {
-						let offset_2 =
-							result[index].endDate.getTimezoneOffset();
-						result[index].endDate = new Date(
-							result[index].endDate.getTime() -
-								offset_2 * 60 * 1000
-						);
-						result[index].endDate = result[index].endDate
-							.toISOString()
-							.split('T')[0];
-					}
+			foundFichePosteList = foundFichePosteList.forEach((fichePoste, index) => {
+				result.push(fichePoste.dataValues)
+				if (index % 2 == 0) {
+					result[index].even = true
 				}
-			);
+				result[index].readLink = `/ficheposte/read/${fichePoste.dataValues.id}`
 
-			let params = {
+				if (result[index].entryDate) {
+					const offset_1 = result[index].entryDate.getTimezoneOffset()
+					result[index].entryDate = new Date(
+						result[index].entryDate.getTime() - offset_1 * 60 * 1000,
+					)
+					result[index].entryDate = result[index].entryDate.toISOString().split('T')[0]
+				}
+
+				if (result[index].endDate) {
+					const offset_2 = result[index].endDate.getTimezoneOffset()
+					result[index].endDate = new Date(result[index].endDate.getTime() - offset_2 * 60 * 1000)
+					result[index].endDate = result[index].endDate.toISOString().split('T')[0]
+				}
+			})
+
+			const params = {
 				active: { fichePosteList: true },
 				fichePosteList: result,
 				displayValidationIcons: true,
 				group: group,
-			};
+			}
 
-			console.log('==================================');
-			console.log('==================================');
-			console.log(params);
-			console.log('==================================');
-			console.log('==================================');
+			console.log('==================================')
+			console.log('==================================')
+			console.log(params)
+			console.log('==================================')
+			console.log('==================================')
 
-			res.render('fichePosteList', params);
+			res.render('fichePosteList', params)
 		})
 		.catch((err) => {
-			console.log('ERROR : ');
-			console.log(err);
-			errorHandler.catchDataCreationError(err.errors, res, '');
+			console.log('ERROR : ')
+			console.log(err)
+			errorHandler.catchDataCreationError(err.errors, res, '')
+		})
+}
 
-			return;
-		});
-};
-
-exports.getKanbanPage = async(req, res, next) => {
+exports.getKanbanPage = async (req, res, next) => {
 	if (loggerHandler.checkLoggedIn(req, res) === false) {
-		return;
+		return
 	}
-	let group = "";
-	const groups = await azureService.getMainGroups(
-		req.app.locals.msalClient,
-		req.session.userId
-	);
+	let group = ''
+	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
 
 	if (groups.includes('RH')) {
-		group = "rh"
+		group = 'rh'
 	}
 	if (groups.includes('MANAGER')) {
-		group = "manager"
+		group = 'manager'
 	}
 	if (groups.includes('FINANCE')) {
-		group = "finance"
+		group = 'finance'
 	}
-	console.log(group);
-	let result = [];
+	console.log(group)
+	const result = []
 
 	FichePoste.findAll()
 		.then((foundFichePosteList) => {
-			foundFichePosteList = foundFichePosteList.forEach(
-				(fichePoste, index) => {
-					result.push(fichePoste.dataValues);
-					let idFichePoste = fichePoste.dataValues.id;
-					Candidature.count({
-						where: {
-							fichePosteId: idFichePoste
-						}
-					})
-						.then(function (foundCandidatureList){
-							result[index].nbCandidature = foundCandidatureList;
-						});
+			foundFichePosteList = foundFichePosteList.forEach((fichePoste, index) => {
+				result.push(fichePoste.dataValues)
+				const idFichePoste = fichePoste.dataValues.id
+				Candidature.count({
+					where: {
+						fichePosteId: idFichePoste,
+					},
+				}).then(function (foundCandidatureList) {
+					result[index].nbCandidature = foundCandidatureList
+				})
 
-					if (result[index].createdAt) {
-						let offset_2 =
-							result[index].createdAt.getTimezoneOffset();
-						result[index].createdAt = new Date(
-							result[index].createdAt.getTime() -
-							offset_2 * 60 * 1000
-						);
-						result[index].createdAt = result[index].createdAt
-							.toISOString()
-							.split('T')[0];
-						console.log("!!!!!",result[index].createdAt);
-					}
-
-					if (index % 2 == 0) {
-						result[index].even = true;
-					}
-					result[index].readLink =
-						'/ficheposte/read/' + fichePoste.dataValues.id;
-
-					if (result[index].entryDate) {
-						let offset_1 =
-							result[index].entryDate.getTimezoneOffset();
-						result[index].entryDate = new Date(
-							result[index].entryDate.getTime() -
-								offset_1 * 60 * 1000
-						);
-						result[index].entryDate = result[index].entryDate
-							.toISOString()
-							.split('T')[0];
-					}
-
-					if (result[index].endDate) {
-						let offset_2 =
-							result[index].endDate.getTimezoneOffset();
-						result[index].endDate = new Date(
-							result[index].endDate.getTime() -
-								offset_2 * 60 * 1000
-						);
-						result[index].endDate = result[index].endDate
-							.toISOString()
-							.split('T')[0];
-					}
+				if (result[index].createdAt) {
+					const offset_2 = result[index].createdAt.getTimezoneOffset()
+					result[index].createdAt = new Date(
+						result[index].createdAt.getTime() - offset_2 * 60 * 1000,
+					)
+					result[index].createdAt = result[index].createdAt.toISOString().split('T')[0]
+					console.log('!!!!!', result[index].createdAt)
 				}
-			);
 
-			let params = {
+				if (index % 2 == 0) {
+					result[index].even = true
+				}
+				result[index].readLink = `/ficheposte/read/${fichePoste.dataValues.id}`
+
+				if (result[index].entryDate) {
+					const offset_1 = result[index].entryDate.getTimezoneOffset()
+					result[index].entryDate = new Date(
+						result[index].entryDate.getTime() - offset_1 * 60 * 1000,
+					)
+					result[index].entryDate = result[index].entryDate.toISOString().split('T')[0]
+				}
+
+				if (result[index].endDate) {
+					const offset_2 = result[index].endDate.getTimezoneOffset()
+					result[index].endDate = new Date(result[index].endDate.getTime() - offset_2 * 60 * 1000)
+					result[index].endDate = result[index].endDate.toISOString().split('T')[0]
+				}
+			})
+
+			const params = {
 				active: { fichePosteList: true },
 				fichePosteList: result,
 				displayValidationIcons: true,
 				group: group,
-				fichePosteListNotNull: result.length > 0 ? 1 : 0
-			};
-			res.render('fichePosteList', params);
+				fichePosteListNotNull: result.length > 0 ? 1 : 0,
+			}
+			res.render('fichePosteList', params)
 		})
 		.catch((err) => {
-			console.log('ERROR : ');
-			console.log(err);
-			errorHandler.catchDataCreationError(err.errors, res, '');
-
-			return;
-		});
-};
+			console.log('ERROR : ')
+			console.log(err)
+			errorHandler.catchDataCreationError(err.errors, res, '')
+		})
+}
 
 exports.getPublish = (req, res, next) => {
-	let result = [];
+	const result = []
 
 	FichePoste.findAll({
 		where: {
 			publicationRH: 1,
-		}
-	}).then((foundFichePosteList) => {
-			foundFichePosteList = foundFichePosteList.forEach(
-				(fichePoste, index) => {
-					result.push(fichePoste.dataValues);
-					if (result[index].createdAt) {
-						let offset_2 =
-							result[index].createdAt.getTimezoneOffset();
-						result[index].createdAt = new Date(
-							result[index].createdAt.getTime() -
-							offset_2 * 60 * 1000
-						);
-						result[index].createdAt = result[index].createdAt
-							.toISOString()
-							.split('T')[0];
-						console.log("!!!!!",result[index].createdAt);
-					}
-
-					if (index % 2 == 0) {
-						result[index].even = true;
-					}
-					result[index].readLink =
-						'/ficheposte/read/' + fichePoste.dataValues.id;
-
-					if (result[index].entryDate) {
-						let offset_1 =
-							result[index].entryDate.getTimezoneOffset();
-						result[index].entryDate = new Date(
-							result[index].entryDate.getTime() -
-								offset_1 * 60 * 1000
-						);
-						result[index].entryDate = result[index].entryDate
-							.toISOString()
-							.split('T')[0];
-					}
-
-					if (result[index].endDate) {
-						let offset_2 =
-							result[index].endDate.getTimezoneOffset();
-						result[index].endDate = new Date(
-							result[index].endDate.getTime() -
-								offset_2 * 60 * 1000
-						);
-						result[index].endDate = result[index].endDate
-							.toISOString()
-							.split('T')[0];
-					}
+		},
+	})
+		.then((foundFichePosteList) => {
+			foundFichePosteList = foundFichePosteList.forEach((fichePoste, index) => {
+				result.push(fichePoste.dataValues)
+				if (result[index].createdAt) {
+					const offset_2 = result[index].createdAt.getTimezoneOffset()
+					result[index].createdAt = new Date(
+						result[index].createdAt.getTime() - offset_2 * 60 * 1000,
+					)
+					result[index].createdAt = result[index].createdAt.toISOString().split('T')[0]
+					console.log('!!!!!', result[index].createdAt)
 				}
-			);
 
-			let params = {
+				if (index % 2 == 0) {
+					result[index].even = true
+				}
+				result[index].readLink = `/ficheposte/read/${fichePoste.dataValues.id}`
+
+				if (result[index].entryDate) {
+					const offset_1 = result[index].entryDate.getTimezoneOffset()
+					result[index].entryDate = new Date(
+						result[index].entryDate.getTime() - offset_1 * 60 * 1000,
+					)
+					result[index].entryDate = result[index].entryDate.toISOString().split('T')[0]
+				}
+
+				if (result[index].endDate) {
+					const offset_2 = result[index].endDate.getTimezoneOffset()
+					result[index].endDate = new Date(result[index].endDate.getTime() - offset_2 * 60 * 1000)
+					result[index].endDate = result[index].endDate.toISOString().split('T')[0]
+				}
+			})
+
+			const params = {
 				active: { fichePosteList: true },
 				fichePosteList: result,
 				displayValidationIcons: false,
-				fichePosteListNotNull: result.length > 0 ? 1 : 0
-			};
-			res.render('fichePosteList', params);
+				fichePosteListNotNull: result.length > 0 ? 1 : 0,
+			}
+			res.render('fichePosteList', params)
 		})
 		.catch((err) => {
-			console.log('ERROR : ');
-			console.log(err);
-			errorHandler.catchDataCreationError(err.errors, res, '');
-
-			return;
-		});
+			console.log('ERROR : ')
+			console.log(err)
+			errorHandler.catchDataCreationError(err.errors, res, '')
+		})
 }
 
 exports.getCreatePage = (req, res, next) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return;
+		return
 	}
 
-	let { error } = req.query;
+	const { error } = req.query
 
-	let params = {
+	const params = {
 		active: { fichePoste: true },
 		currentDate: new Date().toISOString().split('T')[0],
-	};
-	if (error != null && error.length > 0) {
-		params.error = [{ message: error }];
 	}
-	console.log('==========================');
-	console.log(params);
-	res.render('fichePoste', params);
-};
+	if (error != null && error.length > 0) {
+		params.error = [{ message: error }]
+	}
+	console.log('==========================')
+	console.log(params)
+	res.render('fichePoste', params)
+}
 
 exports.createTestFicheposte = (req, res, next) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return;
+		return
 	}
 
 	const fichePoste = {
@@ -406,12 +328,12 @@ exports.createTestFicheposte = (req, res, next) => {
 		destinationService: 'DSI',
 		question1: "Combien d'années en tant qu'architecte ?",
 		question2: 'Avez vous deja travaillé avec les services GCP ?',
-	};
+	}
 
 	// Save Tutorial in the database
 	FichePoste.create(fichePoste)
 		.then((data) => {
-			console.log(data);
+			console.log(data)
 
 			const fichePoste = {
 				label: 'Chef_d_équipe',
@@ -425,11 +347,11 @@ exports.createTestFicheposte = (req, res, next) => {
 				compensation: '3000$/mois',
 				question1: "Combien d'années en tant chef d'équipe ?",
 				question2: 'Avez vous deja travaillé en méthode scrum ?',
-			};
+			}
 
 			FichePoste.create(fichePoste)
 				.then((data) => {
-					console.log(data);
+					console.log(data)
 
 					const fichePoste = {
 						label: 'Lead dev',
@@ -442,58 +364,45 @@ exports.createTestFicheposte = (req, res, next) => {
 						destinationService: 'DSI',
 						compensation: '5000$/mois',
 						question1: "Combien d'années en tant que lead dev ?",
-						question2:
-							'Avez vous deja travaillé en méthode scrum ?',
+						question2: 'Avez vous deja travaillé en méthode scrum ?',
 						validationRH: 1,
 						validationFinance: 1,
 						publicationRH: 1,
-					};
+					}
 
 					FichePoste.create(fichePoste)
 						.then((data) => {
-							console.log(data);
-							res.send(data);
+							console.log(data)
+							res.send(data)
 						})
 						.catch((err) => {
-							console.log('ERROR : ');
-							console.log(err);
-							errorHandler.catchDataCreationError(
-								err.errors,
-								res,
-								'fichePoste/create'
-							);
-						});
+							console.log('ERROR : ')
+							console.log(err)
+							errorHandler.catchDataCreationError(err.errors, res, 'fichePoste/create')
+						})
 				})
 				.catch((err) => {
-					console.log('ERROR : ');
-					console.log(err);
-					errorHandler.catchDataCreationError(
-						err.errors,
-						res,
-						'fichePoste/create'
-					);
-				});
+					console.log('ERROR : ')
+					console.log(err)
+					errorHandler.catchDataCreationError(err.errors, res, 'fichePoste/create')
+				})
 		})
 		.catch((err) => {
-			console.log('ERROR : ');
-			console.log(err);
-			errorHandler.catchDataCreationError(
-				err.errors,
-				res,
-				'fichePoste/create'
-			);
-		});
-};
+			console.log('ERROR : ')
+			console.log(err)
+			errorHandler.catchDataCreationError(err.errors, res, 'fichePoste/create')
+		})
+}
 
 function addDays(date, days) {
-	var result = new Date(date);
-	result.setDate(result.getDate() + days);
-	return result;
+	const result = new Date(date)
+	result.setDate(result.getDate() + days)
+	return result
 }
 
 exports.create = (req, res) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return;
+		return
 	}
 
 	// Validate request
@@ -503,9 +412,9 @@ exports.create = (req, res) => {
 		isEmptyOrSpaces(req.body.fichePoste_jobDescription) ||
 		isEmptyOrSpaces(req.body.fichePoste_urgency)
 	) {
-		console.log('OIAEUOZIEUROZEIURZOEIRU');
-		errorHandler.sendInvalidBodyError(res, 'fichePoste');
-		return;
+		console.log('OIAEUOZIEUROZEIURZOEIRU')
+		errorHandler.sendInvalidBodyError(res, 'fichePoste')
+		return
 	}
 	// Create a Tutorial
 	const fichePoste = {
@@ -513,74 +422,70 @@ exports.create = (req, res) => {
 		type: req.body.fichePoste_type,
 		jobDescription: req.body.fichePoste_jobDescription,
 		urgency: req.body.fichePoste_urgency,
-	};
+	}
 
 	if (!isEmptyOrSpaces(req.body.fichePoste_experience)) {
-		fichePoste.experience = req.body.fichePoste_experience;
+		fichePoste.experience = req.body.fichePoste_experience
 	}
 	if (req.body.fichePoste_entryDate && req.body.fichePoste_entryDate_use) {
-		fichePoste.entryDate = req.body.fichePoste_entryDate;
+		fichePoste.entryDate = req.body.fichePoste_entryDate
 	}
 	if (req.body.fichePoste_endDate && req.body.fichePoste_endDate_use) {
-		fichePoste.endDate = req.body.fichePoste_endDate;
+		fichePoste.endDate = req.body.fichePoste_endDate
 	}
 	if (!isEmptyOrSpaces(req.body.fichePoste_localisation)) {
-		fichePoste.localisation = req.body.fichePoste_localisation;
+		fichePoste.localisation = req.body.fichePoste_localisation
 	}
 	if (!isEmptyOrSpaces(req.body.fichePoste_destinationService)) {
-		fichePoste.destinationService = req.body.fichePoste_destinationService;
+		fichePoste.destinationService = req.body.fichePoste_destinationService
 	}
 	if (!isEmptyOrSpaces(req.body.fichePoste_compensation)) {
-		fichePoste.compensation = req.body.fichePoste_compensation;
+		fichePoste.compensation = req.body.fichePoste_compensation
 	}
 	if (!isEmptyOrSpaces(req.body.fichePoste_question1)) {
-		fichePoste.question1 = req.body.fichePoste_question1;
+		fichePoste.question1 = req.body.fichePoste_question1
 	}
 	if (!isEmptyOrSpaces(req.body.fichePoste_question2)) {
-		fichePoste.question2 = req.body.fichePoste_question2;
+		fichePoste.question2 = req.body.fichePoste_question2
 	}
 	if (!isEmptyOrSpaces(req.body.fichePoste_question3)) {
-		fichePoste.question3 = req.body.fichePoste_question3;
+		fichePoste.question3 = req.body.fichePoste_question3
 	}
 	if (!isEmptyOrSpaces(req.body.fichePoste_question4)) {
-		fichePoste.question4 = req.body.fichePoste_question4;
+		fichePoste.question4 = req.body.fichePoste_question4
 	}
 	if (!isEmptyOrSpaces(req.body.fichePoste_question5)) {
-		fichePoste.question5 = req.body.fichePoste_question5;
+		fichePoste.question5 = req.body.fichePoste_question5
 	}
 
 	// Save Tutorial in the database
 	FichePoste.create(fichePoste)
 		.then((data) => {
-			console.log(data);
-			//res.send(data);
-			res.redirect(`/ficheposte/read/${data.id}`);
+			console.log(data)
+			// res.send(data);
+			res.redirect(`/ficheposte/read/${data.id}`)
 		})
 		.catch((err) => {
-			console.log('ERROR : ');
-			console.log(err);
-			errorHandler.catchDataCreationError(
-				err.errors,
-				res,
-				'fichePoste/create'
-			);
-		});
-};
+			console.log('ERROR : ')
+			console.log(err)
+			errorHandler.catchDataCreationError(err.errors, res, 'fichePoste/create')
+		})
+}
 
 exports.update = async (req, res) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return;
+		return
 	}
 
-	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 
 	let foundFichePoste = await FichePoste.findAll({
 		where: {
 			id: fichePosteId,
 		},
-	});
+	})
 
-	foundFichePoste = foundFichePoste[0];
+	foundFichePoste = foundFichePoste[0]
 
 	if (!isEmptyOrSpaces(req.body.input_update_label)) {
 		try {
@@ -591,15 +496,11 @@ exports.update = async (req, res) => {
 					validationFinance: 0,
 					publicationRH: 0,
 				},
-				{ where: { id: fichePosteId } }
-			);
+				{ where: { id: fichePosteId } },
+			)
 		} catch (err) {
-			errorHandler.catchDataCreationError(
-				err,
-				res,
-				'ficheposte/read/' + fichePosteId
-			);
-			return;
+			errorHandler.catchDataCreationError(err, res, `ficheposte/read/${fichePosteId}`)
+			return
 		}
 	} else if (!isEmptyOrSpaces(req.body.input_update_type)) {
 		try {
@@ -610,15 +511,11 @@ exports.update = async (req, res) => {
 					validationFinance: 0,
 					publicationRH: 0,
 				},
-				{ where: { id: fichePosteId } }
-			);
+				{ where: { id: fichePosteId } },
+			)
 		} catch (err) {
-			errorHandler.catchDataCreationError(
-				err,
-				res,
-				'ficheposte/read/' + fichePosteId
-			);
-			return;
+			errorHandler.catchDataCreationError(err, res, `ficheposte/read/${fichePosteId}`)
+			return
 		}
 	} else if (!isEmptyOrSpaces(req.body.input_update_urgency)) {
 		try {
@@ -629,15 +526,11 @@ exports.update = async (req, res) => {
 					validationFinance: 0,
 					publicationRH: 0,
 				},
-				{ where: { id: fichePosteId } }
-			);
+				{ where: { id: fichePosteId } },
+			)
 		} catch (err) {
-			errorHandler.catchDataCreationError(
-				err,
-				res,
-				'ficheposte/read/' + fichePosteId
-			);
-			return;
+			errorHandler.catchDataCreationError(err, res, `ficheposte/read/${fichePosteId}`)
+			return
 		}
 	} else if (!isEmptyOrSpaces(req.body.input_update_jobDescription)) {
 		try {
@@ -648,15 +541,11 @@ exports.update = async (req, res) => {
 					validationFinance: 0,
 					publicationRH: 0,
 				},
-				{ where: { id: fichePosteId } }
-			);
+				{ where: { id: fichePosteId } },
+			)
 		} catch (err) {
-			errorHandler.catchDataCreationError(
-				err,
-				res,
-				'ficheposte/read/' + fichePosteId
-			);
-			return;
+			errorHandler.catchDataCreationError(err, res, `ficheposte/read/${fichePosteId}`)
+			return
 		}
 	} else if (req.body.input_update_localisation) {
 		try {
@@ -667,35 +556,26 @@ exports.update = async (req, res) => {
 					validationFinance: 0,
 					publicationRH: 0,
 				},
-				{ where: { id: fichePosteId } }
-			);
+				{ where: { id: fichePosteId } },
+			)
 		} catch (err) {
-			errorHandler.catchDataCreationError(
-				err,
-				res,
-				'ficheposte/read/' + fichePosteId
-			);
-			return;
+			errorHandler.catchDataCreationError(err, res, `ficheposte/read/${fichePosteId}`)
+			return
 		}
 	} else if (req.body.input_update_destinationService) {
 		try {
 			await FichePoste.update(
 				{
-					destinationService:
-						req.body.input_update_destinationService,
+					destinationService: req.body.input_update_destinationService,
 					validationRH: 0,
 					validationFinance: 0,
 					publicationRH: 0,
 				},
-				{ where: { id: fichePosteId } }
-			);
+				{ where: { id: fichePosteId } },
+			)
 		} catch (err) {
-			errorHandler.catchDataCreationError(
-				err,
-				res,
-				'ficheposte/read/' + fichePosteId
-			);
-			return;
+			errorHandler.catchDataCreationError(err, res, `ficheposte/read/${fichePosteId}`)
+			return
 		}
 	} else if (req.body.input_update_entryDate) {
 		try {
@@ -706,15 +586,11 @@ exports.update = async (req, res) => {
 					validationFinance: 0,
 					publicationRH: 0,
 				},
-				{ where: { id: fichePosteId } }
-			);
+				{ where: { id: fichePosteId } },
+			)
 		} catch (err) {
-			errorHandler.catchDataCreationError(
-				err,
-				res,
-				'ficheposte/read/' + fichePosteId
-			);
-			return;
+			errorHandler.catchDataCreationError(err, res, `ficheposte/read/${fichePosteId}`)
+			return
 		}
 	} else if (req.body.input_update_endDate) {
 		try {
@@ -725,15 +601,11 @@ exports.update = async (req, res) => {
 					validationFinance: 0,
 					publicationRH: 0,
 				},
-				{ where: { id: fichePosteId } }
-			);
+				{ where: { id: fichePosteId } },
+			)
 		} catch (err) {
-			errorHandler.catchDataCreationError(
-				err,
-				res,
-				'ficheposte/read/' + fichePosteId
-			);
-			return;
+			errorHandler.catchDataCreationError(err, res, `ficheposte/read/${fichePosteId}`)
+			return
 		}
 	} else if (req.body.input_update_experience) {
 		try {
@@ -744,15 +616,11 @@ exports.update = async (req, res) => {
 					validationFinance: 0,
 					publicationRH: 0,
 				},
-				{ where: { id: fichePosteId } }
-			);
+				{ where: { id: fichePosteId } },
+			)
 		} catch (err) {
-			errorHandler.catchDataCreationError(
-				err,
-				res,
-				'ficheposte/read/' + fichePosteId
-			);
-			return;
+			errorHandler.catchDataCreationError(err, res, `ficheposte/read/${fichePosteId}`)
+			return
 		}
 	} else if (req.body.input_update_compensation) {
 		try {
@@ -763,90 +631,86 @@ exports.update = async (req, res) => {
 					validationFinance: 0,
 					publicationRH: 0,
 				},
-				{ where: { id: fichePosteId } }
-			);
+				{ where: { id: fichePosteId } },
+			)
 		} catch (err) {
-			errorHandler.catchDataCreationError(
-				err,
-				res,
-				'ficheposte/read/' + fichePosteId
-			);
-			return;
+			errorHandler.catchDataCreationError(err, res, `ficheposte/read/${fichePosteId}`)
+			return
 		}
 	}
 
-	res.redirect('/ficheposte/read/' + fichePosteId);
-};
+	res.redirect(`/ficheposte/read/${fichePosteId}`)
+}
 
-exports.delete = () => {
-	res.end();
-};
+exports.delete = (req, res) => {
+	res.end()
+}
 
 exports.rhValid = async (req, res, next) => {
-	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 	const updatedRows = await FichePoste.update(
 		{
 			validationRH: 1,
 		},
 		{
 			where: { id: fichePosteId },
-		}
-	);
-	res.redirect('/fichePoste/read/' + fichePosteId);
-};
+		},
+	)
+	res.redirect(`/fichePoste/read/${fichePosteId}`)
+}
 
 exports.rhRefuse = async (req, res, next) => {
-	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 	const updatedRows = await FichePoste.update(
 		{
 			validationRH: 2,
 		},
 		{
 			where: { id: fichePosteId },
-		}
-	);
-	res.redirect('/fichePoste/read/' + fichePosteId);
-};
+		},
+	)
+	res.redirect(`/fichePoste/read/${fichePosteId}`)
+}
 
 exports.rhPublish = async (req, res, next) => {
-	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 	const updatedRows = await FichePoste.update(
 		{
 			publicationRH: 1,
 		},
 		{
 			where: { id: fichePosteId },
-		}
-	);
-	res.redirect('/fichePoste/read/' + fichePosteId);
-};
+		},
+	)
+	res.redirect(`/fichePoste/read/${fichePosteId}`)
+}
 
 exports.financeValid = async (req, res, next) => {
-	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 	const updatedRows = await FichePoste.update(
 		{
 			validationFinance: 1,
 		},
 		{
 			where: { id: fichePosteId },
-		}
-	);
-	res.redirect('/fichePoste/read/' + fichePosteId);
-};
+		},
+	)
+	res.redirect(`/fichePoste/read/${fichePosteId}`)
+}
 
 exports.financeRefuse = async (req, res, next) => {
-	const fichePosteId = parseInt(req.params.fichePosteId, 10);
+	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 	const updatedRows = await FichePoste.update(
 		{
 			validationFinance: 2,
 		},
 		{
 			where: { id: fichePosteId },
-		}
-	);
-	res.redirect('/fichePoste/read/' + fichePosteId);
-};
+		},
+	)
+	res.redirect(`/fichePoste/read/${fichePosteId}`)
+}
 
 function isEmptyOrSpaces(str) {
-	return !str || str === null || str.match(/^ *$/) !== null;
+	return !str || str === null || str.match(/^ *$/) !== null
 }

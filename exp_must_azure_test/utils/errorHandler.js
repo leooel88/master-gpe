@@ -1,6 +1,6 @@
 exports.sendInvalidBodyError = (res, page) => {
-	res.status(400);
-	let params = {
+	res.status(400)
+	const params = {
 		error: [
 			{
 				message: 'Invalid body',
@@ -8,19 +8,19 @@ exports.sendInvalidBodyError = (res, page) => {
 			},
 		],
 		active: page,
-	};
-	res.render(page, params);
-};
+	}
+	res.render(page, params)
+}
 
 exports.catchDataCreationError = (errors, res, page) => {
-	let errorMessage = 'Invalid body :\n';
+	let errorMessage = 'Invalid body :\n'
 	if (Array.isArray(errors)) {
 		errors.forEach((error) => {
-			errorMessage += ' - ' + error.message + '\n';
-		});
+			errorMessage += ` - ${error.message}\n`
+		})
 	} else {
-		errorMessage += ' - ' + errors + '\n';
+		errorMessage += ` - ${errors}\n`
 	}
-	res.status(400);
-	res.redirect('/' + page + '?error=' + errorMessage);
-};
+	res.status(400)
+	res.redirect(`/${page}?error=${errorMessage}`)
+}

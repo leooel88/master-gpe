@@ -1,7 +1,7 @@
-'use strict';
-const { Model } = require('sequelize');
+'use strict'
+const { Model } = require('sequelize')
 
-const phoneValidationRegex = /^(\+33 |0)[1-9]( \d\d){4}$/;
+const phoneValidationRegex = /^(\+33 |0)[1-9]( \d\d){4}$/
 module.exports = (sequelize, DataTypes) => {
 	class Candidature extends Model {
 		/**
@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				validate: {
 					validator: function (v) {
-						const nameFormat = /^[ a-zA-Z\-/']+$/;
-						return nameFormat.test(v);
+						const nameFormat = /^[ a-zA-Z\-/']+$/
+						return nameFormat.test(v)
 					},
 					len: [2, 50],
 				},
@@ -31,8 +31,8 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				validate: {
 					validator: function (v) {
-						const nameFormat = /^[ a-zA-Z\-/']+$/;
-						return nameFormat.test(v);
+						const nameFormat = /^[ a-zA-Z\-/']+$/
+						return nameFormat.test(v)
 					},
 					len: [2, 50],
 				},
@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				validate: {
 					validator: function (v) {
-						return phoneValidationRegex.test(v);
+						return phoneValidationRegex.test(v)
 					},
 				},
 			},
@@ -92,7 +92,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			sequelize,
 			modelName: 'Candidature',
-		}
-	);
-	return Candidature;
-};
+		},
+	)
+	return Candidature
+}
