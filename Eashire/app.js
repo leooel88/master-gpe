@@ -1,20 +1,3 @@
-// import { LogLevel, ConfidentialClientApplication } from '@azure/msal-node'
-// import { urlencoded as _urlencoded } from 'body-parser'
-// import flash from 'connect-flash'
-// import cookieParser from 'cookie-parser'
-// import cors from 'cors'
-// import express, { json, urlencoded, static as Static } from 'express'
-// import session from 'express-session'
-// import logger from 'morgan'
-
-// import { dirname, join } from 'path'
-// import { fileURLToPath } from 'url'
-
-// import { sequelize } from './database/models'
-// import homeRouter from './modules/home/routes/home'
-// import { getEngine, getViews } from './utils/configuration/handlebars'
-// import { setRoutes } from './utils/routes'
-
 const { LogLevel, ConfidentialClientApplication } = require('@azure/msal-node')
 const body_parser = require('body-parser')
 const flash = require('connect-flash')
