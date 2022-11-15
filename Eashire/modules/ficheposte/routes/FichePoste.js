@@ -1,6 +1,7 @@
+const _module = require('@ficheposte')
 const router = require('express-promise-router')()
 
-const fichePoste = require('../controllers/FichePoste.js')
+const fichePoste = _module.controller
 
 router.get('/create', fichePoste.getCreatePage)
 
@@ -27,7 +28,5 @@ router.get('/rhpublish/:fichePosteId', fichePoste.rhPublish)
 router.get('/financevalid/:fichePosteId', fichePoste.financeValid)
 
 router.get('/financerefuse/:fichePosteId', fichePoste.financeRefuse)
-
-router.get
 
 module.exports = router

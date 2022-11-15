@@ -10,4 +10,14 @@ const getModulesPaths = (moduleRoot) =>
 				: `${moduleRoot}/${dirent.name}`,
 		)
 
+const getModules = (moduleRoot) =>
+	fs
+		.readdirSync(moduleRoot, { withFileTypes: true })
+		.filter((dirent) => dirent.isDirectory())
+		.map((dirent) =>
+			moduleRoot.substring(moduleRoot.length - 1) === '/'
+				? { modulePath: moduleRoot + dirent.name, moduleName: dirent.name }
+				: { modulePath: `${moduleRoot}/${dirent.name}`, moduleName: dirent.name },
+		)
 exports.getModulesPaths = getModulesPaths
+exports.getModules = getModules

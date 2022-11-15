@@ -5,18 +5,40 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const express = require('express')
 const session = require('express-session')
+const moduleAlias = require('module-alias')
 const logger = require('morgan')
 
 const { join } = require('path')
-const { fileURLToPath } = require('url')
 
 const db = require('./database/models')
 const homeRouter = require('./modules/home/routes/home')
 const { getEngine, getViews } = require('./utils/configuration/handlebars')
+const moduleManager = require('./utils/modules')
 const routesManager = require('./utils/routes')
 
 require('dotenv').config()
 const app = express()
+
+// =====================================================================
+// ===================== Aliases configuration =========================
+// =====================================================================
+
+moduleAlias.addAliases({
+	'@root': __dirname,
+	'@database': `${__dirname}/database`,
+	'@modules': `${__dirname}/modules`,
+})
+
+const modulePaths = moduleManager.getModules(`${__dirname}/modules`)
+modulePaths.forEach((module) => {
+	moduleAlias.addAlias(`@${module.moduleName}`, `${module.modulePath}/.module`)
+	moduleAlias.addAlias(`@${module.moduleName}Route`, `${module.modulePath}/routes`)
+	moduleAlias.addAlias(`@${module.moduleName}Controller`, `${module.modulePath}/controllers`)
+	moduleAlias.addAlias(`@${module.moduleName}View`, `${module.modulePath}/views`)
+	moduleAlias.addAlias(`@${module.moduleName}Components`, `${module.modulePath}/components`)
+})
+
+// =====================================================================
 
 // =====================================================================
 // ===================== Bodyparser configuration ======================
