@@ -54,16 +54,16 @@ exports.getPage = async (req, res, next) => {
 
 	if (groups.includes('RH')) {
 		console.log('============ RH ============')
-		params.dashboardLink = '/dashboard/rh'
+		params.dashboardLink = '/workspace/rh'
 	} else if (groups.includes('MANAGER')) {
 		console.log('============ MANAGER ============')
-		params.dashboardLink = '/dashboard/manager'
+		params.dashboardLink = '/workspace/manager'
 	} else if (groups.includes('FINANCE')) {
 		console.log('============ FINANCE ============')
-		params.dashboardLink = '/dashboard/finance'
+		params.dashboardLink = '/workspace/finance'
 	} else {
 		console.log('============ DEFAULT ============')
-		params.dashboardLink = '/dashboard/default'
+		params.dashboardLink = '/workspace/default'
 	}
 
 	const userDetails = await graph.getUserDetails(req.app.locals.msalClient, req.session.userId)

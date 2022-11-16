@@ -26,7 +26,9 @@ const app = express()
 moduleAlias.addAliases({
 	'@root': __dirname,
 	'@database': `${__dirname}/database`,
+	'@models': `${__dirname}/database/models`,
 	'@modules': `${__dirname}/modules`,
+	'@utils': `${__dirname}/utils`,
 })
 
 const modulePaths = moduleManager.getModules(`${__dirname}/modules`)
