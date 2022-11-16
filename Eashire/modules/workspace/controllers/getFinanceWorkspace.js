@@ -1,4 +1,4 @@
-const loggerHandler = require('../../../utils/loggerHandler')
+const loggerHandler = require('@utils/loggerHandler')
 
 exports.process = async (req, res, next) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {

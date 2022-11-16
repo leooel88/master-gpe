@@ -1,5 +1,5 @@
-const db = require('../../../database/models')
-const errorHandler = require('../../../utils/errorHandler')
+const db = require('@models')
+const errorHandler = require('@utils/errorHandler')
 
 const { Op } = db.Sequelize
 const { FichePoste } = db

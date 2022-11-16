@@ -1,6 +1,6 @@
-const { FichePoste } = require('../../../database/models')
-const errorHandler = require('../../../utils/errorHandler')
-const loggerHandler = require('../../../utils/loggerHandler')
+const { FichePoste } = require('@models')
+const errorHandler = require('@utils/errorHandler')
+const loggerHandler = require('@utils/loggerHandler')
 
 exports.process = (req, res) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {

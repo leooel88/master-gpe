@@ -1,12 +1,11 @@
+const graph = require('@utils/azureService/graph.js')
+const errorHandler = require('@utils/errorHandler')
+const loggerHandler = require('@utils/loggerHandler')
 const zonedTimeToUtc = require('date-fns-tz/zonedTimeToUtc')
 const addDays = require('date-fns/addDays')
 const formatISO = require('date-fns/formatISO')
 const startOfWeek = require('date-fns/startOfWeek')
 const iana = require('windows-iana')
-
-const graph = require('../../../utils/azureService/graph.js')
-const errorHandler = require('../../../utils/errorHandler')
-const loggerHandler = require('../../../utils/loggerHandler')
 
 exports.getPage = async (req, res, next) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {

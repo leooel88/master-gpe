@@ -1,6 +1,5 @@
 const { FichePoste } = require('@models')
-
-const errorHandler = require('../../../utils/errorHandler')
+const errorHandler = require('@utils/errorHandler')
 
 exports.process = (req, res, next) => {
 	const fichePosteId = parseInt(req.params.fichePosteId, 10)

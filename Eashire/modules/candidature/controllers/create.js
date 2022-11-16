@@ -1,6 +1,5 @@
 const { Candidature } = require('@models')
-
-const errorHandler = require('../../../utils/errorHandler')
+const errorHandler = require('@utils/errorHandler')
 
 exports.process = (req, res) => {
 	console.log('in create candidature')

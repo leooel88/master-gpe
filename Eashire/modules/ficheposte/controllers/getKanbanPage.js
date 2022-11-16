@@ -1,7 +1,7 @@
-const { FichePoste, Candidature } = require('../../../database/models')
-const azureService = require('../../../utils/azureService/graph')
-const errorHandler = require('../../../utils/errorHandler')
-const loggerHandler = require('../../../utils/loggerHandler')
+const { FichePoste, Candidature } = require('@models')
+const azureService = require('@utils/azureService/graph')
+const errorHandler = require('@utils/errorHandler')
+const loggerHandler = require('@utils/loggerHandler')
 
 exports.process = async (req, res, next) => {
 	if (loggerHandler.checkLoggedIn(req, res) === false) {

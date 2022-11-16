@@ -1,4 +1,4 @@
-const { FichePoste } = require('../../../database/models')
+const { FichePoste } = require('@models')
 
 exports.process = async (req, res, next) => {
 	const fichePosteId = parseInt(req.params.fichePosteId, 10)

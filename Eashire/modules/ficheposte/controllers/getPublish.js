@@ -1,5 +1,5 @@
-const { FichePoste } = require('../../../database/models')
-const errorHandler = require('../../../utils/errorHandler')
+const { FichePoste } = require('@models')
+const errorHandler = require('@utils/errorHandler')
 
 exports.process = (req, res, next) => {
 	const result = []
