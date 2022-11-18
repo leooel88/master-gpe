@@ -1,8 +1,8 @@
+const _module = require('@home')
 const express = require('express')
 
 const router = express.Router()
-// const router = require('express-promise-router')();
-const homeController = require('../controllers/home.js')
+const homeController = _module.controller
 
 /* GET home page. */
 router.get('/', function (req, res, next) {

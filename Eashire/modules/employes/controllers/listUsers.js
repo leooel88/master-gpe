@@ -1,8 +1,8 @@
-const url = require('url')
+const azureService = require('@utils/azureService/graph')
+const errorHandler = require('@utils/errorHandler')
+const loggerHandler = require('@utils/loggerHandler')
 
-const azureService = require('../../../utils/azureService/graph')
-const errorHandler = require('../../../utils/errorHandler')
-const loggerHandler = require('../../../utils/loggerHandler')
+const url = require('url')
 
 exports.getListUsers = async (req, res, next) => {
 	const params = {}

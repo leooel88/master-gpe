@@ -1,26 +1,31 @@
 const { FichePoste } = require('@models')
+const azureService = require('@utils/azureService/graph')
 const errorHandler = require('@utils/errorHandler')
+const loggerHandler = require('@utils/loggerHandler')
 
-exports.getPublish = (req, res, next) => {
+exports.process = async (req, res, next) => {
+	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
+		return
+	}
+	let group = ''
+	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
+
+	if (groups.includes('RH')) {
+		group = 'rh'
+	}
+	if (groups.includes('MANAGER')) {
+		group = 'manager'
+	}
+	if (groups.includes('FINANCE')) {
+		group = 'finance'
+	}
+	console.log(group)
 	const result = []
 
-	FichePoste.findAll({
-		where: {
-			publicationRH: 1,
-		},
-	})
+	FichePoste.findAll()
 		.then((foundFichePosteList) => {
 			foundFichePosteList = foundFichePosteList.forEach((fichePoste, index) => {
 				result.push(fichePoste.dataValues)
-				if (result[index].createdAt) {
-					const offset_2 = result[index].createdAt.getTimezoneOffset()
-					result[index].createdAt = new Date(
-						result[index].createdAt.getTime() - offset_2 * 60 * 1000,
-					)
-					result[index].createdAt = result[index].createdAt.toISOString().split('T')[0]
-					console.log('!!!!!', result[index].createdAt)
-				}
-
 				if (index % 2 == 0) {
 					result[index].even = true
 				}
@@ -44,9 +49,16 @@ exports.getPublish = (req, res, next) => {
 			const params = {
 				active: { fichePosteList: true },
 				fichePosteList: result,
-				displayValidationIcons: false,
-				fichePosteListNotNull: result.length > 0 ? 1 : 0,
+				displayValidationIcons: true,
+				group: group,
 			}
+
+			console.log('==================================')
+			console.log('==================================')
+			console.log(params)
+			console.log('==================================')
+			console.log('==================================')
+
 			res.render('fichePosteList', params)
 		})
 		.catch((err) => {

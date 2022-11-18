@@ -1,17 +1,40 @@
-const { FichePoste } = require('@models')
+const { FichePoste, Candidature } = require('@models')
+const azureService = require('@utils/azureService/graph')
 const errorHandler = require('@utils/errorHandler')
+const loggerHandler = require('@utils/loggerHandler')
 
-exports.getPublish = (req, res, next) => {
+exports.process = async (req, res, next) => {
+	if (loggerHandler.checkLoggedIn(req, res) === false) {
+		return
+	}
+	let group = ''
+	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
+
+	if (groups.includes('RH')) {
+		group = 'rh'
+	}
+	if (groups.includes('MANAGER')) {
+		group = 'manager'
+	}
+	if (groups.includes('FINANCE')) {
+		group = 'finance'
+	}
+	console.log(group)
 	const result = []
 
-	FichePoste.findAll({
-		where: {
-			publicationRH: 1,
-		},
-	})
+	FichePoste.findAll()
 		.then((foundFichePosteList) => {
 			foundFichePosteList = foundFichePosteList.forEach((fichePoste, index) => {
 				result.push(fichePoste.dataValues)
+				const idFichePoste = fichePoste.dataValues.id
+				Candidature.count({
+					where: {
+						fichePosteId: idFichePoste,
+					},
+				}).then(function (foundCandidatureList) {
+					result[index].nbCandidature = foundCandidatureList
+				})
+
 				if (result[index].createdAt) {
 					const offset_2 = result[index].createdAt.getTimezoneOffset()
 					result[index].createdAt = new Date(
@@ -44,7 +67,8 @@ exports.getPublish = (req, res, next) => {
 			const params = {
 				active: { fichePosteList: true },
 				fichePosteList: result,
-				displayValidationIcons: false,
+				displayValidationIcons: true,
+				group: group,
 				fichePosteListNotNull: result.length > 0 ? 1 : 0,
 			}
 			res.render('fichePosteList', params)

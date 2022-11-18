@@ -1,7 +1,8 @@
+const _module = require('@candidature')
 const router = require('express-promise-router')()
 const multer = require('multer')
 
-const Candidature = require('../controllers/Candidature.js')
+const Candidature = _module.controller
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -20,8 +21,6 @@ const upload = multer({ storage: storage })
 router.get('/read/:candidatureId', Candidature.getReadPage)
 
 router.get('/list', Candidature.getListPage)
-
-// router.get('/create/test:fichePosteId', Candidature.createTestCandidature);
 
 router.get('/create/:fichePosteId', Candidature.getCreatePage)
 

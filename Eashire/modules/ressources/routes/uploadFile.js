@@ -1,7 +1,8 @@
+const _module = require('@ressources')
 const router = require('express-promise-router')()
 const multer = require('multer')
 
-const uploadFile = require('../controllers/uploadFile.js')
+const uploadFile = _module.controller
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {

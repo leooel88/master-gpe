@@ -1,6 +1,7 @@
+const _module = require('@listUser')
 const router = require('express-promise-router')()
 
-const listUser = require('../controllers/listUsers.js')
+const listUser = _module.controller
 
 router.get('/', listUser.getListUsers)
 
