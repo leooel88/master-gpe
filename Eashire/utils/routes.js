@@ -2,12 +2,15 @@ const fs = require('fs')
 
 const moduleManager = require('./modules')
 
-function setRoutes(app, moduleRoot) {
+function setRoutes(app, moduleRoot, rootModule) {
 	const routesConfig = getRoutesConfig(moduleRoot)
 
 	routesConfig.forEach((routeConfig) => {
 		console.log(routeConfig)
 		app.use(`/${routeConfig.routeName}`, require(routeConfig.routePath))
+		if (routeConfig.routeName === rootModule) {
+			app.use('/', require(routeConfig.routePath))
+		}
 	})
 }
 

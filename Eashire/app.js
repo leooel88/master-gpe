@@ -11,7 +11,6 @@ const logger = require('morgan')
 const { join } = require('path')
 
 const db = require('./database/models')
-const homeRouter = require('./modules/home/routes/home')
 const { getEngine, getViews } = require('./utils/configuration/handlebars')
 const moduleManager = require('./utils/modules')
 const routesManager = require('./utils/routes')
@@ -173,8 +172,7 @@ app.use(
 // ===================== Routes configuration ==========================
 // =====================================================================
 
-routesManager.setRoutes(app, `${__dirname}/modules`)
-app.use('/', homeRouter)
+routesManager.setRoutes(app, `${__dirname}/modules`, 'home')
 
 // =====================================================================
 

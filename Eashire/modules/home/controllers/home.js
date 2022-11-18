@@ -1,8 +1,5 @@
-const db = require('@models')
+const { FichePoste } = require('@models')
 const errorHandler = require('@utils/errorHandler')
-
-const { Op } = db.Sequelize
-const { FichePoste } = db
 
 exports.getPublish = (req, res, next) => {
 	const result = []
