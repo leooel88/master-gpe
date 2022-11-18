@@ -1,6 +1,7 @@
 const fs = require('fs')
 
 function getController() {
+  console.log("===================")
   let result = {}
   const controllersPaths = fs.readdirSync(`${__dirname}/controllers`)
   controllersPaths.forEach(controllerPath => {

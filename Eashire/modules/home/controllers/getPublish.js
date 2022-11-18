@@ -1,7 +1,7 @@
 const { FichePoste } = require('@models')
 const errorHandler = require('@utils/errorHandler')
 
-exports.getPublish = (req, res, next) => {
+exports.process = (req, res, next) => {
 	const result = []
 
 	FichePoste.findAll({

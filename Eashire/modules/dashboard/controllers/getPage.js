@@ -1,13 +1,11 @@
 const graph = require('@utils/azureService/graph.js')
-const errorHandler = require('@utils/errorHandler')
 const loggerHandler = require('@utils/loggerHandler')
 const zonedTimeToUtc = require('date-fns-tz/zonedTimeToUtc')
 const addDays = require('date-fns/addDays')
-const formatISO = require('date-fns/formatISO')
 const startOfWeek = require('date-fns/startOfWeek')
 const iana = require('windows-iana')
 
-exports.getPage = async (req, res, next) => {
+exports.process = async (req, res, next) => {
 	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
 		return
 	}
@@ -88,30 +86,4 @@ exports.getPage = async (req, res, next) => {
 	params.userInfos = userInfos
 
 	res.render('dashboard', params)
-}
-
-exports.getEmployeePage = async (req, res, next) => {
-	const isLoggedIn = loggerHandler.checkLoggedIn(req)
-
-	const { error } = req.query
-	const params = {}
-
-	if (error != null && error.length > 0) {
-		params.error = [{ message: error }]
-	}
-
-	params.organigramme = '/organigramme'
-
-	res.render('employeePage', params)
-	// .catch((err) => {
-	// 	console.log('ERROR : ');
-	// 	console.log(err);
-	// 	errorHandler.catchDataCreationError(
-	// 		err.errors,
-	// 		res,
-	// 		'fichePosteList'
-	// 	);
-	//
-	// 	return;
-	// });
 }

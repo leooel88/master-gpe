@@ -1,4 +1,4 @@
-const _module = require('@listUser')
+const _module = require('@employes')
 const router = require('express-promise-router')()
 
 const listUser = _module.controller

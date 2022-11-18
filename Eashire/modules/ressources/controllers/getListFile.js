@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-exports.getListFile = (req, res) => {
+exports.process = (req, res) => {
 	console.log('list files')
 
 	// Function to get current filenames
@@ -31,31 +31,6 @@ exports.getListFile = (req, res) => {
 				})
 			}
 			res.render('listfile', { files: files })
-		},
-	)
-}
-/*
-exports.deleteFile = (req, res,next) => {
-
-	prouct
-    // include node fs module
-
- 
-// delete file named 'sample.txt'
-fs.unlink('./adminFile/'+req.params.filename, function (err) {
-    if (err) throw err;
-    // if no error, file has been deleted successfully
-    console.log('File deleted!');
-})
-}*/
-exports.deleteFile = (req, res, next) => {
-	fs.unlink(
-		`${__dirname}/../../../public/servedFiles/adminFile/${req.body.filename}`,
-		function (err) {
-			if (err) throw err
-			// if no error, file has been deleted successfully
-			console.log('File deleted!')
-			res.redirect('/listFile')
 		},
 	)
 }

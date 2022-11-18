@@ -1,8 +1,6 @@
 const azureService = require('@utils/azureService/graph')
-const errorHandler = require('@utils/errorHandler')
-const loggerHandler = require('@utils/loggerHandler')
 
-exports.getOrganigrammePage = async (req, res, next) => {
+exports.process = async (req, res, next) => {
 	const params = {}
 
 	const manager = await azureService.getManager(req.app.locals.msalClient, req.session.userId)

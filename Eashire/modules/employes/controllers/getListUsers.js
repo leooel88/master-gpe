@@ -4,7 +4,7 @@ const loggerHandler = require('@utils/loggerHandler')
 
 const url = require('url')
 
-exports.getListUsers = async (req, res, next) => {
+exports.process = async (req, res, next) => {
 	const params = {}
 
 	const users = await azureService.getusers(req.app.locals.msalClient, req.session.userId)
