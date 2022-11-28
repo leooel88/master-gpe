@@ -18,12 +18,6 @@ function getAzureConfig() {
 module.exports = {
 	getPhotoByUpn: async function (msalClient, userId, Upn) {
 		const client = getAuthenticatedClient(msalClient, userId)
-		console.log('================================')
-		console.log('================================')
-		console.log('================================')
-		console.log('================================')
-
-		console.log(Upn)
 		return await client.api(`/users/${Upn}/photo/$value`).get()
 	},
 	getUserDetails: async function (msalClient, userId) {

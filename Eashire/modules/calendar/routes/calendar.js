@@ -1,3 +1,4 @@
+const auth = require('@utils/authentication')
 const graph = require('@utils/azureService/graph.js')
 const zonedTimeToUtc = require('date-fns-tz/zonedTimeToUtc')
 const addDays = require('date-fns/addDays')
@@ -10,7 +11,7 @@ const iana = require('windows-iana')
 // const validator = require('validator');
 
 /* GET /calendar */
-router.get('/', async function (req, res) {
+router.get('/', auth.authenticated, async function (req, res) {
 	if (!req.session.userId) {
 		// Redirect unauthenticated requests to home page
 		res.redirect('/auth/signin')

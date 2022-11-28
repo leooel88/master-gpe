@@ -1,6 +1,5 @@
 const azureService = require('@utils/azureService/graph')
 const errorHandler = require('@utils/errorHandler')
-const loggerHandler = require('@utils/loggerHandler')
 
 const url = require('url')
 

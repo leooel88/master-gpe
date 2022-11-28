@@ -1,15 +1,10 @@
 const graph = require('@utils/azureService/graph.js')
-const loggerHandler = require('@utils/loggerHandler')
 const zonedTimeToUtc = require('date-fns-tz/zonedTimeToUtc')
 const addDays = require('date-fns/addDays')
 const startOfWeek = require('date-fns/startOfWeek')
 const iana = require('windows-iana')
 
 exports.process = async (req, res, next) => {
-	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return
-	}
-
 	const { error } = req.query
 
 	const params = {
@@ -21,19 +16,9 @@ exports.process = async (req, res, next) => {
 
 	// Get the user
 	const user = req.app.locals.users[req.session.userId]
-	// Convert user's Windows time zone ("Pacific Standard Time")
-	// to IANA format ("America/Los_Angeles")
-	console.log(user)
 	const timeZoneId = iana.findIana(user.timeZone)[0]
-	console.log(`Time zone: ${timeZoneId.valueOf()}`)
-
-	// Calculate the start and end of the current week
-	// Get midnight on the start of the current week in the user's timezone,
-	// but in UTC. For example, for Pacific Standard Time, the time value would be
-	// 07:00:00Z
 	const weekStart = zonedTimeToUtc(startOfWeek(new Date()), timeZoneId.valueOf())
 	const weekEnd = addDays(weekStart, 1)
-	console.log(`Start: ${weekStart.toISOString()}`)
 
 	// Get events
 	const events = await graph.getCalendarView(
@@ -50,16 +35,12 @@ exports.process = async (req, res, next) => {
 	const groups = await graph.getMainGroups(req.app.locals.msalClient, req.session.userId)
 
 	if (groups.includes('RH')) {
-		console.log('============ RH ============')
 		params.dashboardLink = '/workspace/rh'
 	} else if (groups.includes('MANAGER')) {
-		console.log('============ MANAGER ============')
 		params.dashboardLink = '/workspace/manager'
 	} else if (groups.includes('FINANCE')) {
-		console.log('============ FINANCE ============')
 		params.dashboardLink = '/workspace/finance'
 	} else {
-		console.log('============ DEFAULT ============')
 		params.dashboardLink = '/workspace/default'
 	}
 

@@ -1,5 +1,7 @@
+const { User } = require('@models')
 const graph = require('@utils/azureService/graph')
 const router = require('express-promise-router')()
+const jwt = require('jsonwebtoken')
 
 /* GET auth callback. */
 router.get('/signin', async function (req, res) {
@@ -30,20 +32,50 @@ router.get('/callback', async function (req, res) {
 
 	try {
 		const response = await req.app.locals.msalClient.acquireTokenByCode(tokenRequest)
+		let userId = response.account.homeAccountId
 
 		// Save the user's homeAccountId in their session
-		req.session.userId = response.account.homeAccountId
+		req.session.userId = userId
 
-		const user = await graph.getUserDetails(
-			req.app.locals.msalClient,
-			response.account.homeAccountId,
+		const userDetails = await graph.getUserDetails(req.app.locals.msalClient, userId)
+
+		const userGroups = await graph.getMainGroups(req.app.locals.msalClient, userId)
+
+		User.findAll({
+			where: { userId: userId },
+		})
+			.then((foundUser) => {
+				if (foundUser && foundUser.length > 0) {
+					;({ userId } = foundUser)
+				} else {
+					throw TypeError()
+				}
+			})
+			.catch((error) => {
+				const user = {
+					userId: userId,
+					displayName: userDetails.displayName,
+					email: userDetails.mail || userDetails.userPrincipalName,
+					rh: userGroups.includes('RH'),
+					manager: userGroups.includes('MANAGER'),
+					finance: userGroups.includes('FINANCE'),
+				}
+
+				User.create(user).then((data) => {
+					;({ userId } = data)
+				})
+			})
+
+		res.cookie(
+			'authToken',
+			jwt.sign({ userId: userId }, 'RANDOM_TOKEN_SECRET', { expiresIn: '24h' }),
 		)
 
 		// Add the user to user storage
 		req.app.locals.users[req.session.userId] = {
-			displayName: user.displayName,
-			email: user.mail || user.userPrincipalName,
-			timeZone: user.mailboxSettings.timeZone,
+			displayName: userDetails.displayName,
+			email: userDetails.mail || userDetails.userPrincipalName,
+			timeZone: userDetails.mailboxSettings.timeZone,
 		}
 	} catch (error) {
 		req.flash('error_msg', {
@@ -68,7 +100,7 @@ router.get('/signout', async function (req, res) {
 			req.app.locals.msalClient.getTokenCache().removeAccount(userAccount)
 		}
 	}
-
+	res.clearCookie('authToken')
 	// Destroy the user's session
 	req.session.destroy(function (err) {
 		res.redirect('/')

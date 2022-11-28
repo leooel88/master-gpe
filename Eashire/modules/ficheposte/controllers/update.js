@@ -1,12 +1,7 @@
 const { FichePoste } = require('@models')
 const errorHandler = require('@utils/errorHandler')
-const loggerHandler = require('@utils/loggerHandler')
 
 exports.process = async (req, res) => {
-	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return
-	}
-
 	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 
 	let foundFichePoste = await FichePoste.findAll({

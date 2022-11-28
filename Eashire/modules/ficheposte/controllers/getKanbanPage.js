@@ -1,12 +1,8 @@
 const { FichePoste, Candidature } = require('@models')
 const azureService = require('@utils/azureService/graph')
 const errorHandler = require('@utils/errorHandler')
-const loggerHandler = require('@utils/loggerHandler')
 
 exports.process = async (req, res, next) => {
-	if (loggerHandler.checkLoggedIn(req, res) === false) {
-		return
-	}
 	let group = ''
 	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
 
@@ -19,7 +15,6 @@ exports.process = async (req, res, next) => {
 	if (groups.includes('FINANCE')) {
 		group = 'finance'
 	}
-	console.log(group)
 	const result = []
 
 	FichePoste.findAll()
@@ -41,7 +36,6 @@ exports.process = async (req, res, next) => {
 						result[index].createdAt.getTime() - offset_2 * 60 * 1000,
 					)
 					result[index].createdAt = result[index].createdAt.toISOString().split('T')[0]
-					console.log('!!!!!', result[index].createdAt)
 				}
 
 				if (index % 2 == 0) {
@@ -74,8 +68,6 @@ exports.process = async (req, res, next) => {
 			res.render('fichePosteList', params)
 		})
 		.catch((err) => {
-			console.log('ERROR : ')
-			console.log(err)
 			errorHandler.catchDataCreationError(err.errors, res, '')
 		})
 }
