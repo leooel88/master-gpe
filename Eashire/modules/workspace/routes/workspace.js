@@ -1,12 +1,13 @@
+const auth = require('@utils/authentication')
 const _module = require('@workspace')
 const router = require('express-promise-router')()
 
 const workspaceController = _module.controller
 
-router.get('/manager', workspaceController.getManagerWorkspace)
-router.get('/finance', workspaceController.getFinanceWorkspace)
-router.get('/rh', workspaceController.getRhWorkspace)
-router.get('/default', function (req, res, next) {
+router.get('/manager', auth.authenticatedManager, workspaceController.getManagerWorkspace)
+router.get('/finance', auth.authenticatedFinance, workspaceController.getFinanceWorkspace)
+router.get('/rh', auth.authenticatedRh, workspaceController.getRhWorkspace)
+router.get('/default', auth.authenticated, function (req, res, next) {
 	const params = {
 		active: { dashboardDefault: true },
 	}

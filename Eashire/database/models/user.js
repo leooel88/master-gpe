@@ -13,32 +13,29 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	User.init(
 		{
-			firstName: {
+			userId: {
 				type: DataTypes.STRING,
-				validate: {
-					isAlpha: true,
-					len: [2, 50],
-				},
 			},
-			lastName: {
+			displayName: {
 				type: DataTypes.STRING,
 				validate: {
-					isAlpha: true,
 					len: [2, 50],
 				},
 			},
 			email: {
 				type: DataTypes.STRING,
 				validate: {
-					isEmail: true,
+					len: [2, 50],
 				},
 			},
-			jobLabel: {
-				type: DataTypes.STRING,
-				validate: {
-					isAlphanumeric: true,
-					len: [1, 50],
-				},
+			rh: {
+				type: DataTypes.BOOLEAN,
+			},
+			manager: {
+				type: DataTypes.BOOLEAN,
+			},
+			finance: {
+				type: DataTypes.BOOLEAN,
 			},
 		},
 		{

@@ -1,10 +1,10 @@
 const { FichePoste } = require('@models')
+const auth = require('@utils/authentication')
 const azureService = require('@utils/azureService/graph')
 const errorHandler = require('@utils/errorHandler')
-const loggerHandler = require('@utils/loggerHandler')
 
 exports.process = async (req, res, next) => {
-	const isLoggedIn = loggerHandler.checkLoggedIn(req)
+	const isLoggedIn = auth.isAuthenticated(req)
 
 	const { error } = req.query
 
@@ -18,7 +18,6 @@ exports.process = async (req, res, next) => {
 
 	if (isLoggedIn === true) {
 		const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
-		console.log(groups)
 		if (groups.includes('RH')) {
 			params.rh = true
 			params.rhValidLink = `/ficheposte/rhvalid/${fichePosteId}`

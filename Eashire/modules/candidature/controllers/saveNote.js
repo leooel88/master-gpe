@@ -1,21 +1,9 @@
 const { Candidature } = require('@models')
 const azureService = require('@utils/azureService/graph')
-const loggerHandler = require('@utils/loggerHandler')
 
 exports.process = async (req, res, next) => {
 	const candidatureId = parseInt(req.params.candidatureId, 10)
 	const newNote = req.body['text-area']
-
-	console.log('=================================')
-	console.log('=================================')
-	console.log('=================================')
-	console.log('=================================')
-	console.log('=================================')
-	console.log(newNote)
-
-	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return
-	}
 
 	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
 

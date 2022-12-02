@@ -1,4 +1,5 @@
 const _module = require('@ressources')
+const auth = require('@utils/authentication')
 const router = require('express-promise-router')()
 const multer = require('multer')
 
@@ -18,8 +19,8 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-router.post('/create', upload.single('document'), uploadFile.create)
-router.get('/', function (req, res, next) {
+router.post('/create', auth.authenticated, upload.single('document'), uploadFile.create)
+router.get('/', auth.authenticated, function (req, res, next) {
 	res.render('uploadFileRh')
 })
 module.exports = router

@@ -1,12 +1,7 @@
 const { FichePoste } = require('@models')
 const errorHandler = require('@utils/errorHandler')
-const loggerHandler = require('@utils/loggerHandler')
 
 exports.process = (req, res) => {
-	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return
-	}
-
 	// Validate request
 	if (
 		isEmptyOrSpaces(req.body.fichePoste_label) ||
@@ -14,7 +9,6 @@ exports.process = (req, res) => {
 		isEmptyOrSpaces(req.body.fichePoste_jobDescription) ||
 		isEmptyOrSpaces(req.body.fichePoste_urgency)
 	) {
-		console.log('OIAEUOZIEUROZEIURZOEIRU')
 		errorHandler.sendInvalidBodyError(res, 'fichePoste')
 		return
 	}

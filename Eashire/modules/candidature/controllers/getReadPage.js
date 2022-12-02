@@ -1,11 +1,8 @@
 const { FichePoste, Candidature } = require('@models')
 const azureService = require('@utils/azureService/graph')
-const loggerHandler = require('@utils/loggerHandler')
 
 exports.process = async (req, res, next) => {
 	const candidatureId = parseInt(req.params.candidatureId, 10)
-
-	const isLoggedIn = loggerHandler.checkLoggedIn(req)
 
 	let params = {}
 
@@ -25,38 +22,31 @@ exports.process = async (req, res, next) => {
 
 	let userParams
 
-	if (isLoggedIn === true) {
-		const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
-		console.log(groups)
+	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
 
-		if (groups.includes('RH')) {
-			userParams = {
-				where: { id: candidatureId },
-			}
-			params.rh = true
-			params.rhValidLink = `/candidature/rhvalid/${candidatureId}`
-			params.rhRefuseLink = `/candidature/rhrefuse/${candidatureId}`
-		} else if (groups.includes('MANAGER')) {
-			userParams = {
-				where: {
-					id: candidatureId,
-					validationRh: 1,
-				},
-			}
-			params.manager = true
-			params.managerValidLink = `/candidature/managervalid/${candidatureId}`
-			params.managerRefuseLink = `/candidature/managerrefuse/${candidatureId}`
-		} else if (groups.includes('FINANCE')) {
-			userParams = {
-				where: { id: candidatureId, validationRh: 1, validationManager: 1 },
-			}
-		} else {
-			res.redirect('/')
+	if (groups.includes('RH')) {
+		userParams = {
+			where: { id: candidatureId },
 		}
-	}
-
-	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return
+		params.rh = true
+		params.rhValidLink = `/candidature/rhvalid/${candidatureId}`
+		params.rhRefuseLink = `/candidature/rhrefuse/${candidatureId}`
+	} else if (groups.includes('MANAGER')) {
+		userParams = {
+			where: {
+				id: candidatureId,
+				validationRh: 1,
+			},
+		}
+		params.manager = true
+		params.managerValidLink = `/candidature/managervalid/${candidatureId}`
+		params.managerRefuseLink = `/candidature/managerrefuse/${candidatureId}`
+	} else if (groups.includes('FINANCE')) {
+		userParams = {
+			where: { id: candidatureId, validationRh: 1, validationManager: 1 },
+		}
+	} else {
+		res.redirect('/')
 	}
 
 	Candidature.findAll(userParams).then(async (foundCandidature) => {
@@ -99,12 +89,10 @@ exports.process = async (req, res, next) => {
 			fichePoste: currentFichePoste[0].dataValues,
 			displayValidationButtons: false,
 			displayQuestions: true,
-			isLoggedIn: isLoggedIn,
+			isLoggedIn: true,
 			imageUrl: `/servedFiles/CV/${foundCandidature[0].dataValues.cv}`,
 			saveNoteLink: `/candidature/savenote/${foundCandidature[0].dataValues.id}`,
 		}
-		console.log('PARAMS ======================')
-		console.log(params)
 		res.render('candidatureRead', params)
 	})
 }

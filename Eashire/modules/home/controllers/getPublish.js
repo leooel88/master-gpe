@@ -18,7 +18,6 @@ exports.process = (req, res, next) => {
 						result[index].createdAt.getTime() - offset_2 * 60 * 1000,
 					)
 					result[index].createdAt = result[index].createdAt.toISOString().split('T')[0]
-					console.log('!!!!!', result[index].createdAt)
 				}
 
 				if (index % 2 == 0) {

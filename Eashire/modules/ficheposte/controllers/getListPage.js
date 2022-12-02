@@ -1,12 +1,8 @@
 const { FichePoste } = require('@models')
 const azureService = require('@utils/azureService/graph')
 const errorHandler = require('@utils/errorHandler')
-const loggerHandler = require('@utils/loggerHandler')
 
 exports.process = async (req, res, next) => {
-	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return
-	}
 	let group = ''
 	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
 
@@ -19,7 +15,6 @@ exports.process = async (req, res, next) => {
 	if (groups.includes('FINANCE')) {
 		group = 'finance'
 	}
-	console.log(group)
 	const result = []
 
 	FichePoste.findAll()
@@ -53,17 +48,9 @@ exports.process = async (req, res, next) => {
 				group: group,
 			}
 
-			console.log('==================================')
-			console.log('==================================')
-			console.log(params)
-			console.log('==================================')
-			console.log('==================================')
-
 			res.render('fichePosteList', params)
 		})
 		.catch((err) => {
-			console.log('ERROR : ')
-			console.log(err)
 			errorHandler.catchDataCreationError(err.errors, res, '')
 		})
 }

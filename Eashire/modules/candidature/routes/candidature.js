@@ -1,4 +1,5 @@
 const _module = require('@candidature')
+const auth = require('@utils/authentication')
 const router = require('express-promise-router')()
 const multer = require('multer')
 
@@ -18,22 +19,22 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-router.get('/read/:candidatureId', Candidature.getReadPage)
+router.get('/read/:candidatureId', auth.authenticatedManagerRh, Candidature.getReadPage)
 
-router.get('/list', Candidature.getListPage)
+router.get('/list', auth.authenticatedManagerRh, Candidature.getListPage)
 
 router.get('/create/:fichePosteId', Candidature.getCreatePage)
 
 router.post('/create', upload.single('candidature_CV'), Candidature.create)
 
-router.get('/rhvalid/:candidatureId', Candidature.rhValid)
+router.get('/rhvalid/:candidatureId', auth.authenticatedRh, Candidature.rhValid)
 
-router.get('/rhrefuse/:candidatureId', Candidature.rhRefuse)
+router.get('/rhrefuse/:candidatureId', auth.authenticatedRh, Candidature.rhRefuse)
 
-router.get('/managervalid/:candidatureId', Candidature.managerValid)
+router.get('/managervalid/:candidatureId', auth.authenticatedManager, Candidature.managerValid)
 
-router.get('/managerrefuse/:candidatureId', Candidature.managerRefuse)
+router.get('/managerrefuse/:candidatureId', auth.authenticatedManager, Candidature.managerRefuse)
 
-router.post('/savenote/:candidatureId', Candidature.saveNote)
+router.post('/savenote/:candidatureId', auth.authenticatedManagerRh, Candidature.saveNote)
 
 module.exports = router

@@ -1,12 +1,7 @@
 const { FichePoste } = require('@models')
 const errorHandler = require('@utils/errorHandler')
-const loggerHandler = require('@utils/loggerHandler')
 
 exports.process = (req, res, next) => {
-	if (loggerHandler.checkLoggedInRedirectSignInIfNot(req, res) === false) {
-		return
-	}
-
 	const fichePoste = {
 		label: 'Architecte',
 		type: 'CDD',
@@ -25,8 +20,6 @@ exports.process = (req, res, next) => {
 	// Save Tutorial in the database
 	FichePoste.create(fichePoste)
 		.then((data) => {
-			console.log(data)
-
 			const fichePoste = {
 				label: 'Chef_d_équipe',
 				type: 'CDI',
