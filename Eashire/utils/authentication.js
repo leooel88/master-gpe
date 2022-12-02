@@ -74,6 +74,29 @@ exports.authenticatedRh = (req, res, next) => {
 	}
 }
 
+exports.authenticatedIt = (req, res, next) => {
+	try {
+		const token = req.cookies.authToken
+		const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET')
+		const { userId } = decodedToken
+		User.findAll({
+			where: { userId: userId },
+		})
+			.then((foundUser) => {
+				if (foundUser && foundUser.length > 0 && foundUser[0] && foundUser[0].it === true) {
+					next()
+				} else {
+					res.redirect('/auth/signin')
+				}
+			})
+			.catch((error) => {
+				res.redirect('/auth/signin')
+			})
+	} catch (error) {
+		res.redirect('/auth/signin')
+	}
+}
+
 exports.authenticatedFinance = (req, res, next) => {
 	try {
 		const token = req.cookies.authToken
@@ -110,6 +133,38 @@ exports.authenticatedManagerRh = (req, res, next) => {
 			.then((foundUser) => {
 				if (foundUser && foundUser.length > 0 && foundUser[0]) {
 					if (foundUser[0].rh === true || foundUser[0].manager === true) {
+						next()
+					} else {
+						res.redirect('/auth/signin')
+					}
+				} else {
+					res.redirect('/auth/signin')
+				}
+			})
+			.catch((error) => {
+				res.redirect('/auth/signin')
+			})
+	} catch (error) {
+		res.redirect('/auth/signin')
+	}
+}
+
+exports.authenticatedManagerRhIt = (req, res, next) => {
+	try {
+		const token = req.cookies.authToken
+		const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET')
+		const { userId } = decodedToken
+
+		User.findAll({
+			where: { userId: userId },
+		})
+			.then((foundUser) => {
+				if (foundUser && foundUser.length > 0 && foundUser[0]) {
+					if (
+						foundUser[0].rh === true ||
+						foundUser[0].manager === true ||
+						foundUser[0].it === true
+					) {
 						next()
 					} else {
 						res.redirect('/auth/signin')

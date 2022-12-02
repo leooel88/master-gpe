@@ -19,9 +19,9 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-router.get('/read/:candidatureId', auth.authenticatedManagerRh, Candidature.getReadPage)
+router.get('/read/:candidatureId', auth.authenticatedManagerRhIt, Candidature.getReadPage)
 
-router.get('/list', auth.authenticatedManagerRh, Candidature.getListPage)
+router.get('/list', auth.authenticatedManagerRhIt, Candidature.getListPage)
 
 router.get('/create/:fichePosteId', Candidature.getCreatePage)
 

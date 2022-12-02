@@ -98,6 +98,9 @@ module.exports = {
 			if (group.displayName == azureConfig.FINANCE_GROUP_NAME) {
 				return 'FINANCE'
 			}
+			if (group.displayName == azureConfig.IT_GROUP_NAME) {
+				return 'IT'
+			}
 			return []
 		})
 		return result
@@ -127,6 +130,15 @@ module.exports = {
 
 		return allGroups.value.some(function (group) {
 			return group.displayName == azureConfig.MANAGER_GROUP_NAME
+		})
+	},
+	isIt: async function (msalClient, userId) {
+		const azureConfig = getAzureConfig()
+
+		const allGroups = await this.getGroups(msalClient, userId)
+
+		return allGroups.value.some(function (group) {
+			return group.displayName == azureConfig.IT_GROUP_NAME
 		})
 	},
 	getCalendarView: async function (msalClient, userId, start, end, timeZone, nbrEvent) {

@@ -59,6 +59,7 @@ router.get('/callback', async function (req, res) {
 					rh: userGroups.includes('RH'),
 					manager: userGroups.includes('MANAGER'),
 					finance: userGroups.includes('FINANCE'),
+					it: userGroups.includes('IT'),
 				}
 
 				User.create(user).then((data) => {
