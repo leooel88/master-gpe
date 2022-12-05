@@ -1,58 +1,16 @@
 <div>
 	<div class="absolute z-10 w-full">
-		<img src="images/home/page-accueil.jpg" class="opacity-30 w-full"></img>
+		{{>HomeBackgroundImage}}
 	</div>
 	<div class="absolute z-20 w-full">
 		<div class="">
 			{{#if createdCandidature}}
-				<div class="w-full bg-blue-900 p-6">
-					<p class="w-fit m-auto">
-						Votre candidature a bien étée transmise. Merci !
-					</p>
-				</div>
+				{{>CreatedCandidatureBanner}}
 			{{/if}}
 			{{#if user}}
-				<div class="w-fit m-auto mt-4">
-					<h1 class="text-5xl font-semibold">Bienvenue sur votre page {{user.displayName}}</h1>
-				</div>
-
-				<div class="w-full mt-16">
-					<div class="flex flex-row">
-						<div class="grow w-fit p-14">
-							<div class="text-xl font-medium">
-								Qu'allez vous retrouver ici :</br></br>
-								<li>
-									Vos documents administratifs
-								</li>
-								<li>
-									De la documentation pour vous lancer dans votre nouveau poste
-								</li>
-								<li>
-									Votre équipe qui sont vos collègues
-								</li>
-								<li>
-									Les récapitulatifs de vos EAP
-								</li>
-								<li>
-									Les ressources entreprises
-								</li>
-								<li>
-									Le contact de votre Buddy
-								</li>
-								<li>
-									Les pauses café
-								</li>
-							</div>
-						</div>
-					</div>
-				</div>
+				{{>AuthHome}}
 			{{else}}
-				<div class="w-fit m-auto mt-4">
-					<h1 class="text-5xl font-semibold">Bienvenue sur Eashire</h1>
-				</div>
-				<div class="w-fit m-auto mt-16">
-					{{>button1 href='/auth/signin' title='Me connecter'}}
-				</div>
+				{{>BaseHome}}
 			{{/if}}
 		</div>
 	</div>
