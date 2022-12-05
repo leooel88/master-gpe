@@ -37,6 +37,9 @@ module.exports = (sequelize, DataTypes) => {
 			finance: {
 				type: DataTypes.BOOLEAN,
 			},
+			it: {
+				type: DataTypes.BOOLEAN,
+			},
 		},
 		{
 			sequelize,

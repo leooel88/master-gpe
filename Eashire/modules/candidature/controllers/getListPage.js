@@ -18,6 +18,11 @@ exports.process = async (req, res, next) => {
 		userParams = {
 			where: { validationRh: 1, validationManager: 1 },
 		}
+	} else if (groups.includes('IT')) {
+		userRole = 'it'
+		userParams = {
+			where: { validationRh: 1, validationManager: 1 },
+		}
 	} else if (groups.includes('MANAGER')) {
 		userParams = {
 			where: { validationRh: 1 },

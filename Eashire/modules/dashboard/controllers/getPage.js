@@ -34,12 +34,14 @@ exports.process = async (req, res, next) => {
 
 	const groups = await graph.getMainGroups(req.app.locals.msalClient, req.session.userId)
 
-	if (groups.includes('RH')) {
+	if (groups.includes('FINANCE')) {
+		params.dashboardLink = '/workspace/finance'
+	} else if (groups.includes('IT')) {
+		params.dashboardLink = '/workspace/it'
+	} else if (groups.includes('RH')) {
 		params.dashboardLink = '/workspace/rh'
 	} else if (groups.includes('MANAGER')) {
 		params.dashboardLink = '/workspace/manager'
-	} else if (groups.includes('FINANCE')) {
-		params.dashboardLink = '/workspace/finance'
 	} else {
 		params.dashboardLink = '/workspace/default'
 	}
