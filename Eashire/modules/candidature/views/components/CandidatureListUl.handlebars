@@ -1,0 +1,9 @@
+<div
+    class='grow p-4 max-w-3xl bg-slate-800 rounded-lg border shadow-md sm:p-6'
+  >
+    <ul class='my-4 space-y-3'>
+      {{#each candidature_list}}
+        {{>CandidatureListItem candidature_item=this}}
+      {{/each}}
+    </ul>
+  </div>
