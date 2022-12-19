@@ -3,71 +3,22 @@
 	</div>
 
 	<div class="w-fit m-auto">
-		{{>linkButton4 href='/listFile' title='Voir la liste des ressources' svg="<svg xmlns='http://www.w3.org/2000/svg' class='w-6 h-6' fill='currentColor' viewBox='0 0 20 20'><path d='M9 2a1 1 0 000 2h2a1 1 0 100-2H9z'></path>
-			<path fill-rule='evenodd' d='M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z' clip-rule='evenodd'></path></svg>"
-		}}
+		{{>linkButton4 href='/listFile' title='Voir la liste des ressources' svg='clipboard-document-check-solid'}}
 	</div>
 
 	<div class='mx-24 px-20'>
 		<form action='/uploadFile/create' method='post' enctype='multipart/form-data'>
-			<div class='relative z-0 mb-6 w-full group'>
-				<input
-					type='text'
-					name='titre'
-					id='titre'
-					class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer'
-					placeholder=' '
-					required
-				/>
-				<label
-					for='titre'
-					class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-				>Nom de la ressource</label>
-			</div>
-			<div class='relative z-0 mb-6 w-full group'>
-				<input
-					type='text'
-					name='description'
-					id='description'
-					class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer'
-					placeholder=''
-					required
-				/>
-				<label
-					for='description'
-					class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-				>Description</label>
-			</div>
-			<div class='relative z-0 mb-6 w-full group'>
-				<input
-					type='text'
-					name='tag'
-					id='tag'
-					class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer'
-					placeholder=''
-					required
-				/>
-				<label
-					for='tag'
-					class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
-				>Tag</label>
-			</div>
-			<div>
-				<label
-					class='block mb-2 text-sm font-medium text-gray-300'
-					for='document'
-				>Document</label>
-				<input
-					class='block w-full text-sm text-gray-400 bg-gray-700 rounded-lg border border-gray-600 cursor-pointer focus:outline-none placeholder-gray-400'
-					name='document'
-					id='document'
-					type='file'
-				/>
-			</div>
+			{{>RessourceNameFormInput}}
+
+			{{>RessourceDescriptionFormInput}}
+			
+			{{>RessourceTagFormInput}}
+
+			{{>RessourceDocumentFormInput}}
 
 			<div class="flex mt-6">
 				<div class="w-fit m-auto">
-					<input type='submit' value='Créer la ressource' class='cursor-pointer flex items-center p-3 text-base font-bold text-orange-400 border-solid border border-orange-400 rounded-lg hover:bg-slate-800/50 group hover:shadow'/>
+					{{>FormButton1 button_text="Créer la ressource"}}
 				</div>
 			</div>
 		</form>

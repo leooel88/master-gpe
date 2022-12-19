@@ -32,20 +32,6 @@ exports.process = async (req, res, next) => {
 
 	params.events = events
 
-	const groups = await graph.getMainGroups(req.app.locals.msalClient, req.session.userId)
-
-	if (groups.includes('FINANCE')) {
-		params.dashboardLink = '/workspace/finance'
-	} else if (groups.includes('IT')) {
-		params.dashboardLink = '/workspace/it'
-	} else if (groups.includes('RH')) {
-		params.dashboardLink = '/workspace/rh'
-	} else if (groups.includes('MANAGER')) {
-		params.dashboardLink = '/workspace/manager'
-	} else {
-		params.dashboardLink = '/workspace/default'
-	}
-
 	const userDetails = await graph.getUserDetails(req.app.locals.msalClient, req.session.userId)
 	const date = new Date(userDetails.employeeHireDate)
 	const year = date.getFullYear()

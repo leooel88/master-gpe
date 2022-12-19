@@ -8,10 +8,7 @@
 </div>
 
 <div class="w-fit m-auto">
-	{{>linkButton4 href='/ficheposte/list' title='Voir les fiches de postes'
-            svg="<svg xmlns='http://www.w3.org/2000/svg' class='w-6 h-6' fill='currentColor' viewBox='0 0 20 20'><path d='M9 2a1 1 0 000 2h2a1 1 0 100-2H9z'></path>
-		<path fill-rule='evenodd' d='M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z' clip-rule='evenodd'></path></svg>"
-	}}
+	{{>linkButton4 href='/ficheposte/list' title='Voir les fiches de postes' svg="clipboard-document-check-solid"}}
 </div>
 
 <div class='mx-20 px-10'>
@@ -22,109 +19,41 @@
 				<input type='text' id='fichePoste_label' name='fichePoste_label' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
 			</div>
 
-			<div class='relative z-0 mb-6 mt-6 w-full group'>
-				<label for='fichePoste_type' class="block mb-2 text-sm font-medium text-gray-400">Type d'emploi</label>
-				<select name='fichePoste_type' id='fichePoste_type' class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400">
-					<option value='prestation'>Prestation</option>
-					<option value='cdi'>CDI</option>
-					<option value='cdd'>CDD</option>
-					<option value='alternance'>Alternance</option>
-					<option value='stage'>Stage</option>
-				</select>
-			</div>
+			{{>JobTypeFormInput}}
 		</div>
 
-		<div class='relative z-0 mb-6 mt-6 w-full group'>
-			<label for="fichePoste_experience" class="block mb-2 text-sm font-medium text-gray-400">Experience</label>
-			<textarea id="fichePoste_experience" name="fichePoste_experience" rows="5" cols="33" class="block p-2.5 w-full text-sm text-white bg-gray-700 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400" placeholder="Ecrivez ici l'experience demandée.."></textarea>
-		</div>
+		{{>ExperienceFormInput}}
 
-		<div class='relative z-0 mb-6 mt-6 w-full group'>
-			<label for="fichePoste_entryDate">Date de recrutement</label>
-			<input type="date" id="fichePoste_entryDate" name="fichePoste_entryDate" class="text-gray-600"
-			{{#if currentDate}}
-			value={{currentDate}} min={{currentDate}}
-			{{else}}
-			value="2022-07-04"
-			{{/if}}
-			>
-			<input type="checkbox" id="fichePoste_entryDate_use" name="fichePoste_entryDate_use">
-			<label for="fichePoste_entryDate_use">Utiliser la date de recrutement</label>
-		</div>
+		{{>StartDateFormInput}}
 		
 
-		<div class='relative z-0 mb-6 mt-6 w-full group'>
-			<label for="fichePoste_endDate">Date de fin de contrat</label>
-			<input type="date" id="fichePoste_endDate" name="fichePoste_endDate" class="text-gray-600"
-			{{#if currentDate}}
-			value={{currentDate}} min={{currentDate}}
-			{{else}}
-			value="2022-07-04"
-			{{/if}}
-			>
-			<input type="checkbox" id="fichePoste_endDate_use" name="fichePoste_endDate_use">
-			<label for="fichePoste_endDate_use">Utiliser la date de fin de contrat</label>
-		</div>
+		{{>EndDateFormInput}}
 
 		<div class='grid md:grid-cols-2 md:gap-6'>
-			<div class='relative z-0 mb-6 mt-6 w-full group'>
-				<label for='fichePoste_localisation' class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Localisation de l'emploi</label>
-				<input type='text' id='fichePoste_localisation' name='fichePoste_localisation' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer'/>
-			</div>
+			{{>LocationFormInput}}
 
-			<div class='relative z-0 mb-6 mt-6 w-full group'>
-				<label for='fichePoste_destinationService' class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Service de destination</label>
-				<input type='text' id='fichePoste_destinationService' name='fichePoste_destinationService' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer'/>
-			</div>
+			{{>ServiceFormInput}}
+			
 		</div>
 
-		<div class='relative z-0 mb-6 mt-6 w-full group'>
-			<label for="fichePoste_jobDescription" class="block mb-2 text-sm font-medium text-gray-400">Description de l'emploi</label>
-			<textarea id="fichePoste_jobDescription" name="fichePoste_jobDescription" rows="5" cols="33" class="block p-2.5 w-full text-sm text-white bg-gray-700 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400" placeholder="Ecrivez ici la description de l'emploi..." required></textarea>
-		</div>
+		{{>DescriptionFormInput}}
 
-		<div class='relative z-0 mb-6 mt-6 w-full group'>
-			<label for='fichePoste_compensation' class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Rémunération</label>
-			<input type='text' id='fichePoste_compensation' name='fichePoste_compensation' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer'/>
-		</div>
+		{{>SalaryFormInput}}
 
 		<p>Questions à poser pour la sélection des candidatures</p>
 		</br>
 
-		<div class='relative z-0 mb-6 mt-6 w-full group'>
-			<label for='fichePoste_question1' class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Question 1</label>
-			<input type='text' id='fichePoste_question1' name='fichePoste_question1' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer'/>
-		</div>
+		{{>QuestionFormInput label='fichePoste_question1' id='fichePoste_question1' name='fichePoste_question1' text='Question 1'}}
 
-		<div class='relative z-0 mb-6 mt-6 w-full group'>
-			<label for='fichePoste_question2' class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Question 2</label>
-			<input type='text' id='fichePoste_question2' name='fichePoste_question2' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer'/>
-		</div>
+		{{>QuestionFormInput label='fichePoste_question2' id='fichePoste_question2' name='fichePoste_question2' text='Question 2'}}
 
-		<div class='relative z-0 mb-6 mt-6 w-full group'>
-			<label for='fichePoste_question3' class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Question 3</label>
-			<input type='text' id='fichePoste_question3' name='fichePoste_question3' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer'/>
-		</div>
+		{{>QuestionFormInput label='fichePoste_question3' id='fichePoste_question3' name='fichePoste_question3' text='Question 3'}}
 
-		<div class='relative z-0 mb-6 mt-6 w-full group'>
-			<label for='fichePoste_question4' class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Question 4</label>
-			<input type='text' id='fichePoste_question4' name='fichePoste_question4' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer'/>
-		</div>
+		{{>QuestionFormInput label='fichePoste_question4' id='fichePoste_question4' name='fichePoste_question4' text='Question 4'}}
 
-		<div class='relative z-0 mb-6 mt-6 w-full group'>
-			<label for='fichePoste_question5' class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Question 5</label>
-			<input type='text' id='fichePoste_question5' name='fichePoste_question5' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer'/>
-		</div>
+		{{>QuestionFormInput label='fichePoste_question4' id='fichePoste_question5' name='fichePoste_question5' text='Question 5'}}
 
-		<div class='relative z-0 mb-6 mt-6 w-full group'>
-			<label for='fichePoste_urgency' class="block mb-2 text-sm font-medium text-gray-400">Niveau d'urgence</label>
-			<select name='fichePoste_urgency' id='fichePoste_urgency' class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400">
-				<option value='NON-URGENT'>NON-URGENT</option>
-				<option value='PEU-URGENT'>PEU-URGENT</option>
-				<option value='URGENT'>URGENT</option>
-				<option value='TRES-URGENT'>TRES-URGENT</option>
-			</select>
-		</div>
+		{{>UrgencyFormInput}}
 		
 		{{>FormButton1 button_text="Créer la fiche de poste"}}
 	</form>

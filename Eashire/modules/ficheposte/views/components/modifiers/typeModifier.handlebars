@@ -1,0 +1,44 @@
+{{! TYPE MODIFIER }}
+<div
+	id='modifier-type'
+	class='self-center z-10 absolute rounded bg-slate-700 p-6 drop-shadow-lg flex flex-col items-center justify-center'
+>
+	<div class='relative mb-6'>
+		<div
+			class='flex absolute inset-y-0 left-0 pl-3 items-center pointer-events-none'
+		>
+			{{> briefcase-solid class='w-5 h-5 text-gray-400'}}
+		</div>
+		<form
+			action={{updateLink}}
+			method='post'
+			id='form-update-type'
+			class='h-fit m-0 w-fit'
+		>
+			<select
+				id='input_update_type'
+				name='input_update_type'
+				class='border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 bg-gray-700 border-gray-600 text-white'
+			>
+				<option value='prestation'>Prestation</option>
+				<option value='cdi'>CDI</option>
+				<option value='cdd'>CDD</option>
+				<option value='alternance'>Alternance</option>
+				<option value='stage'>Stage</option>
+			</select>
+		</form>
+
+	</div>
+	<div class='grow flex justify-center gap-2'>
+		<a
+			class='update-button flex items-center p-2 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow hover:cursor-pointer'
+		>
+			<span class='flex-1 whitespace-nowrap'>Modifier</span>
+		</a>
+		<a
+			class='cancel-button flex items-center p-2 text-base font-bold text-white bg-red-700 rounded-lg hover:bg-red-600 group hover:shadow hover:cursor-pointer'
+		>
+			<span class='flex-1 whitespace-nowrap'>Annuler</span>
+		</a>
+	</div>
+</div>

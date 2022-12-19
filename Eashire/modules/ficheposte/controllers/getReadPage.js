@@ -84,8 +84,6 @@ exports.process = async (req, res, next) => {
 			res.render('fichePosteRead', params)
 		})
 		.catch((err) => {
-			console.log('ERROR : ')
-			console.log(err)
 			errorHandler.catchDataCreationError(err.errors, res, 'fichePosteList')
 		})
 }

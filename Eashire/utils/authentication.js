@@ -1,6 +1,16 @@
 const { User } = require('@models')
 const jwt = require('jsonwebtoken')
 
+exports.getTokenInfo = (req) => {
+	try {
+		const token = req.cookies.authToken
+		const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET')
+		return decodedToken
+	} catch (error) {
+		return {}
+	}
+}
+
 exports.authenticated = (req, res, next) => {
 	try {
 		const token = req.cookies.authToken

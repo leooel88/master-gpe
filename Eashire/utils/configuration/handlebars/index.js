@@ -26,13 +26,13 @@ function getConfig(moduleRoot) {
 		layouts: layoutsManager.getLayouts(moduleRoot, [`${__dirname}/../../../views/layouts`]),
 		partials: partialsManager.getPartials(moduleRoot, [
 			`${__dirname}/../../../views/components/`,
-			`${__dirname}/../../../views/components/buttons`,
-			`${__dirname}/../../../views/components/buttons/formButtons`,
-			`${__dirname}/../../../views/components/buttons/linkButtons`,
-			`${__dirname}/../../../views/components/buttons/linkButtons/linkButtonsNormal`,
-			`${__dirname}/../../../views/components/buttons/linkButtons/linkButtonsSmall`,
-			`${__dirname}/../../../views/components/svg/outline`,
-			`${__dirname}/../../../views/components/svg/solid`,
+			// `${__dirname}/../../../views/components/buttons`,
+			// `${__dirname}/../../../views/components/buttons/formButtons`,
+			// `${__dirname}/../../../views/components/buttons/linkButtons`,
+			// `${__dirname}/../../../views/components/buttons/linkButtons/linkButtonsNormal`,
+			// `${__dirname}/../../../views/components/buttons/linkButtons/linkButtonsSmall`,
+			// `${__dirname}/../../../views/components/svg/outline`,
+			// `${__dirname}/../../../views/components/svg/solid`,
 		]),
 	}
 }
