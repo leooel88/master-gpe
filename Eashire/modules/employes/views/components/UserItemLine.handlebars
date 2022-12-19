@@ -1,0 +1,9 @@
+<div class="flex gap-6">
+  {{> (lookup . 'svg')}}
+
+  {{#if text}}
+    <p>{{text}}</p>
+  {{else}}
+    Non renseigné
+  {{/if}}
+</div>

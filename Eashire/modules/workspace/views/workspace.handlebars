@@ -1,0 +1,36 @@
+<div class="m-4">
+	{{>returnButton route="/dashboard"}}
+</div>
+<aside class='relative top-6 w-fit m-auto' aria-label='Sidebar'>
+	<div class='overflow-y-auto py-4 px-3 bg-slate-800 rounded'>
+		<ul class='space-y-2 mx-6 ml-2'>
+      {{#if rh}}
+        {{>WorkspaceItem href="/ficheposte/list" text='Fiches de poste' notif_number='0' svg='clipboard-document-check-solid'}}
+      {{else}}
+        {{#if manager}}
+          {{>WorkspaceItem href="/ficheposte/list" text='Fiches de poste' notif_number='0' svg='clipboard-document-check-solid'}}
+        {{else}}
+          {{#if finance}}
+            {{>WorkspaceItem href="/ficheposte/list" text='Fiches de poste' notif_number='0' svg='clipboard-document-check-solid'}}
+          {{/if}}
+        {{/if}}
+      {{/if}}
+      
+      {{#if rh}}
+        {{>WorkspaceItem href="/candidature/list" text="Candidatures" notif_number='0' svg='academic-cap-solid'}}
+      {{else}}
+        {{#if manager}}
+          {{>WorkspaceItem href="/candidature/list" text="Candidatures" notif_number='0' svg='academic-cap-solid'}}
+        {{else}}
+          {{#if it}}
+            {{>WorkspaceItem href="/candidature/list" text="Candidatures" notif_number='0' svg='academic-cap-solid'}}
+          {{/if}}
+        {{/if}}
+      {{/if}}
+
+      {{>WorkspaceItem href="/listUser" text="Mon équipe" notif_number='0' svg='user-group-solid'}}
+
+      {{>WorkspaceItem href="/uploadFile" text="Mes ressources d'entreprise" notif_number='0' svg='archive-box-solid'}}
+		</ul>
+	</div>
+</aside>

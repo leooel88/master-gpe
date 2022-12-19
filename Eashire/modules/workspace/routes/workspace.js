@@ -4,16 +4,6 @@ const router = require('express-promise-router')()
 
 const workspaceController = _module.controller
 
-router.get('/manager', auth.authenticatedManager, workspaceController.getManagerWorkspace)
-router.get('/finance', auth.authenticatedFinance, workspaceController.getFinanceWorkspace)
-router.get('/rh', auth.authenticatedRh, workspaceController.getRhWorkspace)
-router.get('/it', auth.authenticatedIt, workspaceController.getItWorkspace)
-router.get('/default', auth.authenticated, function (req, res, next) {
-	const params = {
-		active: { dashboardDefault: true },
-	}
-
-	res.render('dashboardDefault', params)
-})
+router.get('/workspace', auth.authenticated, workspaceController.getWorkspacePage)
 
 module.exports = router

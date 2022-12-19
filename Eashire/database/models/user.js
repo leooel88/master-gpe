@@ -15,30 +15,41 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			userId: {
 				type: DataTypes.STRING,
+				allowNull: false,
 			},
 			displayName: {
 				type: DataTypes.STRING,
+				allowNull: false,
 				validate: {
 					len: [2, 50],
 				},
 			},
 			email: {
 				type: DataTypes.STRING,
+				allowNull: false,
 				validate: {
 					len: [2, 50],
 				},
 			},
 			rh: {
 				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: false,
 			},
 			manager: {
 				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: false,
 			},
 			finance: {
 				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: false,
 			},
 			it: {
 				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: false,
 			},
 		},
 		{

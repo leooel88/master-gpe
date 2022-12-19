@@ -1,0 +1,12 @@
+<div class='relative z-0 mb-6 mt-6 w-full group'>
+  <label for="fichePoste_endDate">Date de fin de contrat</label>
+  <input type="date" id="fichePoste_endDate" name="fichePoste_endDate" class="text-gray-600"
+  {{#if currentDate}}
+    value={{currentDate}} min={{currentDate}}
+  {{else}}
+    value="2022-07-04"
+  {{/if}}
+  >
+  <input type="checkbox" id="fichePoste_endDate_use" name="fichePoste_endDate_use">
+  <label for="fichePoste_endDate_use">Utiliser la date de fin de contrat</label>
+</div>

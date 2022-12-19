@@ -1,0 +1,21 @@
+{{#compare validation 0 operator='=='}}
+  <div
+    class='bg-slate-300 rounded p-2'
+  >RH</div>
+{{else}}
+  {{#compare validation 1 operator='=='}}
+    <div
+      class='bg-green-400 rounded p-2'
+    >
+      RH
+    </div>
+  {{else}}
+    {{#compare validation 2 operator='=='}}
+      <div
+        class='bg-red-400 rounded p-2'
+      >
+        RH
+      </div>
+    {{/compare}}
+  {{/compare}}
+{{/compare}}

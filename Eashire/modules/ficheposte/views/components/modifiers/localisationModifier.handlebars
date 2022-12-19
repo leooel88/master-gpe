@@ -1,0 +1,40 @@
+{{! LOCALISATION MODIFIER }}
+<div
+	id='modifier-localisation'
+	class='self-center z-10 absolute rounded bg-slate-700 p-6 drop-shadow-lg flex flex-col items-center justify-center'
+>
+	<div class='relative mb-6'>
+		<div
+			class='flex absolute inset-y-0 left-0 pl-3 items-center pointer-events-none'
+		>
+			{{> map-pin-solid class='w-5 h-5 text-gray-400'}}
+		</div>
+		<form
+			action={{updateLink}}
+			method='post'
+			id='form-update-localisation'
+			class='h-fit m-0'
+		>
+			<input
+				type='text'
+				id='input_update_localisation'
+				name='input_update_localisation'
+				class='border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 bg-gray-700 border-gray-600 text-white'
+				placeholder='name@flowbite.com'
+			/>
+		</form>
+
+	</div>
+	<div class='grow flex justify-center gap-2'>
+		<a
+			class='update-button flex items-center p-2 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow hover:cursor-pointer'
+		>
+			<span class='flex-1 whitespace-nowrap'>Modifier</span>
+		</a>
+		<a
+			class='cancel-button flex items-center p-2 text-base font-bold text-white bg-red-700 rounded-lg hover:bg-red-600 group hover:shadow hover:cursor-pointer'
+		>
+			<span class='flex-1 whitespace-nowrap'>Annuler</span>
+		</a>
+	</div>
+</div>

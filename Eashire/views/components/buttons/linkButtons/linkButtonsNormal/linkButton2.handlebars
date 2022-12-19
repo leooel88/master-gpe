@@ -3,7 +3,11 @@
 	class='flex items-center p-3 text-base font-bold text-white bg-blue-900 rounded-lg hover:bg-blue-700 group hover:shadow'
 >
 	{{#if svg}}
-		{{{svg}}}
+		{{#if svg_class}}
+			{{> (lookup . 'svg') class=svg_class}}
+		{{else}}
+			{{> (lookup . 'svg')}}
+		{{/if}}
 		<span class='flex-1 whitespace-nowrap ml-3'>{{title}}</span>
 	{{else}}
 		<span class='flex-1 whitespace-nowrap'>{{title}}</span>
