@@ -69,7 +69,16 @@ router.get('/callback', async function (req, res) {
 
 		res.cookie(
 			'authToken',
-			jwt.sign({ userId: userId }, 'RANDOM_TOKEN_SECRET', { expiresIn: '24h' }),
+			jwt.sign(
+				{
+					userId: userId,
+					rh: userGroups.includes('RH'),
+					manager: userGroups.includes('MANAGER'),
+					finance: userGroups.includes('FINANCE'),
+				},
+				'RANDOM_TOKEN_SECRET',
+				{ expiresIn: '24h' },
+			),
 		)
 
 		// Add the user to user storage
