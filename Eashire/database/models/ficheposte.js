@@ -137,6 +137,11 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: true,
 				defaultValue: null,
 			},
+			financeId: {
+				type: DataTypes.STRING,
+				allowNull: true,
+				defaultValue: null,
+			},
 		},
 		{
 			sequelize,
