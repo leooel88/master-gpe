@@ -2,6 +2,7 @@ const { FichePoste } = require('@models')
 const auth = require('@utils/authentication')
 const azureService = require('@utils/azureService/graph')
 const errorHandler = require('@utils/errorHandler')
+const jwt = require('jsonwebtoken')
 
 exports.process = async (req, res, next) => {
 	const isLoggedIn = auth.isAuthenticated(req)
@@ -9,6 +10,9 @@ exports.process = async (req, res, next) => {
 	const { error } = req.query
 
 	const fichePosteId = parseInt(req.params.fichePosteId, 10)
+
+	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
+	const { userId, rh: isRh, manager: isManager, finance: isFinance } = decodedToken
 
 	const params = {}
 
@@ -38,52 +42,60 @@ exports.process = async (req, res, next) => {
 			id: fichePosteId,
 		},
 	})
-		.then((foundFichePoste) => {
-			if (foundFichePoste[0].dataValues.entryDate) {
-				const offset_1 = foundFichePoste[0].dataValues.entryDate.getTimezoneOffset()
-				foundFichePoste[0].dataValues.entryDate = new Date(
-					foundFichePoste[0].dataValues.entryDate.getTime() - offset_1 * 60 * 1000,
-				)
-				foundFichePoste[0].dataValues.entryDate = foundFichePoste[0].dataValues.entryDate
-					.toISOString()
-					.split('T')[0]
+		.then(async (foundFichePoste) => {
+			const fichePosteData = foundFichePoste[0].dataValues
+			if (isRh == true && fichePosteData.rhId == null) {
+				await saveRh(fichePosteData.id, userId)
 			}
 
-			if (foundFichePoste[0].dataValues.endDate) {
-				const offset_2 = foundFichePoste[0].dataValues.endDate.getTimezoneOffset()
-				foundFichePoste[0].dataValues.endDate = new Date(
-					foundFichePoste[0].dataValues.endDate.getTime() - offset_2 * 60 * 1000,
+			if (fichePosteData.entryDate) {
+				const offset_1 = fichePosteData.entryDate.getTimezoneOffset()
+				fichePosteData.entryDate = new Date(
+					fichePosteData.entryDate.getTime() - offset_1 * 60 * 1000,
 				)
-				foundFichePoste[0].dataValues.endDate = foundFichePoste[0].dataValues.endDate
-					.toISOString()
-					.split('T')[0]
+				fichePosteData.entryDate = fichePosteData.entryDate.toISOString().split('T')[0]
+			}
+
+			if (fichePosteData.endDate) {
+				const offset_2 = fichePosteData.endDate.getTimezoneOffset()
+				fichePosteData.endDate = new Date(fichePosteData.endDate.getTime() - offset_2 * 60 * 1000)
+				fichePosteData.endDate = fichePosteData.endDate.toISOString().split('T')[0]
 			}
 			if (isLoggedIn === true) {
 				params.isLoggedIn = true
-				if (foundFichePoste[0].dataValues.validationRH == 0) {
+				if (fichePosteData.validationRH == 0) {
 					params.validationRhIsNull = true
-				} else if (foundFichePoste[0].dataValues.validationRH == 1) {
+				} else if (fichePosteData.validationRH == 1) {
 					params.validationRhIsTrue = true
-				} else if (foundFichePoste[0].dataValues.validationRH == 2) {
+				} else if (fichePosteData.validationRH == 2) {
 					params.validationRhIsFalse = true
 				}
 
-				params.updateLink = `/ficheposte/update/${foundFichePoste[0].dataValues.id}`
+				params.updateLink = `/ficheposte/update/${fichePosteData.id}`
 				params.displayValidationButtons = true
 				params.displayQuestions = true
 			} else {
 				params.displayValidationButtons = false
 				params.displayQuestions = false
 				params.isLoggedIn = false
-				params.candidateLink = `/candidature/create/${foundFichePoste[0].dataValues.id}`
+				params.candidateLink = `/candidature/create/${fichePosteData.id}`
 			}
 
 			params.active = { fichePosteRead: true }
-			params.fichePoste = foundFichePoste[0].dataValues
+			params.fichePoste = fichePosteData
 
 			res.render('fichePosteRead', params)
 		})
 		.catch((err) => {
 			errorHandler.catchDataCreationError(err.errors, res, 'fichePosteList')
 		})
+}
+
+async function saveRh(fichePosteId, userId) {
+	await FichePoste.update(
+		{
+			rhId: userId,
+		},
+		{ where: { id: fichePosteId } },
+	)
 }

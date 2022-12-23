@@ -1,42 +1,42 @@
 const { FichePoste, Candidature } = require('@models')
 const azureService = require('@utils/azureService/graph')
 const errorHandler = require('@utils/errorHandler')
+const jwt = require('jsonwebtoken')
 
 exports.process = async (req, res, next) => {
 	let group = ''
-	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
 
-	if (groups.includes('RH')) {
+	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
+	const { userId, rh: isRh, manager: isManager, finance: isFinance } = decodedToken
+
+	if (isRh == true) {
 		group = 'rh'
 	}
-	if (groups.includes('MANAGER')) {
+	if (isManager == true) {
 		group = 'manager'
 	}
-	if (groups.includes('FINANCE')) {
+	if (isFinance == true) {
 		group = 'finance'
 	}
 	const result = []
 
 	FichePoste.findAll()
-		.then((foundFichePosteList) => {
-			foundFichePosteList = foundFichePosteList.forEach((fichePoste, index) => {
+		.then(async (foundFichePosteList) => {
+			let index = 0
+			for (const fichePoste of foundFichePosteList) {
+				if (
+					isRh == true &&
+					fichePoste.dataValues.rhId != null &&
+					fichePoste.dataValues.rhId != userId
+				) {
+					continue
+				}
+
 				result.push(fichePoste.dataValues)
 				const idFichePoste = fichePoste.dataValues.id
-				Candidature.count({
-					where: {
-						fichePosteId: idFichePoste,
-					},
-				}).then(function (foundCandidatureList) {
-					result[index].nbCandidature = foundCandidatureList
-				})
+				result[index].nbCandidature = await getCandidateNumber(idFichePoste)
 
-				if (result[index].createdAt) {
-					const offset_2 = result[index].createdAt.getTimezoneOffset()
-					result[index].createdAt = new Date(
-						result[index].createdAt.getTime() - offset_2 * 60 * 1000,
-					)
-					result[index].createdAt = result[index].createdAt.toISOString().split('T')[0]
-				}
+				result[index].createdAt = transformDate(result[index].createdAt)
 
 				if (index % 2 == 0) {
 					result[index].even = true
@@ -44,19 +44,14 @@ exports.process = async (req, res, next) => {
 				result[index].readLink = `/ficheposte/read/${fichePoste.dataValues.id}`
 
 				if (result[index].entryDate) {
-					const offset_1 = result[index].entryDate.getTimezoneOffset()
-					result[index].entryDate = new Date(
-						result[index].entryDate.getTime() - offset_1 * 60 * 1000,
-					)
-					result[index].entryDate = result[index].entryDate.toISOString().split('T')[0]
+					result[index].entryDate = transformDate(result[index].entryDate)
 				}
 
 				if (result[index].endDate) {
-					const offset_2 = result[index].endDate.getTimezoneOffset()
-					result[index].endDate = new Date(result[index].endDate.getTime() - offset_2 * 60 * 1000)
-					result[index].endDate = result[index].endDate.toISOString().split('T')[0]
+					result[index].endDate = transformDate(result[index].endDate)
 				}
-			})
+				index++
+			}
 
 			const params = {
 				active: { fichePosteList: true },
@@ -70,4 +65,20 @@ exports.process = async (req, res, next) => {
 		.catch((err) => {
 			errorHandler.catchDataCreationError(err.errors, res, '')
 		})
+}
+
+async function getCandidateNumber(fichePosteid) {
+	const nbrCandidature = await Candidature.count({
+		where: {
+			fichePosteId: fichePosteid,
+		},
+	})
+	return nbrCandidature
+}
+
+function transformDate(date) {
+	const offset = date.getTimezoneOffset()
+	date = new Date(date.getTime() - offset * 60 * 1000)
+	date = date.toISOString().split('T')[0]
+	return date
 }

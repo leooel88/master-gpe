@@ -1,8 +1,8 @@
 const { FichePoste } = require('@models')
 const errorHandler = require('@utils/errorHandler')
+const jwt = require('jsonwebtoken')
 
 exports.process = (req, res) => {
-	// Validate request
 	if (
 		isEmptyOrSpaces(req.body.fichePoste_label) ||
 		isEmptyOrSpaces(req.body.fichePoste_type) ||
@@ -12,12 +12,16 @@ exports.process = (req, res) => {
 		errorHandler.sendInvalidBodyError(res, 'fichePoste')
 		return
 	}
-	// Create a Tutorial
+
+	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
+	const { userId: managerId } = decodedToken
+
 	const fichePoste = {
 		label: req.body.fichePoste_label,
 		type: req.body.fichePoste_type,
 		jobDescription: req.body.fichePoste_jobDescription,
 		urgency: req.body.fichePoste_urgency,
+		managerId: managerId,
 	}
 
 	if (!isEmptyOrSpaces(req.body.fichePoste_experience)) {
@@ -54,11 +58,8 @@ exports.process = (req, res) => {
 		fichePoste.question5 = req.body.fichePoste_question5
 	}
 
-	// Save Tutorial in the database
 	FichePoste.create(fichePoste)
 		.then((data) => {
-			console.log(data)
-			// res.send(data);
 			res.redirect(`/ficheposte/read/${data.id}`)
 		})
 		.catch((err) => {

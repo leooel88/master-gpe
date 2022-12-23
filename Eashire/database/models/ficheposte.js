@@ -29,10 +29,10 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			},
 			experience: {
-				type: DataTypes.STRING,
+				type: DataTypes.STRING(500),
 				allowNull: true,
 				validate: {
-					len: [0, 200],
+					len: [0, 500],
 				},
 			},
 			entryDate: {
@@ -60,22 +60,16 @@ module.exports = (sequelize, DataTypes) => {
 			localisation: {
 				type: DataTypes.STRING,
 				allowNull: true,
-				validate: {
-					isAlphanumeric: true,
-				},
 			},
 			destinationService: {
 				type: DataTypes.STRING,
 				allowNull: true,
-				validate: {
-					isAlphanumeric: true,
-				},
 			},
 			jobDescription: {
-				type: DataTypes.STRING,
+				type: DataTypes.STRING(500),
 				allowNull: false,
 				validate: {
-					len: [1, 255],
+					len: [1, 500],
 				},
 			},
 			compensation: {
@@ -134,10 +128,14 @@ module.exports = (sequelize, DataTypes) => {
 					len: [0, 2],
 				},
 			},
-
-			creatorName: {
+			managerId: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			rhId: {
 				type: DataTypes.STRING,
 				allowNull: true,
+				defaultValue: null,
 			},
 		},
 		{
