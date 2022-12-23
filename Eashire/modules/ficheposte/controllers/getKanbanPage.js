@@ -30,6 +30,12 @@ exports.process = async (req, res, next) => {
 					fichePoste.dataValues.rhId != userId
 				) {
 					continue
+				} else if (
+					isFinance == true &&
+					fichePoste.dataValues.isFinance != null &&
+					fichePoste.dataValues.isFinance != userId
+				) {
+					continue
 				}
 
 				result.push(fichePoste.dataValues)

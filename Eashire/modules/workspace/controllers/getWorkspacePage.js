@@ -1,4 +1,4 @@
-const { User } = require('@models')
+const { User, FichePoste } = require('@models')
 const auth = require('@utils/authentication')
 
 exports.process = async (req, res, next) => {
@@ -10,15 +10,17 @@ exports.process = async (req, res, next) => {
 	User.findAll({
 		where: { userId: userId },
 	})
-		.then((foundUser) => {
+		.then(async (foundUser) => {
 			if (foundUser && foundUser.length > 0 && foundUser[0]) {
 				if (foundUser[0].rh === true) {
+					params.notifNumber = (await getNumberNewFicheposte('rh')).toString()
 					params.rh = true
 				}
 				if (foundUser[0].manager === true) {
 					params.manager = true
 				}
 				if (foundUser[0].finance === true) {
+					params.notifNumber = (await getNumberNewFicheposte('finance')).toString()
 					params.finance = true
 				}
 				if (foundUser[0].it === true) {
@@ -30,4 +32,23 @@ exports.process = async (req, res, next) => {
 		.catch((err) => {
 			res.redirect('/auth/signin')
 		})
+}
+
+async function getNumberNewFicheposte(string) {
+	if (string == 'rh') {
+		const nbrNew = await FichePoste.count({
+			where: {
+				rhId: null,
+			},
+		})
+		return nbrNew
+	}
+	if (string == 'finance') {
+		const nbrNew = await FichePoste.count({
+			where: {
+				financeId: null,
+			},
+		})
+		return nbrNew
+	}
 }

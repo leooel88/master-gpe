@@ -5,13 +5,13 @@
 	<div class='overflow-y-auto py-4 px-3 bg-slate-800 rounded'>
 		<ul class='space-y-2 mx-6 ml-2'>
       {{#if rh}}
-        {{>WorkspaceItem href="/ficheposte/list" text='Fiches de poste' notif_number='0' svg='clipboard-document-check-solid'}}
+        {{>WorkspaceItem href="/ficheposte/list" text='Fiches de poste' notif_number=(lookup . 'notifNumber') svg='clipboard-document-check-solid'}}
       {{else}}
         {{#if manager}}
-          {{>WorkspaceItem href="/ficheposte/list" text='Fiches de poste' notif_number='0' svg='clipboard-document-check-solid'}}
+          {{>WorkspaceItem href="/ficheposte/list" text='Fiches de poste' notif_number=(lookup . 'notifNumber') svg='clipboard-document-check-solid'}}
         {{else}}
           {{#if finance}}
-            {{>WorkspaceItem href="/ficheposte/list" text='Fiches de poste' notif_number='0' svg='clipboard-document-check-solid'}}
+            {{>WorkspaceItem href="/ficheposte/list" text='Fiches de poste' notif_number=(lookup . 'notifNumber') svg='clipboard-document-check-solid'}}
           {{/if}}
         {{/if}}
       {{/if}}

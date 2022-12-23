@@ -46,6 +46,8 @@ exports.process = async (req, res, next) => {
 			const fichePosteData = foundFichePoste[0].dataValues
 			if (isRh == true && fichePosteData.rhId == null) {
 				await saveRh(fichePosteData.id, userId)
+			} else if (isFinance == true && fichePosteData.isFinance == null) {
+				await saveFinance(fichePosteData.id, userId)
 			}
 
 			if (fichePosteData.entryDate) {
@@ -95,6 +97,15 @@ async function saveRh(fichePosteId, userId) {
 	await FichePoste.update(
 		{
 			rhId: userId,
+		},
+		{ where: { id: fichePosteId } },
+	)
+}
+
+async function saveFinance(fichePosteId, userId) {
+	await FichePoste.update(
+		{
+			financeId: userId,
 		},
 		{ where: { id: fichePosteId } },
 	)
