@@ -16,6 +16,8 @@ router.delete('/delete:fichePosteId', auth.authenticatedManager, fichePoste.dele
 
 router.get('/list', fichePoste.getKanbanPage)
 
+router.post('/list', fichePoste.filterFichePosteList)
+
 router.get('/kanban', fichePoste.getKanbanPage)
 
 router.get('/read/:fichePosteId', fichePoste.getReadPage)

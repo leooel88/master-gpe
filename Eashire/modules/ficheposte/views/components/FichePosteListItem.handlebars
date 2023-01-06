@@ -16,11 +16,11 @@
         <div
           class='ml-6 h-6 rounded-[3px] flex items-center gap-4'
         >
-          {{>FichePosteListItemValidationDiv validation=this.validationRH}}
+          {{>FichePosteListItemValidationDiv text="RH" validation=this.validationRH}}
 
-          {{>FichePosteListItemValidationDiv validation=this.validationFinance}}
+          {{>FichePosteListItemValidationDiv text="FI" validation=this.validationFinance}}
 
-          {{>FichePosteListItemValidationDiv validation=this.publicationRH}}
+          {{>FichePosteListItemValidationDiv text="PU" validation=this.publicationRH}}
         </div>
       {{/compare}}
     {{#if display_validation_icons}}
