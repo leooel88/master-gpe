@@ -11,9 +11,6 @@ exports.process = async (req, res, next) => {
 
 	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 
-	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
-	const { userId, rh: isRh, manager: isManager, finance: isFinance } = decodedToken
-
 	const params = {}
 
 	if (error != null && error.length > 0) {
@@ -21,17 +18,20 @@ exports.process = async (req, res, next) => {
 	}
 
 	if (isLoggedIn === true) {
+		const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
+		const { userId, rh: isRh, manager: isManager, finance: isFinance } = decodedToken
+
 		const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
-		if (groups.includes('RH')) {
+		if (isRh) {
 			params.rh = true
 			params.rhValidLink = `/ficheposte/rhvalid/${fichePosteId}`
 			params.rhRefuseLink = `/ficheposte/rhrefuse/${fichePosteId}`
 			params.rhPublishLink = `/ficheposte/rhpublish/${fichePosteId}`
-		} else if (groups.includes('FINANCE')) {
+		} else if (isFinance) {
 			params.finance = true
 			params.financeValidLink = `/ficheposte/financevalid/${fichePosteId}`
 			params.financeRefuseLink = `/ficheposte/financerefuse/${fichePosteId}`
-		} else if (groups.includes('MANAGER')) {
+		} else if (isManager) {
 			params.manager = true
 			params.managerUpdateLink = `/ficheposte/update/${fichePosteId}`
 		}
@@ -44,10 +44,12 @@ exports.process = async (req, res, next) => {
 	})
 		.then(async (foundFichePoste) => {
 			const fichePosteData = foundFichePoste[0].dataValues
-			if (isRh == true && fichePosteData.rhId == null) {
-				await saveRh(fichePosteData.id, userId)
-			} else if (isFinance == true && fichePosteData.isFinance == null) {
-				await saveFinance(fichePosteData.id, userId)
+			if (isLoggedIn === true) {
+				if (global.isRh == true && fichePosteData.rhId == null) {
+					await saveRh(fichePosteData.id, global.userId)
+				} else if (global.isFinance == true && fichePosteData.isFinance == null) {
+					await saveFinance(fichePosteData.id, global.userId)
+				}
 			}
 
 			if (fichePosteData.entryDate) {

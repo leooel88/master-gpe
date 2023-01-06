@@ -5,29 +5,33 @@
 		</div>
 	{{/if}}
 
-		
-	<div class="grow flex">
-		<div class="grow basis-1/4">
-			<form method='post' action='/ficheposte/list' class="w-3/4 mx-auto mt-20">
-				{{>labelFilter}}
-				
-				{{>urgencyFilter}}
 
-				<div class="flex w-fit gap-4 m-auto mb-6">
-					{{>dayFilter}}
+		<div class="grow flex">
+			{{#if displayValidationIcons}}
+				<div class="grow basis-1/4">
+					<form method='post' action='/ficheposte/list' class="w-3/4 mx-auto mt-20">
+						{{>labelFilter}}
+						
+						{{>urgencyFilter}}
 
-					{{>monthFilter}}
+						<div class="flex w-fit gap-4 m-auto mb-6">
+							{{>dayFilter}}
 
-					{{>yearFilter}}
+							{{>monthFilter}}
+
+							{{>yearFilter}}
+						</div>
+
+						{{>ownerFilter}}
+
+						<div class='w-fit m-auto'>
+							{{>FormButton1 button_text="Rechercher"}}
+						</div>
+					</form>
 				</div>
-
-				{{>ownerFilter}}
-
-				<div class='w-fit m-auto'>
-					{{>FormButton1 button_text="Rechercher"}}
-				</div>
-			</form>
-		</div>
+			{{else}}
+				<div class="grow basis-1/4"></div>
+			{{/if}}
 		<div class="w-fit mx-auto">
 			{{>PageHeader header_text="Liste des fiches de poste"}}
 			<div class='relative min-w-[30%] m-6 flex flex-col justify-center'>
