@@ -42,10 +42,13 @@ exports.process = (req, res, next) => {
 	if (
 		req.body.day_filter &&
 		req.body.day_filter != '' &&
+		req.body.day_filter != '-' &&
 		req.body.month_filter &&
 		req.body.month_filter != '' &&
+		req.body.month_filter != '-' &&
 		req.body.year_filter &&
-		req.body.year_filter != ''
+		req.body.year_filter != '' &&
+		req.body.year_filter != '-'
 	) {
 		const date = new Date(
 			req.body.year_filter.replace('year_', ''),
@@ -56,6 +59,9 @@ exports.process = (req, res, next) => {
 		where.createdAt = {
 			[Op.lt]: date,
 		}
+	}
+	if (req.body.archived_filter && req.body.archived_filter != 'archived_no') {
+		where.archived = 1
 	}
 
 	FichePoste.findAll({

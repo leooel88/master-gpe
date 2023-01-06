@@ -12,7 +12,9 @@ router.post('/create', auth.authenticatedManager, fichePoste.create)
 
 router.post('/update/:fichePosteId', auth.authenticatedManager, fichePoste.update)
 
-router.delete('/delete:fichePosteId', auth.authenticatedManager, fichePoste.delete)
+router.get('/delete/:fichePosteId', auth.authenticatedManager, fichePoste.delete)
+
+router.get('/archive/:fichePosteId', auth.authenticatedManager, fichePoste.archive)
 
 router.get('/list', fichePoste.getKanbanPage)
 
