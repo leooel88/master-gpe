@@ -1,9 +1,11 @@
-const { FichePoste } = require('@models')
+const { FichePoste, Candidature } = require('@models')
 
-exports.process = (req, res) => {
+exports.process = async (req, res) => {
 	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 
-	FichePoste.destroy({
+	await Candidature.destroy({ where: { fichePosteId: fichePosteId } })
+
+	await FichePoste.destroy({
 		where: { id: fichePosteId },
 	}).then(() => {
 		res.redirect('/ficheposte/list')
