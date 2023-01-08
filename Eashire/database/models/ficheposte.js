@@ -142,6 +142,14 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: true,
 				defaultValue: null,
 			},
+			archived: {
+				type: DataTypes.TINYINT,
+				defaultValue: 0,
+				allowNull: false,
+				validate: {
+					len: [0, 1],
+				},
+			},
 		},
 		{
 			sequelize,

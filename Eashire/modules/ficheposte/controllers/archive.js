@@ -5,9 +5,12 @@ exports.process = async (req, res) => {
 
 	await Candidature.destroy({ where: { fichePosteId: fichePosteId } })
 
-	await FichePoste.destroy({
-		where: { id: fichePosteId },
-	}).then(() => {
-		res.redirect('/ficheposte/list')
-	})
+	await FichePoste.update(
+		{
+			archived: 1,
+		},
+		{ where: { id: fichePosteId } },
+	)
+
+	res.redirect('/ficheposte/list')
 }

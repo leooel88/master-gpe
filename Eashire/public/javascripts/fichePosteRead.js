@@ -1,6 +1,8 @@
 const containerDiv = document.getElementById('ficheposteread-div')
 const cancelButton = document.querySelectorAll('.cancel-button')
 const updateButton = document.querySelectorAll('.update-button')
+const deleteButton = document.getElementById('delete-button')
+const archiveButton = document.getElementById('archive-button')
 
 /*
  * QUERYING THE LINKS AND DIVS
@@ -50,6 +52,24 @@ entryDateModifierLink.addEventListener('click', () => handleLinkClicked('entryDa
 endDateModifierLink.addEventListener('click', () => handleLinkClicked('endDate'))
 experienceModifierLink.addEventListener('click', () => handleLinkClicked('experience'))
 compensationModifierLink.addEventListener('click', () => handleLinkClicked('compensation'))
+deleteButton.addEventListener('click', () => confirmDeleteClicked())
+archiveButton.addEventListener('click', () => confirmArchiveClicked())
+
+function confirmDeleteClicked() {
+	const confirmation = confirm('Etes-vous sûr de vouloir supprimer cette fiche de poste ?')
+
+	if (confirmation) {
+		window.location.href(deleteButton.href)
+	}
+}
+
+function confirmArchiveClicked() {
+	const confirmation = confirm('Etes-vous sûr de vouloir archiver cette fiche de poste ?')
+
+	if (confirmation) {
+		window.location.href(archiveButton.href)
+	}
+}
 
 // ADD EVENT LISTENERS ON UPDATE AND CANCEL BUTTON
 cancelButton.forEach((currentCancelButton) => {

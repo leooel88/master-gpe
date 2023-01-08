@@ -12,6 +12,7 @@ exports.process = async (req, res, next) => {
 	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 
 	const params = {}
+	let userId, isRh, isManager, isFinance
 
 	if (error != null && error.length > 0) {
 		params.error = [{ message: error }]
@@ -19,7 +20,7 @@ exports.process = async (req, res, next) => {
 
 	if (isLoggedIn === true) {
 		const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
-		const { userId, rh: isRh, manager: isManager, finance: isFinance } = decodedToken
+		;({ userId, rh: isRh, manager: isManager, finance: isFinance } = decodedToken)
 
 		const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
 		if (isRh) {
@@ -45,11 +46,17 @@ exports.process = async (req, res, next) => {
 		.then(async (foundFichePoste) => {
 			const fichePosteData = foundFichePoste[0].dataValues
 			if (isLoggedIn === true) {
-				if (global.isRh == true && fichePosteData.rhId == null) {
-					await saveRh(fichePosteData.id, global.userId)
-				} else if (global.isFinance == true && fichePosteData.isFinance == null) {
-					await saveFinance(fichePosteData.id, global.userId)
+				if (isRh == true && fichePosteData.rhId == null) {
+					await saveRh(fichePosteData.id, userId)
+				} else if (isFinance == true && fichePosteData.isFinance == null) {
+					await saveFinance(fichePosteData.id, userId)
 				}
+			}
+
+			if (fichePosteData.managerId == userId) {
+				params.current_owner = true
+				params.deleteLink = `/ficheposte/delete/${fichePosteData.id}`
+				params.archiveLink = `/ficheposte/archive/${fichePosteData.id}`
 			}
 
 			if (fichePosteData.entryDate) {

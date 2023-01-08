@@ -3,11 +3,21 @@
     href={{read_link}}
     class='flex items-center p-3 text-base font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white'
   >
-    {{#if even}}
-      {{>clipboard-document-list-outline}}
-    {{else}}
-      {{>clipboard-document-list-solid}}
-    {{/if}}
+    <div class="h-5 w-5">
+      {{#if even}}
+        {{#compare this.archived 0 operator='=='}}
+          {{>clipboard-document-list-outline class="h-5 w-5"}}
+        {{else}}
+          {{>folder-outline class="h-5 w-5"}}
+        {{/compare}}
+      {{else}}
+        {{#compare this.archived 0 operator='=='}}
+          {{>clipboard-document-list-solid class="h-5 w-5"}}
+        {{else}}
+          {{>folder-solid class="h-5 w-5"}}
+        {{/compare}}
+      {{/if}}
+    </div>
     <span
       class='flex-1 mx-3 whitespace-nowrap'
     >{{label}}</span>
