@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			},
 			fichePosteId: {
-				type: DataTypes.TINYINT,
+				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
 			cv: {

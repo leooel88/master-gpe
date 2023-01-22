@@ -57,7 +57,7 @@ exports.process = (req, res, next) => {
 		)
 
 		where.createdAt = {
-			[Op.lt]: date,
+			[Op.lte]: date,
 		}
 	}
 	if (req.body.archived_filter && req.body.archived_filter != 'archived_no') {
