@@ -66,10 +66,10 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: true,
 			},
 			jobDescription: {
-				type: DataTypes.STRING(500),
+				type: DataTypes.STRING(600),
 				allowNull: false,
 				validate: {
-					len: [1, 500],
+					len: [1, 600],
 				},
 			},
 			compensation: {
@@ -125,7 +125,7 @@ module.exports = (sequelize, DataTypes) => {
 				defaultValue: 0,
 				allowNull: false,
 				validate: {
-					len: [0, 2],
+					len: [0, 1],
 				},
 			},
 			managerId: {

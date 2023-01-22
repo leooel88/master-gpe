@@ -23,6 +23,8 @@ router.get('/read/:candidatureId', auth.authenticatedManagerRhIt, Candidature.ge
 
 router.get('/list', auth.authenticatedManagerRhIt, Candidature.getListPage)
 
+router.post('/list', auth.authenticatedManagerRhIt, Candidature.filterCandidatureList)
+
 router.get('/create/:fichePosteId', Candidature.getCreatePage)
 
 router.post('/create', upload.single('candidature_CV'), Candidature.create)

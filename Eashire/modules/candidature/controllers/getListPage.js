@@ -7,6 +7,7 @@ exports.process = async (req, res, next) => {
 	const result = []
 	let userParams
 	let userRole = ''
+	const ficheposte_list = []
 
 	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
 
@@ -59,9 +60,17 @@ exports.process = async (req, res, next) => {
 				where: { id: candidature.dataValues.fichePosteId },
 			}).then((foundFichePoste) => {
 				result[index].fichePoste = foundFichePoste[0].dataValues
+				if (
+					!ficheposte_list.find((element) => element.label === foundFichePoste[0].dataValues.label)
+				)
+					ficheposte_list.push({
+						label: foundFichePoste[0].dataValues.label,
+						value: `ficheposte_id_${foundFichePoste[0].dataValues.id}`,
+					})
 			})
 		})
 
+		params.ficheposte_list = ficheposte_list
 		params.active = { candidatureList: true }
 		params.candidatureList = result
 		params.group = userRole

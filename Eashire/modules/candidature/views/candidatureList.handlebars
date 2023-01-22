@@ -2,10 +2,106 @@
 	<div class="m-4">
 		{{>returnButton route="/dashboard"}}
 	</div>
-	<div class="grow w-fit m-auto">
-		{{>PageHeader header_text="Liste des candidatures"}}
-		<div class='relative top-6 flex justify-center'>
-			{{>CandidatureListUl candidature_list=candidatureList}}
+
+	<div class="grow flex">
+		<div class="grow basis-1/4">
+			<form method='post' action='/candidature/list' class="w-3/4 mx-auto mt-20">
+				{{>nameFilter}}
+
+				{{>ficheposteFilter ficheposte_list=ficheposte_list}}
+
+				<div class="flex w-fit gap-8 m-auto mb-6">
+					{{>dayCandidatureFilter}}
+
+					{{>monthCandidatureFilter}}
+
+					{{>yearCandidatureFilter}}
+				</div>
+
+				<div class='w-fit m-auto'>
+					{{>FormButton1 button_text="Rechercher"}}
+				</div>
+			</form>
 		</div>
+		<div class="w-fit mx-auto">
+			{{>PageHeader header_text="Liste des candidatures"}}
+			<div class='relative top-6 flex justify-center'>
+				{{>CandidatureListUl candidature_list=candidatureList}}
+			</div>
+		</div>
+		<div class="grow basis-1/4"></div>
 	</div>
 </div>
+<script>
+	function setYear(nbNextYears) {
+		for (let i = new Date().getFullYear() + nbNextYears; i >= 1900; i--) {
+			let currOption = document.createElement('option');
+			currOption.value = `year_candidature_${i}`
+			currOption.innerHTML = `${i}`
+			document.getElementById("year_candidature_filter").appendChild(currOption)
+		}
+	}
+
+	function removeAddedDays() {
+		let removeOptions = document.querySelectorAll('.remove-option-date-ficheposte-selector')
+		removeOptions.forEach(currOption => {
+			currOption.remove()
+		})
+	}
+
+	function setDay() {
+		removeAddedDays()
+
+		let month = document.getElementById("month_candidature_filter")
+		if (month.value == 'month_candidature_1') {
+			console.log("FEVRIER")
+			let year = document.getElementById("year_candidature_filter").value.replace('year_candidature_', '')
+			year = Number(year)
+			if ((year / 4) % 1 == 0) {
+				if ((year / 100) % 1 != 0) {
+					console.log("NON DIVISIBLE PAR 100")
+					let day29 = document.createElement('option');
+					day29.value = `day_candidature_29`
+					day29.innerHTML = `29`
+					day29.classList.add('remove-option-date-ficheposte-selector')
+					document.getElementById("day_candidature_filter").appendChild(day29)
+				} else {
+					if ((year / 400) % 1 == 0) {
+						console.log("DIVISIBLE PAR 400")
+						let day29 = document.createElement('option');
+						day29.value = `day_candidature_29`
+						day29.innerHTML = `29`
+						day29.classList.add('remove-option-date-ficheposte-selector')
+						document.getElementById("day_candidature_filter").appendChild(day29)
+					}
+				}
+			}
+		} else {
+			console.log("CASE")
+			let day29 = document.createElement('option');
+			day29.value = `day_candidature_29`
+			day29.innerHTML = `29`
+			day29.classList.add('remove-option-date-ficheposte-selector')
+			document.getElementById("day_candidature_filter").appendChild(day29)
+
+			let day30 = document.createElement('option');
+			day30.value = `day_candidature_30`
+			day30.innerHTML = `30`
+			day30.classList.add('remove-option-date-ficheposte-selector')
+			document.getElementById("day_candidature_filter").appendChild(day30)
+
+			if (month.value == 'month_candidature_0' || month.value == 'month_candidature_2' || month.value == 'month_candidature_4' || month.value == 'month_candidature_6' || month.value == 'month_candidature_7' || month.value == 'month_candidature_9' || month.value == 'month_candidature_11') {
+				let day31 = document.createElement('option');
+				day31.value = `day_candidature_31`
+				day31.innerHTML = `31`
+				day31.classList.add('remove-option-date-ficheposte-selector')
+				document.getElementById("day_candidature_filter").appendChild(day31)
+			}
+		}
+	}
+	setYear(2)
+	setDay()
+
+	document.getElementById("month_candidature_filter").onchange = setDay
+	document.getElementById("year_candidature_filter").onchange = setDay
+</script>
