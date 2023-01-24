@@ -100,20 +100,34 @@
 						{{candidature.telephone}}
 					</p>
 				</div>
-
 				{{#if rh}}
 					{{#compare candidature.validationManager 0 operator="=="}}
 						<div class='mt-4 grow flex justify-center gap-6'>
 							{{>linkButton1 href=rhValidLink title='Valider la candidature'}}
 							{{>linkButton2 href=rhRefuseLink title='Refuser la candidature'}}
 						</div>
+					{{else}}
+						{{#compare candidature.validationManager 1 operator="=="}}
+							{{#compare candidature.validationRh 1 operator="=="}}
+								<div class='mt-4 grow flex justify-center gap-6'>
+									{{>linkButton1 href=createDossierRecrutement title='Créer un dossier de recrutement'}}
+								</div>
+							{{/compare}}
+						{{else}}
+							<div class='mt-4 grow flex justify-center gap-6'>
+								{{>linkButton1 href=rhValidLink title='Valider la candidature'}}
+								{{>linkButton2 href=rhRefuseLink title='Refuser la candidature'}}
+							</div>
+						{{/compare}}
 					{{/compare}}
 				{{else if manager}}
-					{{#compare candidature.validationRh 1 operator="=="}}
-						<div class='mt-4 grow flex justify-center gap-6'>
-							{{>linkButton1 href=managerValidLink title='Valider la candidature'}}
-							{{>linkButton2 href=managerRefuseLink title='Refuser la candidature'}}
-						</div>
+					{{#compare candidature.accepted 0 operator="=="}}
+						{{#compare candidature.validationRh 1 operator="=="}}
+							<div class='mt-4 grow flex justify-center gap-6'>
+								{{>linkButton1 href=managerValidLink title='Valider la candidature'}}
+								{{>linkButton2 href=managerRefuseLink title='Refuser la candidature'}}
+							</div>
+						{{/compare}}
 					{{/compare}}
 				{{/if}}
 			</div>

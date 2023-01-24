@@ -1,5 +1,6 @@
 const { FichePoste, Candidature } = require('@models')
 const azureService = require('@utils/azureService/graph')
+const jwt = require('jsonwebtoken')
 
 exports.process = async (req, res, next) => {
 	const candidatureId = parseInt(req.params.candidatureId, 10)
@@ -21,35 +22,53 @@ exports.process = async (req, res, next) => {
 	}
 
 	let userParams
+	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
+	const { userId, rh: isRh, manager: isManager, finance: isFinance } = decodedToken
 
-	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
-
-	if (groups.includes('RH')) {
+	if (isRh == true) {
 		userParams = {
 			where: { id: candidatureId },
 		}
-		params.rh = true
-		params.rhValidLink = `/candidature/rhvalid/${candidatureId}`
-		params.rhRefuseLink = `/candidature/rhrefuse/${candidatureId}`
-	} else if (groups.includes('MANAGER')) {
+	} else if (isManager == true) {
 		userParams = {
 			where: {
 				id: candidatureId,
 				validationRh: 1,
 			},
 		}
-		params.manager = true
-		params.managerValidLink = `/candidature/managervalid/${candidatureId}`
-		params.managerRefuseLink = `/candidature/managerrefuse/${candidatureId}`
-	} else if (groups.includes('FINANCE')) {
+	} else if (isFinance == true) {
 		userParams = {
 			where: { id: candidatureId, validationRh: 1, validationManager: 1 },
 		}
-	} else {
-		res.redirect('/')
 	}
 
 	Candidature.findAll(userParams).then(async (foundCandidature) => {
+		if (
+			foundCandidature[0].dataValues.validationManager == 1 &&
+			foundCandidature[0].dataValues.validationRh == 1
+		) {
+			if (isRh == true) {
+				params.createDossierRecrutement = `/dossierrecrutement/create/${candidatureId}`
+			} else if (isManager == true) {
+				params.managerValidLink = `/candidature/managervalid/${candidatureId}`
+				params.managerRefuseLink = `/candidature/managerrefuse/${candidatureId}`
+			}
+		} else {
+			if (isRh == true) {
+				params.rhValidLink = `/candidature/rhvalid/${candidatureId}`
+				params.rhRefuseLink = `/candidature/rhrefuse/${candidatureId}`
+			} else if (isManager == true) {
+				params.managerValidLink = `/candidature/managervalid/${candidatureId}`
+				params.managerRefuseLink = `/candidature/managerrefuse/${candidatureId}`
+			}
+		}
+
+		if (isRh == true) {
+			params.rh = true
+		} else if (isManager == true) {
+			params.manager = true
+		}
+
 		const { fichePosteId } = foundCandidature[0].dataValues
 
 		let currentFichePoste

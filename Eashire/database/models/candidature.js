@@ -88,6 +88,14 @@ module.exports = (sequelize, DataTypes) => {
 					len: [0, 2],
 				},
 			},
+			accepted: {
+				type: DataTypes.TINYINT,
+				defaultValue: 0,
+				allowNull: false,
+				validate: {
+					len: [0, 1],
+				},
+			},
 		},
 		{
 			sequelize,
