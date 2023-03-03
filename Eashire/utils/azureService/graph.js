@@ -16,22 +16,34 @@ function getAzureConfig() {
 }
 
 module.exports = {
+	getAzureConfig: function () {
+		return getAzureConfig()
+	},
 	getPhotoByUpn: async function (msalClient, userId, Upn) {
 		const client = getAuthenticatedClient(msalClient, userId)
 		return await client.api(`/users/${Upn}/photo/$value`).get()
 	},
-	getUserDetails: async function (msalClient, userId) {
+	getUserDetails: async function (msalClient, userId, searchedUser) {
 		const client = getAuthenticatedClient(msalClient, userId)
+		let user
+		const url = `/users/${searchedUser}`
 
-		const user = await client
-			.api('/me')
-			.select(
-				'displayName,mail,mailboxSettings,userPrincipalName,jobTitle,createdDateTime,employeeHireDate',
-			)
-			.get()
+		if (searchedUser && searchedUser != '') {
+			user = await client
+				.api(url)
+				.select('displayName,mail,userPrincipalName,jobTitle,department')
+				.get()
+		} else {
+			user = await client
+				.api('/me')
+				.select(
+					'displayName,mail,mailboxSettings,userPrincipalName,jobTitle,createdDateTime,employeeHireDate,department',
+				)
+				.get()
+		}
 		return user
 	},
-	getusers: async function (msalClient, userId, filters) {
+	getUsers: async function (msalClient, userId, filters) {
 		const client = getAuthenticatedClient(msalClient, userId)
 
 		const allusers = await client.api('/users').get()
@@ -158,6 +170,11 @@ module.exports = {
 			.get()
 
 		return events
+	},
+	createUser: async function (msalClient, userId, userInfo) {
+		const client = getAuthenticatedClient(msalClient, userId)
+		const user = await client.api('/users').post(userInfo)
+		return user
 	},
 }
 

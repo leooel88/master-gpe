@@ -3,7 +3,7 @@ const { Model } = require('sequelize')
 
 const phoneValidationRegex = /^(\+33 |0)[1-9]( \d\d){4}$/
 module.exports = (sequelize, DataTypes) => {
-	class Candidature extends Model {
+	class AccountCreationDemand extends Model {
 		/**
 		 * Helper method for defining associations.
 		 * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 			// define association here
 		}
 	}
-	Candidature.init(
+	AccountCreationDemand.init(
 		{
 			prenom: {
 				type: DataTypes.STRING,
@@ -37,13 +37,6 @@ module.exports = (sequelize, DataTypes) => {
 					len: [2, 50],
 				},
 			},
-			mail: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				validate: {
-					isEmail: true,
-				},
-			},
 			telephone: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -53,53 +46,55 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
+			label: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notNull: true,
+				},
+			},
+			destinationService: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			jobLocation: {
+				type: DataTypes.STRING(600),
+				allowNull: false,
+				validate: {
+					len: [1, 600],
+				},
+			},
+			conversationId: {
+				type: DataTypes.INTEGER,
+				allowNull: true,
+			},
 			fichePosteId: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
-			cv: {
+			candidatureId: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
+			demandingRhId: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			rhDisplayName: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					len: [1, 255],
+					len: [2, 50],
 				},
 			},
-			rhComment: {
-				type: DataTypes.TEXT('long'),
+			itId: {
+				type: DataTypes.STRING,
 				allowNull: true,
 			},
-			managerComment: {
-				type: DataTypes.TEXT('long'),
-				allowNull: true,
-			},
-			validationManager: {
+			status: {
 				type: DataTypes.TINYINT,
 				defaultValue: 0,
 				allowNull: false,
-				validate: {
-					len: [0, 2],
-				},
-			},
-			validationRh: {
-				type: DataTypes.TINYINT,
-				defaultValue: 0,
-				allowNull: false,
-				validate: {
-					len: [0, 2],
-				},
-			},
-			accepted: {
-				type: DataTypes.TINYINT,
-				defaultValue: 0,
-				allowNull: false,
-				validate: {
-					len: [0, 1],
-				},
-			},
-			accountDemand: {
-				type: DataTypes.TINYINT,
-				defaultValue: null,
-				allowNull: true,
 				validate: {
 					len: [0, 2],
 				},
@@ -107,8 +102,8 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			sequelize,
-			modelName: 'Candidature',
+			modelName: 'AccountCreationDemand',
 		},
 	)
-	return Candidature
+	return AccountCreationDemand
 }

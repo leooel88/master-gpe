@@ -1,6 +1,10 @@
 const { User } = require('@models')
 const jwt = require('jsonwebtoken')
 
+/**
+ * return an object with :
+ * { userId: number, rh: boolean, manager: boolean, finance: boolean, it: boolean }
+ */
 exports.getTokenInfo = (req) => {
 	try {
 		const token = req.cookies.authToken
@@ -20,6 +24,50 @@ exports.authenticated = (req, res, next) => {
 		next()
 	} catch (error) {
 		res.redirect('/auth/signin')
+	}
+}
+
+exports.authenticatedGroups = (auth) => {
+	return (req, res, next) => {
+		try {
+			const token = req.cookies.authToken
+			const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET')
+			const { userId } = decodedToken
+
+			User.findAll({
+				where: { userId: userId },
+			})
+				.then((foundUser) => {
+					if (foundUser && foundUser.length > 0 && foundUser[0]) {
+						for (const curr_auth of auth) {
+							if (curr_auth == 'MANAGER' && foundUser[0].manager === true) {
+								next()
+								return
+							}
+							if (curr_auth == 'RH' && foundUser[0].rh === true) {
+								next()
+								return
+							}
+							if (curr_auth == 'FINANCE' && foundUser[0].finance === true) {
+								next()
+								return
+							}
+							if (curr_auth == 'IT' && foundUser[0].it === true) {
+								next()
+								return
+							}
+						}
+						res.redirect('/auth/signin')
+					} else {
+						res.redirect('/auth/signin')
+					}
+				})
+				.catch((error) => {
+					res.redirect('/auth/signin')
+				})
+		} catch (error) {
+			res.redirect('/auth/signin')
+		}
 	}
 }
 

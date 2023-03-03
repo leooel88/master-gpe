@@ -28,6 +28,10 @@
         {{/if}}
       {{/if}}
 
+      {{#if it}}
+        {{>WorkspaceItem href="/accountcreationdemand/list" text="Demandes de création de compte" notif_number='0' svg='document-plus-solid'}}
+      {{/if}}
+
       {{>WorkspaceItem href="/listUser" text="Mon équipe" notif_number='0' svg='user-group-solid'}}
 
       {{>WorkspaceItem href="/uploadFile" text="Mes ressources d'entreprise" notif_number='0' svg='archive-box-solid'}}
