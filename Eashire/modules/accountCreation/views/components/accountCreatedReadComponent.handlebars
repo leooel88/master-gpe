@@ -1,0 +1,135 @@
+<div class='grow relative top-6 flex justify-center'>
+	<div id='ficheposteread-div'>
+		<div
+			class='grow py-8 px-12 max-w-2xl bg-slate-800 rounded-lg border shadow-md'
+		>
+			<div class='flex justify-between items-center mb-4 place-content-between'>
+				<h5
+					class='text-xl font-bold leading-none text-white'
+				>Compte utilisateur</h5>
+			</div>
+			<div class="flow-root">
+				<h5
+					class='text-xl font-bold leading-none text-white'
+				>L'employé</h5>
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>identification-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Nom de famille
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{user.surname}}
+							</div>
+						</div>
+					</li>
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>identification-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Prénom
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{user.givenName}}
+							</div>
+						</div>
+					</li>
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>phone-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Numéro de téléphone
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{user.mobilePhone}}
+							</div>
+						</div>
+					</li>
+        </ul>
+   		</div>
+			<div class="flow-root">
+				<h5
+					class='text-xl font-bold leading-none text-white'
+				>Le poste</h5>
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>briefcase-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Nom du poste
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{user.jobTitle}}
+							</div>
+						</div>
+					</li>
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>building-library-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Service
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{userDetails.department}}
+							</div>
+						</div>
+					</li>
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>map-pin-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Localisation du bureau
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{user.officeLocation}}
+							</div>
+						</div>
+					</li>
+        </ul>
+   		</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,156 @@
+<div class='grow relative top-6 flex justify-center'>
+	<div id='ficheposteread-div'>
+		<div
+			class='grow py-8 px-12 max-w-2xl bg-slate-800 rounded-lg border shadow-md'
+		>
+			<div class='flex justify-between items-center mb-4 place-content-between'>
+				<h5
+					class='text-xl font-bold leading-none text-white'
+				>Demande de création de compte</h5>
+				<div class='flex justify-center items-center'>
+					{{#compare accountCreationDemand.status 0 operator="=="}}
+						<div class='m-3 flex items-center px-4 py-2 text-sm font-bold text-white bg-blue-800 rounded'>
+							<span class='flex-1 whitespace-nowrap'>En attente...</span>
+						</div>
+					{{else compare accountCreationDemand.status 1 operator="=="}}
+						<div class='m-3 flex items-center p-1 text-sm font-bold text-white bg-blue-800 rounded'>
+							<span class='flex-1 whitespace-nowrap'>Validé</span>
+						</div>
+					{{else compare accountCreationDemand.status 2 operator="=="}}
+						<div class='m-3 flex items-center p-1 text-sm font-bold text-white bg-blue-800 rounded'>
+							<span class='flex-1 whitespace-nowrap'>Refusé</span>
+						</div>
+					{{/compare}}
+				</div>
+			</div>
+			<div class="flow-root">
+				<h5
+					class='text-xl font-bold leading-none text-white'
+				>Le nouvel employé</h5>
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>identification-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Nom de famille
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{accountCreationDemand.nom}}
+							</div>
+						</div>
+					</li>
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>identification-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Prénom
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{accountCreationDemand.prenom}}
+							</div>
+						</div>
+					</li>
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>phone-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Numéro de téléphone
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{accountCreationDemand.telephone}}
+							</div>
+						</div>
+					</li>
+        </ul>
+   		</div>
+			<div class="flow-root">
+				<h5
+					class='text-xl font-bold leading-none text-white'
+				>Le poste</h5>
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>briefcase-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Nom du poste
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{accountCreationDemand.label}}
+							</div>
+						</div>
+					</li>
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>building-library-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Service
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{accountCreationDemand.destinationService}}
+							</div>
+						</div>
+					</li>
+					<li class="py-3 sm:py-4">
+						<div class="flex items-center space-x-4">
+							<div class="flex-shrink-0">
+								{{>map-pin-outline}}
+							</div>
+							<div class="flex-1 min-w-0">
+								{{!-- <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+									Neil Sims
+								</p> --}}
+								<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+									Localisation du bureau
+								</p>
+							</div>
+							<div class="inline-flex items-center text-base font-semibold text-ellipsis text-gray-900 dark:text-white">
+								{{accountCreationDemand.jobLocation}}
+							</div>
+						</div>
+					</li>
+        </ul>
+   		</div>
+			{{#if isIt}}
+				<div class="w-fit m-auto flex flex-row gap-4">
+					{{>linkButtonGreen svg="check-circle-outline" title="" href=validateAccountDemandLink}}
+					{{>linkButtonRed svg="x-circle-outline" title="" href=refuseAccountDemandLink}}
+				</div>
+			{{/if}}
+		</div>
+	</div>
+</div>

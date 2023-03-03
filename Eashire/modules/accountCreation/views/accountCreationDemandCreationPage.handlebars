@@ -1,0 +1,125 @@
+<div class='w-fit m-auto mt-6'>
+  <div
+    class='basis-1/4 max-w-2xl bg-slate-800 rounded-lg border shadow-md sm:p-10 h-fit'
+  >
+    <form action="{{createLink}}" method="POST">
+      <h1 class="text-xl font-semibold text-center">Demande de création de compte entreprise</h1>
+
+      <div class="w-fit m-auto mt-6">
+        {{>linkButton4 href=candidatureLink title='Voir la candidature'}}
+      </div>
+
+      <h1 class="text-base font-medium">Candidat</h1>
+      <div class="flex gap-4">
+        <div class='relative z-0 mb-6 mt-6 w-full group'>
+          <label for='account_demand_firstname' class='peer-focus:font-medium absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Prénom</label>
+          <input type='text' value='{{candidature.prenom}}' id='account_demand_firstname' name='account_demand_firstname' class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+        </div>
+
+        <div class='relative z-0 mb-6 mt-6 w-full group'>
+          <label for='account_demand_lastname' class='peer-focus:font-medium absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Nom</label>
+          <input type='text' value='{{candidature.nom}}' id='account_demand_lastname' name='account_demand_lastname' class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+        </div>
+      </div>
+
+      <div class='relative z-0 mb-6 w-full group'>
+        <label for='account_demand_telephone' class='peer-focus:font-medium absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Numéro de téléphone</label>
+        <input
+          type='tel'
+          name='account_demand_telephone'
+          value='{{candidature.telephone}}'
+          id='account_demand_telephone'
+          class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer'
+          placeholder=''
+          required
+        />
+      </div>
+
+      <h1 class="text-base font-medium mt-10">Poste</h1>
+      <div class="flex gap-4">
+        <div class='relative z-0 mb-6 mt-6 w-full group'>
+          <label for='account_demand_job_label' class='peer-focus:font-medium absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Titre du poste</label>
+          <input type='text' value='{{fichePoste.label}}' id='account_demand_job_label' name='account_demand_job_label' class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+        </div>
+
+        <div class='relative z-0 mb-6 mt-6 w-full group'>
+          <label for='account_demand_service' class='peer-focus:font-medium absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Service</label>
+          <input type='text' value='{{fichePoste.destinationService}}' id='account_demand_service' name='account_demand_service' class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+        </div>
+      </div>
+
+      <div id="account_demand_address_container" class='relative z-0 mb-6 w-full group'>
+        <label for='account_demand_address' class='peer-focus:font-medium absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Localisation du lieu de travail</label>
+        <div class="relative inline-block" style="width:300px;">
+          <input type='text' id='account_demand_address' name='account_demand_address' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+        </div>
+      </div>
+
+      <div class='relative z-0 mb-6 mt-6 w-full group'>
+        <label for="account_demand_rh_note" class="block mb-2 text-sm font-medium text-white">Note</label>
+        <textarea id="account_demand_rh_note" name="account_demand_rh_note" rows="4" class="block p-2.5 w-full text-sm text-white placeholder-gray-400 bg-gray-700 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500" placeholder="Ajoutez vos commentaires à destination du responsable IT..."></textarea>
+      </div>
+
+      <div class='w-fit m-auto'>
+        {{>FormButton1 button_text="Demander la création de compte"}}
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function removeAutocompleteOptions() {
+    console.log("REMOVE")
+    const datalist = document.getElementById('autocomplete-options');
+    if (datalist) {
+      datalist.parentNode.removeChild(datalist);
+    }
+  }
+
+  function addAutocompleteOptions(arr, autofill) {
+    const input = document.getElementById('account_demand_address');
+    if (arr.length === 1 && autofill === true) {
+      input.value = arr[0].properties.label;
+      return;
+    }
+    const datalist = document.createElement('datalist');
+    datalist.id = 'autocomplete-options';
+
+    arr.forEach(obj => {
+      const option = document.createElement('option');
+      option.value = obj.properties.label;
+      option.addEventListener('click', function() {
+        input.value = obj.properties.label;
+      });
+      datalist.appendChild(option);
+    });
+    datalist.setAttribute('size', arr.length);
+    input.setAttribute('list', 'autocomplete-options');
+    input.parentNode.appendChild(datalist);
+    console.log("ADDED")
+  }
+
+
+  function autocomplete(inp) {
+    var currentFocus;
+    inp.addEventListener("keydown", function(e) {
+      if (document.getElementById("account_demand_address").value.replace(/\s/g, '').length < 3) {
+        return
+      }
+      fetch(`/accountcreationdemand/addresses?text=${document.getElementById("account_demand_address").value.replace(/\s/g, '+')}`)
+        .then(function (response) {
+          return response.json()
+        })
+        .then(function (arr) {
+          removeAutocompleteOptions()
+          if (e.key === 'Delete' || e.key === 'Backspace') {
+            addAutocompleteOptions(arr, false)
+          } else {
+            addAutocompleteOptions(arr, true)
+          }
+        })
+      
+    });
+  }
+  autocomplete(document.getElementById("account_demand_address"));
+</script>

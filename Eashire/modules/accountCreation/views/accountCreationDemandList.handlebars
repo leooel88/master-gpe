@@ -1,0 +1,34 @@
+<div class="m-4 flex">
+  <div class="m-4">
+    {{>returnButton route="/workspace"}}
+  </div>
+
+	<div class="grow flex">
+    <div class="grow basis-1/4">
+      <form method='post' action='/ficheposte/list' class="w-3/4 mx-auto mt-20">
+        <div class='w-fit m-auto'>
+          {{>FormButton1 button_text="Rechercher"}}
+        </div>
+      </form>
+    </div>
+		<div class="w-fit mx-auto">
+			{{>PageHeader header_text="Liste des demandes de création de compte"}}
+			<div class='relative min-w-[30%] m-6 flex flex-col justify-center'>
+				<div class='grow p-4 max-w-3xl m-auto bg-slate-800 rounded-lg border shadow-md sm:p-6'>
+					{{#if emptyList}}
+						<div class="w-fit m-auto">
+							{{>no-symbol-outline}}
+						</div>
+					{{else}}
+            <ul class='my-4 space-y-3 max-w-3xl'>
+							{{#each accountCreationDemandList}}
+                {{>AccountCreationDemandListItem element=this}}
+							{{/each}}
+						</ul>
+					{{/if}}
+				</div>
+			</div>
+		</div>
+		<div class="grow basis-1/4"></div>
+	</div>
+</div>

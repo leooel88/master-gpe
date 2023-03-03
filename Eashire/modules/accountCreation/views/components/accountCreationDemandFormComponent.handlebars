@@ -1,0 +1,92 @@
+<div class='grow relative top-6 flex justify-center'>
+	<div id='ficheposteread-div'>
+		<div
+			class='grow py-8 px-12 max-w-2xl bg-slate-800 rounded-lg border shadow-md'
+		>
+			<div class='w-fit m-auto flex justify-between items-center mb-4 place-content-between'>
+				<h5
+					class='text-xl font-bold leading-none mb-6 text-white'
+				>Création de compte</h5>
+   		</div>
+      <form action="{{createLink}}" method="POST">
+        <h1 class="text-base font-medium">Candidat</h1>
+        <div class="flex gap-4">
+          <div class='relative z-0 mb-6 mt-6 w-full group'>
+            <label for='account_creation_givenName' class='peer-focus:font-medium absolute text-base truncate text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Prénom (givenName)</label>
+            <input type='text' value='{{accountCreationDemand.prenom}}' id='account_creation_givenName' name='account_creation_givenName' class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+          </div>
+
+          <div class='relative z-0 mb-6 mt-6 w-full group'>
+            <label for='account_creation_surname' class='peer-focus:font-medium absolute text-base truncate text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Nom de famille (surname)</label>
+            <input type='text' value='{{accountCreationDemand.nom}}' id='account_creation_surname' name='account_creation_surname' class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class='relative z-0 mb-6 mt-6 w-full group'>
+            <label for='account_creation_displayName' class='peer-focus:font-medium absolute text-base truncate text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Nom d'affichage (displayName)</label>
+            <input type='text' value='{{accountCreationDemand.displayName}}' id='account_creation_displayName' name='account_creation_displayName' class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+          </div>
+
+          <div class='relative z-0 mb-6 mt-6 w-full group'>
+            <label for='account_creation_mailNickname' class='peer-focus:font-medium absolute text-base truncate text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Pseudo (mailNickname)</label>
+            <input type='text' value='{{accountCreationDemand.mailNickname}}' id='account_creation_mailNickname' name='account_creation_mailNickname' class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+          </div>
+        </div>
+
+        <div class="flex gap-4 items-center">
+          <div class='relative z-0 mb-6 mt-6 w-full group'>
+            <label for='account_creation_userPrincipalName' class='peer-focus:font-medium absolute text-base truncate text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>UPN (userPrincipalName)</label>
+            <input type='text' value='{{accountCreationDemand.userPrincipalName}}' id='account_creation_userPrincipalName' name='account_creation_userPrincipalName' class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+          </div>
+
+          <select id="account_creation_domain" name="account_creation_domain" class="bg-gray-700 border border-gray-600 placeholder-gray-400 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1">
+            <option selected>-</option>
+            {{#each domains}}
+              <option value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
+        </div>
+
+        <div class='relative z-0 mb-6 w-full group'>
+          <label for='account_creation_mobilePhone' class='peer-focus:font-medium absolute text-base truncate text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Numéro de téléphone</label>
+          <input
+            type='tel'
+            name='account_creation_mobilePhone'
+            value='{{accountCreationDemand.telephone}}'
+            id='account_creation_mobilePhone'
+            class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer'
+            placeholder=''
+            required
+          />
+        </div>
+
+        <h1 class="text-base font-medium mt-10">Poste</h1>
+        <div class="flex gap-4">
+          <div class='relative z-0 mb-6 mt-6 w-full group'>
+            <label for='account_creation_jobTitle' class='peer-focus:font-medium absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Titre du poste (jobTitle)</label>
+            <input type='text' value='{{accountCreationDemand.label}}' id='account_creation_jobTitle' name='account_creation_jobTitle' class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+          </div>
+
+          <div class='relative z-0 mb-6 mt-6 w-full group'>
+            <label for='account_creation_department' class='peer-focus:font-medium absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Service (department)</label>
+            <input type='text' value='{{accountCreationDemand.destinationService}}' id='account_creation_department' name='account_creation_department' class='block py-2.5 px-0 w-full text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+          </div>
+        </div>
+
+        <div id="account_creation_officeLocation_container" class='relative z-0 mb-6 w-full group'>
+          <label for='account_creation_officeLocation' class='peer-focus:font-medium absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Localisation du lieu de travail (officeLocation)</label>
+          <div class="relative inline-block" style="width:300px;">
+            <input type='text' value= '{{accountCreationDemand.jobLocation}}' id='account_creation_officeLocation' name='account_creation_officeLocation' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+          </div>
+        </div>
+
+        <div class='w-fit m-auto'>
+          {{>FormButton1 button_text="Créer le compte"}}
+        </div>
+      </form>
+		</div>
+	</div>
+</div>
+
+<script type='text/javascript' src='/javascripts/fichePosteRead.js'></script>

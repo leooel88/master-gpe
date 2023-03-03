@@ -1,0 +1,27 @@
+<li>
+  <a
+    href={{element.readLink}}
+    class='flex items-center p-3 text-base font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white'
+  >
+    <div class="h-5 w-5">
+      {{#if even}}
+        {{>user-outline class="h-5 w-5"}}
+      {{else}}
+        {{>user-solid class="h-5 w-5"}}
+      {{/if}}
+    </div>
+    <span
+      class='flex-1 ml-3 text-sm font-normal whitespace-nowrap'
+    >Pour</span>
+    <span
+      class='flex-1 ml-1 mr-3 whitespace-nowrap'
+    >{{element.prenom}} {{element.nom}}</span>
+    <span
+      class='flex-1 ml-3 text-sm font-normal whitespace-nowrap'
+    >Par</span>
+    <span
+      class='flex-1 ml-1 mr-3 whitespace-nowrap'
+    >{{element.rhDisplayName}}</span>
+    <span class="flex items-center justify-center pl-3">{{element.createdAt}}</span>
+  </a>
+</li>

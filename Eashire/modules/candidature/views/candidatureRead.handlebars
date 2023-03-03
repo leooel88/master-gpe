@@ -2,63 +2,78 @@
 	{{>returnButton route="/candidature/list"}}
 </div>
 
-<div class="flex">
-	<div class="grow mt-4">
+<div class="flex place-content-between">
+	<div class="flex-1 mt-4">
 		{{>fichePosteReadComponent}}
 	</div>
 
-	<div class="grow mt-4 p-6">
+	<div class="flex-1 mt-4 p-6">
 		{{#compare displayNotes 1 operator="=="}}
 		<div id="validation-container" class="hidden gap-4 m-4 items-center">
 		{{else}}
-		<div id="validation-container" class="flex gap-4 m-4 items-center">
+		<div id="validation-container" class="flex gap-4 m-4 items-center place-content-between overflow-hidden">
 		{{/compare}}
-			{{#compare candidature.validationRh 0 operator="=="}}
-				<div class="relative w-fit h-5 rounded-full bg-gray-500 flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
-					<span class="absolute left-0 top-0 text-purple-800 bg-gray-500">
-					</span>
-					RH
+			{{#if accountDemandPresent}}
+				<div class="flex-1 flex items-center">
+					<p class="m-6">Demande de création</br>de compte</p>
+					<div class="flex-shrink-0">
+						{{#compare candidature.accountDemand 0 operator="=="}}
+							{{>linkButtonOutlined id="creation_demand_button" href=accountCreationDemandLink title="En cours..."}}
+						{{else compare candidature.accountDemand 1 operator="=="}}
+							{{>linkButtonGreen id="creation_demand_button" href=accountCreationDemandLink title="Acceptée !"}}
+						{{else compare candidature.accountDemand 2 operator="=="}}
+							{{>linkButtonRed id="creation_demand_button" href=accountCreationDemandLink title="Refusée !"}}
+						{{/compare}}
+					</div>
 				</div>
-			{{else compare candidature.validationRh 1 operator="=="}}
-				<div class="relative w-fit h-5 bg-lime-500 rounded-full flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
-					<span class="absolute left-0 top-0 text-purple-800">
-					</span>
-					RH
-				</div>
-			{{else compare candidature.validationRh 2 operator="=="}}
-				<div class="relative w-fit h-5 bg-red-500 rounded-full flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
-					<span class="absolute left-0 top-0 text-purple-800">
-					</span>
-					RH
-				</div>
-			{{/compare}}
+			{{else}}
+				{{#compare candidature.validationRh 0 operator="=="}}
+					<div class="relative w-fit h-5 rounded-lg bg-gray-500 flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800 bg-gray-500">
+						</span>
+						RH
+					</div>
+				{{else compare candidature.validationRh 1 operator="=="}}
+					<div class="relative w-fit h-5 bg-lime-500 rounded-lg flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800">
+						</span>
+						RH
+					</div>
+				{{else compare candidature.validationRh 2 operator="=="}}
+					<div class="relative w-fit h-5 bg-red-500 rounded-lg flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800">
+						</span>
+						RH
+					</div>
+				{{/compare}}
 
-			{{#compare candidature.validationManager 0 operator="=="}}
-				<div class="relative w-fit h-5 rounded-full bg-gray-500 flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
-					<span class="absolute left-0 top-0 text-purple-800 bg-gray-500">
-					</span>
-					MANAGER
-				</div>
-			{{else compare candidature.validationManager 1 operator="=="}}
-				<div class="relative w-fit h-5 bg-lime-500 rounded-full flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
-					<span class="absolute left-0 top-0 text-purple-800">
-					</span>
-					MANAGER
-				</div>
-			{{else compare candidature.validationManager 2 operator="=="}}
-				<div class="relative w-fit h-5 bg-red-500 rounded-full flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
-					<span class="absolute left-0 top-0 text-purple-800">
-					</span>
-					MANAGER
-				</div>
-			{{/compare}}
+				{{#compare candidature.validationManager 0 operator="=="}}
+					<div class="relative w-fit h-5 rounded-lg bg-gray-500 flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800 bg-gray-500">
+						</span>
+						MANAGER
+					</div>
+				{{else compare candidature.validationManager 1 operator="=="}}
+					<div class="relative w-fit h-5 bg-lime-500 rounded-lg flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800">
+						</span>
+						MANAGER
+					</div>
+				{{else compare candidature.validationManager 2 operator="=="}}
+					<div class="relative w-fit h-5 bg-red-500 rounded-lg flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800">
+						</span>
+						MANAGER
+					</div>
+				{{/compare}}
+			{{/if}}
 
 			{{#if rh}}
-				<div id="open-notes-button" class="flex-1 flex flex-row-reverse">
+				<div id="open-notes-button" class="flex flex-row-reverse">
 					{{>linkButton5 href='#' title='Ouvrir les notes' svg='book-open-solid'}}
 				</div>
 			{{else if manager}}
-				<div id="open-notes-button" class="flex-1 flex flex-row-reverse">
+				<div id="open-notes-button" class="flex flex-row-reverse">
 					{{>linkButton5 href='#' title='Ouvrir les notes' svg='book-open-solid'}}
 				</div>
 			{{/if}}
@@ -109,9 +124,12 @@
 					{{else}}
 						{{#compare candidature.validationManager 1 operator="=="}}
 							{{#compare candidature.validationRh 1 operator="=="}}
-								<div class='mt-4 grow flex justify-center gap-6'>
-									{{>linkButton1 href=createDossierRecrutement title='Créer un dossier de recrutement'}}
-								</div>
+								{{#if accountDemandPresent}}
+								{{else}}
+									<div class='mt-4 grow flex justify-center gap-6'>
+										{{>linkButton1 href=createDossierRecrutement title='Créer un dossier de recrutement'}}
+									</div>
+								{{/if}}
 							{{/compare}}
 						{{else}}
 							<div class='mt-4 grow flex justify-center gap-6'>
@@ -240,4 +258,17 @@
 	</div>
 </div>
 
+<script>
+	const creationDemandButton = document.getElementById("creation_demand_button");
+	const firstSpanElement = creationDemandButton.querySelector("span:first-of-type");
+	const initialTextContent = firstSpanElement.textContent;
+
+	creationDemandButton.addEventListener("mouseover", function() {
+		firstSpanElement.textContent = "Voir la demande";
+	});
+
+	creationDemandButton.addEventListener("mouseout", function() {
+		firstSpanElement.textContent = initialTextContent;
+	});
+</script>
 <script type='text/javascript' src='/javascripts/candidatureRead.js'></script>

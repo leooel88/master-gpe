@@ -1,4 +1,4 @@
-const { FichePoste, Candidature } = require('@models')
+const { FichePoste, Candidature, AccountCreationDemand } = require('@models')
 const azureService = require('@utils/azureService/graph')
 const jwt = require('jsonwebtoken')
 
@@ -111,6 +111,20 @@ exports.process = async (req, res, next) => {
 			isLoggedIn: true,
 			imageUrl: `/servedFiles/CV/${foundCandidature[0].dataValues.cv}`,
 			saveNoteLink: `/candidature/savenote/${foundCandidature[0].dataValues.id}`,
+		}
+
+		if (foundCandidature[0].dataValues.accountDemand != null) {
+			const foundAccountCreationDemand = await AccountCreationDemand.findAll({
+				where: { candidatureId: foundCandidature[0].dataValues.id },
+			})
+			if (
+				foundAccountCreationDemand &&
+				foundAccountCreationDemand.length > 0 &&
+				foundAccountCreationDemand[0].dataValues
+			) {
+				params.accountCreationDemandLink = `/accountcreationdemand/read/${foundAccountCreationDemand[0].dataValues.id}`
+				params.accountDemandPresent = true
+			}
 		}
 		res.render('candidatureRead', params)
 	})

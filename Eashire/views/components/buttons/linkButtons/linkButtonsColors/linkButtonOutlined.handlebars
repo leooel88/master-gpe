@@ -1,6 +1,9 @@
 <a
 	href={{href}}
-	class='flex items-center p-3 w-fit h-fit text-base font-bold text-orange-400 border-solid border border-orange-400 rounded-lg hover:bg-slate-800/50 group hover:shado'
+  {{#if id}}
+    id={{id}}
+  {{/if}}
+	class='w-fit h-fit py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-400 focus:outline-none bg-gray-800 rounded-lg border border-gray-600 hover:bg-gray-700 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-700'
 >
 	{{#if svg}}
 		{{#if svg_class}}
