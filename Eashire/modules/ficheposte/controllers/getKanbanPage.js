@@ -5,19 +5,30 @@ const jwt = require('jsonwebtoken')
 
 exports.process = async (req, res, next) => {
 	let group = ''
+	let rh
+	let manager
+	let it
+	let finance
 
 	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
-	const { userId, rh: isRh, manager: isManager, finance: isFinance } = decodedToken
+	const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
 
 	if (isRh == true) {
 		group = 'rh'
+		rh = true
 	}
 	if (isManager == true) {
 		group = 'manager'
+		manager = true
 	}
 	if (isFinance == true) {
 		group = 'finance'
+		finance = true
 	}
+	if (isIt == true) {
+		it = true
+	}
+
 	const result = []
 
 	FichePoste.findAll()
@@ -66,7 +77,23 @@ exports.process = async (req, res, next) => {
 				group: group,
 				fichePosteListNotNull: result.length > 0 ? 1 : 0,
 			}
-			res.render('fichePosteList', params)
+			if (rh == true) {
+				params.rh = true
+			}
+			if (manager == true) {
+				params.manager = true
+			}
+			if (it == true) {
+				params.it = true
+			}
+			if (finance == true) {
+				params.finance = true
+			}
+
+			res.render('fichePosteList', {
+				layout: 'mainWorkspaceSidebar',
+				...params,
+			})
 		})
 		.catch((err) => {
 			errorHandler.catchDataCreationError(err.errors, res, '')

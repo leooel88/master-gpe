@@ -23,7 +23,7 @@ exports.process = async (req, res, next) => {
 
 	let userParams
 	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
-	const { userId, rh: isRh, manager: isManager, finance: isFinance } = decodedToken
+	const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
 
 	if (isRh == true) {
 		userParams = {
@@ -126,6 +126,22 @@ exports.process = async (req, res, next) => {
 				params.accountDemandPresent = true
 			}
 		}
-		res.render('candidatureRead', params)
+
+		if (isRh == true) {
+			params.rh = true
+		}
+		if (isManager == true) {
+			params.manager = true
+		}
+		if (isFinance == true) {
+			params.finance = true
+		}
+		if (isIt == true) {
+			params.it = true
+		}
+		res.render('candidatureRead', {
+			layout: 'mainWorkspaceSidebar',
+			...params,
+		})
 	})
 }

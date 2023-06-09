@@ -156,6 +156,22 @@ exports.process = async (req, res, next) => {
 		params.candidatureList = result
 		params.group = userRole
 
-		res.render('candidatureList', params)
+		if (isRh == true) {
+			params.rh = true
+		}
+		if (isManager == true) {
+			params.manager = true
+		}
+		if (isFinance == true) {
+			params.finance = true
+		}
+		if (isIt == true) {
+			params.it = true
+		}
+
+		res.render('candidatureList', {
+			layout: 'mainWorkspaceSidebar',
+			...params,
+		})
 	})
 }

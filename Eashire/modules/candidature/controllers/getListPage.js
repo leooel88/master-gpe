@@ -1,5 +1,6 @@
 const { FichePoste, Candidature } = require('@models')
 const azureService = require('@utils/azureService/graph')
+const jwt = require('jsonwebtoken')
 
 exports.process = async (req, res, next) => {
 	const candidatureId = parseInt(req.params.candidatureId, 10)
@@ -75,6 +76,25 @@ exports.process = async (req, res, next) => {
 		params.candidatureList = result
 		params.group = userRole
 
-		res.render('candidatureList', params)
+		const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
+		const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
+
+		if (isRh == true) {
+			params.rh = true
+		}
+		if (isManager == true) {
+			params.manager = true
+		}
+		if (isFinance == true) {
+			params.finance = true
+		}
+		if (isIt == true) {
+			params.it = true
+		}
+
+		res.render('candidatureList', {
+			layout: 'mainWorkspaceSidebar',
+			...params,
+		})
 	})
 }

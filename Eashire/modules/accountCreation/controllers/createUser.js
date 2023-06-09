@@ -1,6 +1,7 @@
 const { AccountCreationDemand } = require('@models')
 const auth = require('@utils/authentication')
 const azureService = require('@utils/azureService/graph')
+const jwt = require('jsonwebtoken')
 
 const graph = require('../../../utils/azureService/graph')
 
@@ -96,7 +97,26 @@ exports.process = async (req, res) => {
 			data.userPrincipalName,
 		)
 		const params = { active: { accountCreatedRead: true }, user: data, userDetails: userDetails }
-		res.render('accountCreatedRead', params)
+
+		const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
+		const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
+
+		if (isRh == true) {
+			params.rh = true
+		}
+		if (isManager == true) {
+			params.manager = true
+		}
+		if (isFinance == true) {
+			params.finance = true
+		}
+		if (isIt == true) {
+			params.it = true
+		}
+		res.render('accountCreatedRead', {
+			layout: 'mainWorkspaceSidebar',
+			...params,
+		})
 	} else {
 		res.redirect('/')
 	}

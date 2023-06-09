@@ -14,7 +14,8 @@ function getEngine() {
 		helpers: helpers,
 		defaultLayout: `${__dirname}/../../../views/layouts/main`,
 		partialsDir: partials,
-		layoutsDir: layouts,
+		layoutsDir: `${__dirname}/../../../views/layouts`,
+		// layoutsDir: layouts,
 	})
 
 	return hbs.engine

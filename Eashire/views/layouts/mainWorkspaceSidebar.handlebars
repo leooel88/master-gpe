@@ -5,11 +5,13 @@
 		<link rel='stylesheet' href='/stylesheets/style.css' />
 		<link rel='stylesheet' href='/stylesheets/general_style.css' />
 	</head>
-	<body class="h-screen w-screen bg-slate-900 text-slate-300">
-		<main>
-			<div class="relative h-screen w-screen">
-				{{>navbar}}
-				<div class="relative">
+	<body class="h-screen w-screen bg-slate-900 text-slate-300 flex flex-col">
+		{{>navbar}}
+		<div class="flex flex-grow">
+			<main class="flex-grow flex">
+				{{>workspaceSidebar}}
+
+				<div class="flex-grow relative">
 					{{#each error}}
 						<div role='alert'>
 							<div class="w-full bg-blue-900 p-6">
@@ -22,11 +24,13 @@
 							{{/if}}
 						</div>
 					{{/each}}
-				</div>
 
-				{{{body}}}
-			</div>
-		</main>
+					<div class="relative flex-grow">
+						{{{body}}}
+					</div>
+				</div>
+			</main>
+		</div>
         
 		<script
 			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -40,5 +44,17 @@
 			src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
 			integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
 			crossorigin="anonymous"></script>
+		<script>
+			const sidebar = document.getElementById('sidebar');
+			const toggleButton = document.getElementById('toggle-button');
+			const chevronIcon = document.getElementById('toggle-button');
+
+			toggleButton.addEventListener('click', () => {
+				sidebar.classList.toggle('w-14');
+				sidebar.classList.toggle('w-64');
+				sidebar.classList.toggle('overflow-hidden');
+				chevronIcon.classList.toggle('rotate-180');
+			});
+		</script>
 	</body>
 </html>

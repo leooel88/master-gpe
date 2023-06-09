@@ -1,5 +1,6 @@
 const { FichePoste } = require('@models')
 const errorHandler = require('@utils/errorHandler')
+const jwt = require('jsonwebtoken')
 
 exports.process = (req, res, next) => {
 	const result = []
@@ -46,7 +47,27 @@ exports.process = (req, res, next) => {
 				displayValidationIcons: false,
 				fichePosteListNotNull: result.length > 0 ? 1 : 0,
 			}
-			res.render('fichePosteList', params)
+
+			const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
+			const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
+
+			if (isRh == true) {
+				params.rh = true
+			}
+			if (isManager == true) {
+				params.manager = true
+			}
+			if (isFinance == true) {
+				params.finance = true
+			}
+			if (isIt == true) {
+				params.it = true
+			}
+
+			res.render('fichePosteList', {
+				layout: 'mainWorkspaceSidebar',
+				...params,
+			})
 		})
 		.catch((err) => {
 			console.log('ERROR : ')

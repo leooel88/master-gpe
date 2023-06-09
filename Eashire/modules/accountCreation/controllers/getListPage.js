@@ -1,5 +1,6 @@
 const { AccountCreationDemand } = require('@models')
 const auth = require('@utils/authentication')
+const jwt = require('jsonwebtoken')
 const Sequelize = require('sequelize')
 
 const { Op } = Sequelize
@@ -40,5 +41,24 @@ exports.process = async (req, res) => {
 		params.accountCreationDemandList = resultList
 	}
 
-	res.render('accountCreationDemandList', params)
+	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
+	const { rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
+
+	if (isRh == true) {
+		params.rh = true
+	}
+	if (isManager == true) {
+		params.manager = true
+	}
+	if (isFinance == true) {
+		params.finance = true
+	}
+	if (isIt == true) {
+		params.it = true
+	}
+
+	res.render('accountCreationDemandList', {
+		layout: 'mainWorkspaceSidebar',
+		...params,
+	})
 }

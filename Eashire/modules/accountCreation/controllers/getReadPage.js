@@ -1,6 +1,7 @@
 const { AccountCreationDemand, Message, User } = require('@models')
 const auth = require('@utils/authentication')
 const azureService = require('@utils/azureService/graph')
+const jwt = require('jsonwebtoken')
 const Sequelize = require('sequelize')
 
 const { Op } = Sequelize
@@ -40,7 +41,13 @@ exports.process = async (req, res) => {
 	params.accountCreationDemand = foundAccountCreationDemand
 	params.domains = azureService.getAzureConfig().domains
 
-	const { userId, manager: isManager, rh: isRh, it: isIt } = auth.getTokenInfo(req)
+	const {
+		userId,
+		manager: isManager,
+		rh: isRh,
+		it: isIt,
+		finance: isFinance,
+	} = auth.getTokenInfo(req)
 	if (isManager == true) {
 		params.isManager = isManager
 	} else if (isRh == true) {
@@ -122,7 +129,24 @@ exports.process = async (req, res) => {
 			return false
 		})
 	}
-	res.render('accountCreationDemandRead', params)
+
+	if (isRh == true) {
+		params.rh = true
+	}
+	if (isManager == true) {
+		params.manager = true
+	}
+	if (isFinance == true) {
+		params.finance = true
+	}
+	if (isIt == true) {
+		params.it = true
+	}
+
+	res.render('accountCreationDemandRead', {
+		layout: 'mainWorkspaceSidebar',
+		...params,
+	})
 }
 
 const updateConversationNotification = async (conversationId, userId) => {
