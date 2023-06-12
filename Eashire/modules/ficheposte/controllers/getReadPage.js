@@ -12,7 +12,7 @@ exports.process = async (req, res, next) => {
 	const fichePosteId = parseInt(req.params.fichePosteId, 10)
 
 	const params = {}
-	let userId, isRh, isManager, isFinance
+	let userId, isRh, isManager, isFinance, isIt
 
 	if (error != null && error.length > 0) {
 		params.error = [{ message: error }]
@@ -20,7 +20,7 @@ exports.process = async (req, res, next) => {
 
 	if (isLoggedIn === true) {
 		const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
-		;({ userId, rh: isRh, manager: isManager, finance: isFinance } = decodedToken)
+		;({ userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken)
 
 		const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
 		if (isRh) {
@@ -95,7 +95,23 @@ exports.process = async (req, res, next) => {
 			params.active = { fichePosteRead: true }
 			params.fichePoste = fichePosteData
 
-			res.render('fichePosteRead', params)
+			if (isRh == true) {
+				params.rh = true
+			}
+			if (isManager == true) {
+				params.manager = true
+			}
+			if (isFinance == true) {
+				params.finance = true
+			}
+			if (isIt == true) {
+				params.it = true
+			}
+
+			res.render('fichePosteRead', {
+				layout: 'mainWorkspaceSidebar',
+				...params,
+			})
 		})
 		.catch((err) => {
 			errorHandler.catchDataCreationError(err.errors, res, 'fichePosteList')

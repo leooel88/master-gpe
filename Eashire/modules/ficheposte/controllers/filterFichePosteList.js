@@ -7,7 +7,7 @@ const { Op } = Sequelize
 
 exports.process = (req, res, next) => {
 	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
-	const { userId, rh: isRh, manager: isManager, finance: isFinance } = decodedToken
+	const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
 	const where = {}
 	const result = []
 	let group = ''
@@ -112,7 +112,24 @@ exports.process = (req, res, next) => {
 				group: group,
 				fichePosteListNotNull: result.length > 0 ? 1 : 0,
 			}
-			res.render('fichePosteList', params)
+
+			if (isRh == true) {
+				params.rh = true
+			}
+			if (isManager == true) {
+				params.manager = true
+			}
+			if (isFinance == true) {
+				params.finance = true
+			}
+			if (isIt == true) {
+				params.it = true
+			}
+
+			res.render('fichePosteList', {
+				layout: 'mainWorkspaceSidebar',
+				...params,
+			})
 		})
 		.catch((err) => {
 			errorHandler.catchDataCreationError(err.errors, res, '')

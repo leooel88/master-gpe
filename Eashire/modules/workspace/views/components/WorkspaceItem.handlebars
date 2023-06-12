@@ -1,10 +1,12 @@
 <li>
   <a
     href={{href}}
-    class='flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-700'
+    class='flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-700 overflow-hidden'
   >
-    {{> (lookup . 'svg')}}
-    <span class='flex-1 ml-3 whitespace-nowrap'>{{text}}</span>
+    <div class='min-w-8'>
+      {{> (lookup . 'svg')}}
+    </div>
+    <span class='flex-1 ml-3 whitespace-nowrap truncate'>{{text}}</span>
     {{#compare notif_number 0 operator='>'}}
       <span
         class='inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-red-400 rounded-full'

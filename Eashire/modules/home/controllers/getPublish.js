@@ -46,6 +46,7 @@ exports.process = (req, res, next) => {
 				displayValidationIcons: false,
 				fichePosteListNotNull: result.length > 0 ? 1 : 0,
 			}
+
 			res.render('fichePosteList', params)
 		})
 		.catch((err) => {

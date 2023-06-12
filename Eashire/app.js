@@ -1,4 +1,5 @@
 const { LogLevel, ConfidentialClientApplication } = require('@azure/msal-node')
+const { default: axios } = require('axios')
 const body_parser = require('body-parser')
 const flash = require('connect-flash')
 const cookieParser = require('cookie-parser')
