@@ -170,7 +170,9 @@ module.exports = {
 			.api('/me/calendarview')
 			.header('Prefer', `outlook.timezone="${timeZone}"`)
 			.query({ startDateTime: startISO, endDateTime: endISO })
-			.select('subject,organizer,start,end')
+			.select(
+				'subject,organizer,start,end,bodyPreview,onlineMeetingUrl,attendees,isOrganizer,location',
+			)
 			.orderby('start/dateTime')
 			.top(nbrEvent)
 			.get()

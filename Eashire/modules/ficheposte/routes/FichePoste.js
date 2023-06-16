@@ -16,7 +16,11 @@ router.get('/delete/:fichePosteId', auth.authenticatedManager, fichePoste.delete
 
 router.get('/archive/:fichePosteId', auth.authenticatedManager, fichePoste.archive)
 
-router.get('/list', fichePoste.getKanbanPage)
+router.get(
+	'/list',
+	auth.authenticatedGroups(['RH', 'FINANCE', 'MANAGER']),
+	fichePoste.getKanbanPage,
+)
 
 router.post('/list', fichePoste.filterFichePosteList)
 
