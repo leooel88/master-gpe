@@ -107,66 +107,6 @@ exports.process = async (req, res, next) => {
 	})
 }
 
-// function getEventListWithAllDates(events) {
-// 	const result = []
-// 	const options = { weekday: 'long', month: 'long', day: 'numeric' }
-
-// 	// Get the first and last event dates
-// 	const firstEventDate = new Date(events[0].start.dateTime)
-// 	const lastEventDate = new Date(events[events.length - 1].start.dateTime)
-
-// 	// Get rid of the hours, minutes and seconds for the comparison
-// 	firstEventDate.setHours(0, 0, 0, 0)
-// 	lastEventDate.setHours(0, 0, 0, 0)
-
-// 	const currentDate = new Date(firstEventDate)
-
-// 	let currentEventIndex = 0
-// 	let count = 0
-
-// 	// eslint-disable-next-line no-unmodified-loop-condition
-// 	while (currentDate <= lastEventDate) {
-// 		let dateString = currentDate.toLocaleDateString('fr-FR', options)
-// 		// Capitalize each word in the date string
-// 		dateString = dateString.replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())
-
-// 		if (currentEventIndex == 0) {
-// 			result.push({
-// 				separator: true,
-// 				first: true,
-// 				date: dateString,
-// 			})
-// 			count++
-// 		} else {
-// 			if (result[count - 1].separator == true) {
-// 				result[count - 1].empty = true
-// 			}
-// 			result.push({
-// 				separator: true,
-// 				date: dateString,
-// 			})
-// 			count++
-// 		}
-
-// 		while (currentEventIndex < events.length) {
-// 			const currentEventDate = new Date(events[currentEventIndex].start.dateTime)
-// 			currentEventDate.setHours(0, 0, 0, 0)
-
-// 			if (currentDate.getTime() === currentEventDate.getTime()) {
-// 				result.push(events[currentEventIndex])
-// 				count++
-// 				currentEventIndex++
-// 			} else {
-// 				break
-// 			}
-// 		}
-
-// 		// Increment the current date by 1 day
-// 		currentDate.setDate(currentDate.getDate() + 1)
-// 	}
-// 	return result
-// }
-
 function formatDate(dateString) {
 	const date = new Date(dateString)
 
