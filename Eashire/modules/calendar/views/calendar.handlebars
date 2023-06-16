@@ -94,8 +94,8 @@
                 <div class="grow flex flex-col">
                   <p class="mt-4 text-xl text-white">Conférence</p>
                   <div class="flex px-4 py-2">
-                    {{#if this.onlineMeetingUrl}}
-                      💻 {{this.onlineMeetingUrl}}
+                    {{#if this.onlineMeeting}}
+                      {{>linkButton1 href=this.onlineMeeting.joinUrl title="💻 Rejoindre la réunion en ligne"}}
                     {{else}}
                       💻 Non définie
                     {{/if}}

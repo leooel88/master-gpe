@@ -25,7 +25,14 @@ exports.process = async (req, res, next) => {
 		params.it = true
 	}
 
-	const { value } = await graph.getCalendarNEvents(req.app.locals.msalClient, userId, 20)
+	const user = req.app.locals.users[req.session.userId]
+
+	const { value } = await graph.getCalendarNEvents(
+		req.app.locals.msalClient,
+		userId,
+		20,
+		user.timeZone,
+	)
 	let events = value.map((event) => ({
 		...event,
 		eventHour: new Date(event.start.dateTime).toLocaleTimeString('fr-FR', {

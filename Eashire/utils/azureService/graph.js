@@ -154,7 +154,7 @@ module.exports = {
 			return group.displayName == azureConfig.IT_GROUP_NAME
 		})
 	},
-	getCalendarNEvents: async function (msalClient, userId, nbrEvent) {
+	getCalendarNEvents: async function (msalClient, userId, nbrEvent, timeZone) {
 		// Set start date as now and end date as a year from now
 		const start = new Date()
 		const end = new Date()
@@ -163,7 +163,6 @@ module.exports = {
 		// Convert JavaScript Date to ISO string and get timezone
 		const startISO = start.toISOString()
 		const endISO = end.toISOString()
-		const timeZone = moment.tz(start.getTimezoneOffset() * -1, 'minutes').zoneAbbr()
 
 		const client = getAuthenticatedClient(msalClient, userId)
 		const events = await client
@@ -171,7 +170,7 @@ module.exports = {
 			.header('Prefer', `outlook.timezone="${timeZone}"`)
 			.query({ startDateTime: startISO, endDateTime: endISO })
 			.select(
-				'subject,organizer,start,end,bodyPreview,onlineMeetingUrl,attendees,isOrganizer,location',
+				'subject,organizer,start,end,bodyPreview,onlineMeeting,attendees,isOrganizer,location',
 			)
 			.orderby('start/dateTime')
 			.top(nbrEvent)
