@@ -1,0 +1,28 @@
+<div id="sidebar" class="flex-none flex flex-col h-full relative truncate w-14 h-full bg-slate-800 transition-all duration-300 overflow-hidden">
+  <button id="toggle-button" class="p-4 duration-300 w-14">
+    {{>chevron-right-outline}}
+  </button>
+  <ul class='space-y-2 mx-2'>
+    {{>WorkspaceItem href="/calendar" text='Calendrier' notif_number=(lookup . 'notifNumber') svg='calendar-day-solid'}}
+
+    {{>WorkspaceItem href="/calendar/myevents" text='Mes évènements' notif_number=(lookup . 'notifNumber') svg='user-solid'}}
+
+    {{>WorkspaceItem href="/calendar/coffeebreak" text='Pause café' notif_number=(lookup . 'notifNumber') svg='coffee-iconer-outline'}}
+
+    {{#if rh}}
+      {{>WorkspaceItem href="/calendar/following" text='Suivi' notif_number=(lookup . 'notifNumber') svg='clipboard-document-check-solid'}}
+    {{else}}
+      {{#if manager}}
+        {{>WorkspaceItem href="/calendar/following" text='Suivi' notif_number=(lookup . 'notifNumber') svg='clipboard-document-check-solid'}}
+      {{/if}}
+    {{/if}}
+
+    {{#if rh}}
+      {{>WorkspaceItem href="/calendar/interview" text='Entretien' notif_number=(lookup . 'notifNumber') svg='briefcase-solid'}}
+    {{else}}
+      {{#if manager}}
+        {{>WorkspaceItem href="/calendar/interview" text='Entretien' notif_number=(lookup . 'notifNumber') svg='briefcase-solid'}}
+      {{/if}}
+    {{/if}}
+  </ul>
+</div>
