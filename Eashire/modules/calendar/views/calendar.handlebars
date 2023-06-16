@@ -1,3 +1,9 @@
+<div class="mt-4">
+  {{>PageHeader header_text="📆 Calendrier"}}
+</div>
+<div class="my-4 w-fit m-auto">
+  {{>linkButton3-small href='none' title='Nouvel évènement' svg="plus-circle-outline" svg_class="h-5 w-5"}}
+</div>
 <div class="flex flex-col m-10 mx-16 w-fit">
   {{#each events}}
     {{#if this.separator}}
@@ -20,7 +26,7 @@
         <div class="flex gap-4 w-fit flex-wrap">
       {{/if}}
     {{else}}
-      <div class="card shadow rounded m-2 bg-slate-800 overflow-hidden cursor-pointer hover:opacity-75">
+      <div onclick="showEventView('{{this.id}}')" class="card shadow rounded m-2 bg-slate-800 overflow-hidden cursor-pointer hover:opacity-75">
         <div id="p_element" class="w-full bg-blue-400 px-4 py-2 group-hover:bg-blue-500">
           <p class="text-xl tracking-tight text-white">
             {{this.subject}}
@@ -37,6 +43,79 @@
           </div>
         </div>
       </div>
+      <div id="event-container-{{this.id}}" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 hidden">
+        <div class="flex flex-row-reverse m-6">
+          <button class="w-fit p-2"
+            onclick="closeEventView('{{this.id}}')">
+            {{>x-circle-outline class="w-10 h-10"}}
+          </button>
+        </div>
+        <div class="w-full flex justify-center items-center">
+          <div class="w-1/2 h-fit sm:h-2/3 bg-slate-800 rounded-lg overflow-hidden shadow-lg flex flex-col">
+            <div id="p_element" class="w-full bg-blue-400 px-6 pb-4 pt-6  group-hover:bg-blue-500">
+              <p class="text-4xl tracking-tight text-white">
+                {{this.subject}}
+              </p>
+            </div>
+            <div class="h-fit p-6 border border-x-gray-600 border-b-gray-600 border-t-transparent rounded-b-lg">
+              <p class="text-xl text-white">Horraires</p>
+              <div class="flex px-4 py-2">
+                <p class="text-xl">🕒</p>
+                <p class="text-xl text-gray-400 ml-2">{{this.displayDates}}</p>
+              </div>
+              <p class="mt-4 text-xl text-white">Membres</p>
+              <div class="flex px-4 py-2">
+                <p class="text-xl">👤</p>
+                <p class="text-xl text-gray-400 ml-2">{{this.organizerName}}</p>
+              </div>
+              <div class="flex px-4 py-2">
+                <p class="text-xl">👥</p>
+                  <p class="text-xl text-gray-500 ml-2">
+                    {{#each this.attendees}}
+                      {{#if this.isFirst}}
+                        {{this.emailAddress.name}}
+                      {{else}}
+                         - {{this.emailAddress.name}}
+                      {{/if}}
+                    {{/each}}
+                  </p>
+              </div>
+              <div class="flex gap-10">
+                <div class="grow flex flex-col">
+                  <p class="mt-4 text-xl text-white">Localisation</p>
+                  <div class="flex px-4 py-2">
+                    {{#if this.location}}
+                      📍 {{this.location.displayName}}
+                    {{else}}
+                      📍 Non définie
+                    {{/if}}
+                  </div>
+                </div>
+                <div class="grow flex flex-col">
+                  <p class="mt-4 text-xl text-white">Conférence</p>
+                  <div class="flex px-4 py-2">
+                    {{#if this.onlineMeetingUrl}}
+                      💻 {{this.onlineMeetingUrl}}
+                    {{else}}
+                      💻 Non définie
+                    {{/if}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     {{/if}}
   {{/each}}
 </div>
+<script>
+  function showEventView(eventId) {
+    const eventContainer = document.getElementById(`event-container-${eventId}`);
+    eventContainer.classList.remove('hidden');
+  }
+  function closeEventView(eventId) {
+    const eventContainer = document.getElementById(`event-container-${eventId}`);
+    eventContainer.classList.add('hidden');
+  }
+</script>
