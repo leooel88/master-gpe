@@ -1,4 +1,5 @@
 const graph = require('@microsoft/microsoft-graph-client')
+const moment = require('moment-timezone')
 
 require('isomorphic-fetch')
 // process;
@@ -153,19 +154,24 @@ module.exports = {
 			return group.displayName == azureConfig.IT_GROUP_NAME
 		})
 	},
-	getCalendarView: async function (msalClient, userId, start, end, timeZone, nbrEvent) {
+	getCalendarNEvents: async function (msalClient, userId, nbrEvent) {
+		// Set start date as now and end date as a year from now
+		const start = new Date()
+		const end = new Date()
+		end.setFullYear(end.getFullYear() + 1)
+
+		// Convert JavaScript Date to ISO string and get timezone
+		const startISO = start.toISOString()
+		const endISO = end.toISOString()
+		const timeZone = moment.tz(start.getTimezoneOffset() * -1, 'minutes').zoneAbbr()
+
 		const client = getAuthenticatedClient(msalClient, userId)
 		const events = await client
 			.api('/me/calendarview')
-			// Add Prefer header to get back times in user's timezone
 			.header('Prefer', `outlook.timezone="${timeZone}"`)
-			// Add the begin and end of the calendar window
-			.query({ startDateTime: start, endDateTime: end })
-			// Get just the properties used by the app
+			.query({ startDateTime: startISO, endDateTime: endISO })
 			.select('subject,organizer,start,end')
-			// Order by start time
 			.orderby('start/dateTime')
-			// Get at most 50 results
 			.top(nbrEvent)
 			.get()
 

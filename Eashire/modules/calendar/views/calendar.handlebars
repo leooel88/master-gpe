@@ -1,0 +1,42 @@
+<div class="flex flex-col m-10 mx-16 w-fit">
+  {{#each events}}
+    {{#if this.separator}}
+      {{#if this.first}}
+        <div class="flex flex-row">
+          <div class="text-2xl leading-tight m-2">{{this.date}}</div>
+          <div class="grow my-auto p-6">
+            <hr>
+          </div>
+        </div>
+        <div class="flex gap-4 w-fit flex-wrap">
+      {{else}}
+        </div>
+        <div class="flex flex-row">
+          <div class="text-2xl leading-tight m-2">{{this.date}}</div>
+          <div class="grow my-auto p-6">
+            <hr>
+          </div>
+        </div>
+        <div class="flex gap-4 w-fit flex-wrap">
+      {{/if}}
+    {{else}}
+      <div class="card shadow rounded m-2 bg-slate-800 overflow-hidden cursor-pointer hover:opacity-75">
+        <div id="p_element" class="w-full bg-blue-400 px-4 py-2 group-hover:bg-blue-500">
+          <p class="text-xl tracking-tight text-white">
+            {{this.subject}}
+          </p>
+        </div>
+        <div class="border border-x-gray-600 border-b-gray-600 border-t-transparent rounded-b">
+          <div class="flex px-4 py-2 ">
+            <p>🕒</p>
+            <p class="text-gray-400 ml-2">{{this.eventHour}}</p>
+          </div>
+          <div class="flex px-4 py-2 ">
+            <p>👤</p>
+            <p class="text-gray-400 ml-2">{{this.organizerName}}</p>
+          </div>
+        </div>
+      </div>
+    {{/if}}
+  {{/each}}
+</div>
