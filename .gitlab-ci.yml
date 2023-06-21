@@ -1,4 +1,4 @@
-Stages:
+stages:
   - deploy
 deploy:
   stage: deploy
