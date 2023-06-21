@@ -1,0 +1,270 @@
+<div class="flex place-content-between">
+	<div class="flex-1 mt-4">
+		{{>fichePosteReadComponent}}
+	</div>
+
+	<div class="flex-1 mt-4 p-6">
+		{{#compare displayNotes 1 operator="=="}}
+		<div id="validation-container" class="hidden gap-4 m-4 items-center">
+		{{else}}
+		<div id="validation-container" class="flex gap-4 m-4 items-center place-content-between overflow-hidden">
+		{{/compare}}
+			{{#if accountDemandPresent}}
+				<div class="flex-1 flex items-center">
+					<p class="m-6">Demande de création</br>de compte</p>
+					<div class="flex-shrink-0">
+						{{#compare candidature.accountDemand 0 operator="=="}}
+							{{>linkButtonOutlined id="creation_demand_button" href=accountCreationDemandLink title="En cours..."}}
+						{{else compare candidature.accountDemand 1 operator="=="}}
+							{{>linkButtonGreen id="creation_demand_button" href=accountCreationDemandLink title="Acceptée !"}}
+						{{else compare candidature.accountDemand 2 operator="=="}}
+							{{>linkButtonRed id="creation_demand_button" href=accountCreationDemandLink title="Refusée !"}}
+						{{/compare}}
+					</div>
+				</div>
+			{{else}}
+				{{#compare candidature.validationRh 0 operator="=="}}
+					<div class="relative w-fit h-5 rounded-lg bg-gray-500 flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800 bg-gray-500">
+						</span>
+						RH
+					</div>
+				{{else compare candidature.validationRh 1 operator="=="}}
+					<div class="relative w-fit h-5 bg-lime-500 rounded-lg flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800">
+						</span>
+						RH
+					</div>
+				{{else compare candidature.validationRh 2 operator="=="}}
+					<div class="relative w-fit h-5 bg-red-500 rounded-lg flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800">
+						</span>
+						RH
+					</div>
+				{{/compare}}
+
+				{{#compare candidature.validationManager 0 operator="=="}}
+					<div class="relative w-fit h-5 rounded-lg bg-gray-500 flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800 bg-gray-500">
+						</span>
+						MANAGER
+					</div>
+				{{else compare candidature.validationManager 1 operator="=="}}
+					<div class="relative w-fit h-5 bg-lime-500 rounded-lg flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800">
+						</span>
+						MANAGER
+					</div>
+				{{else compare candidature.validationManager 2 operator="=="}}
+					<div class="relative w-fit h-5 bg-red-500 rounded-lg flex-none flex justify-center items-center text-center text-sm p-5 shadow-xl">
+						<span class="absolute left-0 top-0 text-purple-800">
+						</span>
+						MANAGER
+					</div>
+				{{/compare}}
+			{{/if}}
+
+			{{#if rh}}
+				<div id="open-notes-button" class="flex flex-row-reverse">
+					{{>linkButton5 href='#' title='Ouvrir les notes' svg='book-open-solid'}}
+				</div>
+			{{else if manager}}
+				<div id="open-notes-button" class="flex flex-row-reverse">
+					{{>linkButton5 href='#' title='Ouvrir les notes' svg='book-open-solid'}}
+				</div>
+			{{/if}}
+		</div>
+
+		<div
+			class='p-4 h-fit flex flex-col items-center rounded-lg border shadow-md md:flex-row border-gray-700 bg-gray-800'
+		>
+			<a href={{imageUrl}} class='bg-slate-600 hover:bg-slate-500 rounded-lg'>
+				<div class="flex center-items">
+					<span class="text-2xl font-bold mx-auto">CV</span>
+				</div>
+				<img
+					class='object-cover overflow-hidden rounded-t-lg md:h-auto md:h-40 md:rounded-none md:rounded-l-lg'
+					src='/images/image.png'
+					alt=''
+				/>
+			</a>
+
+			<div class='flex flex-col justify-between p-4 leading-normal'>
+				<div class='flex'>
+					<h5
+						class='mb-2 text-2xl font-bold tracking-tight text-white'
+					>{{candidature.prenom}}</h5>
+					<h5
+						class='mb-2 ml-4 text-2xl font-bold tracking-tight text-white'
+					>{{candidature.nom}}</h5>
+				</div>
+				<div class="flex">
+					{{>envelope-outline}}
+					<p class='mb-2 ml-4 font-normal text-gray-400'>
+						{{candidature.mail}}
+					</p>
+				</div>
+
+				<div class="flex">
+					{{>phone-solid}}
+					<p class='mb-2 ml-4 font-normal text-gray-400'>
+						{{candidature.telephone}}
+					</p>
+				</div>
+				{{#if rh}}
+					{{#compare candidature.validationManager 0 operator="=="}}
+						<div class='mt-4 grow flex justify-center gap-6'>
+							{{>linkButton1 href=rhValidLink title='Valider la candidature'}}
+							{{>linkButton2 href=rhRefuseLink title='Refuser la candidature'}}
+						</div>
+					{{else}}
+						{{#compare candidature.validationManager 1 operator="=="}}
+							{{#compare candidature.validationRh 1 operator="=="}}
+								{{#if accountDemandPresent}}
+								{{else}}
+									<div class='mt-4 grow flex justify-center gap-6'>
+										{{>linkButton1 href=createDossierRecrutement title='Créer un dossier de recrutement'}}
+									</div>
+								{{/if}}
+							{{/compare}}
+						{{else}}
+							<div class='mt-4 grow flex justify-center gap-6'>
+								{{>linkButton1 href=rhValidLink title='Valider la candidature'}}
+								{{>linkButton2 href=rhRefuseLink title='Refuser la candidature'}}
+							</div>
+						{{/compare}}
+					{{/compare}}
+				{{else if manager}}
+					{{#compare candidature.accepted 0 operator="=="}}
+						{{#compare candidature.validationRh 1 operator="=="}}
+							<div class='mt-4 grow flex justify-center gap-6'>
+								{{>linkButton1 href=managerValidLink title='Valider la candidature'}}
+								{{>linkButton2 href=managerRefuseLink title='Refuser la candidature'}}
+							</div>
+						{{/compare}}
+					{{/compare}}
+				{{/if}}
+			</div>
+		</div>
+
+		{{#compare displayNotes 1 operator="=="}}
+		<div id="notes-container" class="block mt-4 rounded">
+		{{else}}
+		<div id="notes-container" class="hidden mt-4 rounded">
+		{{/compare}}
+			<!-- Tabs -->
+			<div class="flex h-12">
+				<ul id="tabs" class="mr-auto grow inline-flex text-white">
+					{{#compare displayTabRh 0 operator="=="}}
+					<li id="manager-note-button" class="px-4 py-2 font-semibold border-b-2 border-blue-400 rounded-t opacity-50"><a href="#">Manager</a></li>
+					{{else}}
+					<li id="manager-note-button" class="px-4 py-2 font-semibold rounded-t opacity-50"><a href="#">Manager</a></li>
+					{{/compare}}
+
+					{{#compare displayTabRh 1 operator="=="}}
+					<li id="rh-note-button" class="px-4 py-2 font-semibold border-b-2 border-blue-400 rounded-t opacity-50"><a href="#">Ressources Humaines</a></li>
+					{{else}}
+					<li id="rh-note-button" class="px-4 py-2 font-semibold rounded-t opacity-50"><a href="#">Ressources Humaines</a></li>
+					{{/compare}}
+				</ul>
+				{{#if manager}}
+					{{#compare displayTabRh 0 operator="=="}}
+					<div id="save-notes-button-manager" class="flex-1 flex flex-row-reverse">
+						{{>linkButton5-small id="save-note-button" title='Sauvegarder la note' svg='check-circle-outline'
+						}}
+					</div>
+					{{else}}
+					<div id="save-notes-button-manager" class="hidden flex-1 flex flex-row-reverse">
+						{{>linkButton5-small id="save-note-button" title='Sauvegarder la note' svg='check-circle-outline'
+						}}
+					</div>
+					{{/compare}}
+				{{else}}
+					{{#if rh}}
+						{{#compare displayTabRh 0 operator="=="}}
+						<div id="save-notes-button-rh" class="hidden flex-1 flex flex-row-reverse">
+							{{>linkButton5-small id="save-note-button" title='Sauvegarder la note' svg='check-circle-outline'
+							}}
+						</div>
+						{{else}}
+						<div id="save-notes-button-rh" class="flex-1 flex flex-row-reverse">
+							{{>linkButton5-small id="save-note-button" title='Sauvegarder la note' svg='check-circle-outline'
+							}}
+						</div>
+						{{/compare}}
+					{{/if}}
+				{{/if}}
+			</div>
+
+			<!-- Tab Contents -->
+			<div id="tab-contents" class="mt-4">
+				{{#if rh}}
+					{{#compare displayTabRh 0 operator="=="}}
+					<div id="manager-tab">
+						<form>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+						</form>
+					</div>
+					<div id="rh-tab" class="hidden">
+						<form id="form" method="post" action={{saveNoteLink}}>
+							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+						</form>
+					</div>
+					{{else}}
+					<div id="manager-tab" class="hidden">
+						<form>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+						</form>
+					</div>
+					<div id="rh-tab">
+						<form id="form" method="post" action={{saveNoteLink}}>
+							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+						</form>
+					</div>
+					{{/compare}}
+					
+				{{/if}}
+				{{#if manager}}
+					{{#compare displayTabRh 0 operator="=="}}
+					<div id="manager-tab">
+						<form id="form" method="post" action={{saveNoteLink}}>
+							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+						</form>
+					</div>
+					<div id="rh-tab" class="hidden">
+						<form>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+						</form>
+					</div>
+					{{else}}
+					<div id="manager-tab" class="hidden">
+						<form id="form" method="post" action={{saveNoteLink}}>
+							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+						</form>
+					</div>
+					<div id="rh-tab">
+						<form>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+						</form>
+					</div>
+					{{/compare}}
+				{{/if}}
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	const creationDemandButton = document.getElementById("creation_demand_button");
+	const firstSpanElement = creationDemandButton.querySelector("span:first-of-type");
+	const initialTextContent = firstSpanElement.textContent;
+
+	creationDemandButton.addEventListener("mouseover", function() {
+		firstSpanElement.textContent = "Voir la demande";
+	});
+
+	creationDemandButton.addEventListener("mouseout", function() {
+		firstSpanElement.textContent = initialTextContent;
+	});
+</script>
+<script type='text/javascript' src='/javascripts/candidatureRead.js'></script>

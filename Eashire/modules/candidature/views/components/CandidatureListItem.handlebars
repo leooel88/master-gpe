@@ -1,0 +1,36 @@
+<li>
+  <a
+    href={{candidature_item.readLink}}
+    class='flex items-center p-3 text-base font-bold text-white bg-gray-600 rounded-lg hover:bg-gray-500 group hover:shadow'
+  >
+    {{#if candidature_item.even}}
+      {{>academic-cap-solid}}
+    {{else}}
+      {{>academic-cap-outline}}
+    {{/if}}
+    <div class='grow'>
+      <span
+        class='ml-3 whitespace-nowrap'
+      >{{candidature_item.prenom}}</span>
+      <span
+        class='ml-3 whitespace-nowrap'
+      >{{candidature_item.nom}}</span>
+    </div>
+    <div class='grow'>
+      <span
+        class='ml-5 text-gray-400 text-sm whitespace-nowrap'
+      >pour la fiche de poste :</span>
+      <span
+        class='ml-3 whitespace-nowrap'
+      >{{candidature_item.fichePoste.label}}</span>
+    </div>
+    <div class='grow'>
+      <span
+        class='ml-5 text-gray-400 text-sm whitespace-nowrap'
+      >le</span>
+      <span
+        class='ml-3 whitespace-nowrap'
+      >{{candidature_item.createdAt}}</span>
+    </div>
+  </a>
+</li>

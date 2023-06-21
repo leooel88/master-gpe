@@ -1,0 +1,32 @@
+{
+	"development": {
+		"IT_GROUP_NAME": "sg-IT",
+		"RH_GROUP_NAME": "HR-S",
+		"MANAGER_GROUP_NAME": "MANAGER-S",
+		"FINANCE_GROUP_NAME": "FINANCE-S",
+		"domains": [
+			"@eashire.com",
+			"@M365x54258280.OnMicrosoft.com"
+		]
+	},
+	"test": {
+		"IT_GROUP_NAME": "sg-IT",
+		"RH_GROUP_NAME": "HR-S",
+		"MANAGER_GROUP_NAME": "MANAGER-S",
+		"FINANCE_GROUP_NAME": "FINANCE-S",
+		"domains": [
+			"@eashire.com",
+			"@M365x54258280.OnMicrosoft.com"
+		]
+	},
+	"production": {
+		"IT_GROUP_NAME": "sg-IT",
+		"RH_GROUP_NAME": "HR-S",
+		"MANAGER_GROUP_NAME": "MANAGER-S",
+		"FINANCE_GROUP_NAME": "FINANCE-S",
+		"domains": [
+			"@eashire.com",
+			"@M365x54258280.OnMicrosoft.com"
+		]
+	}
+}

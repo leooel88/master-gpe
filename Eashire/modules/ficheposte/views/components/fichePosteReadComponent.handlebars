@@ -1,0 +1,558 @@
+<div class='relative top-6 flex justify-center'>
+	<div id='ficheposteread-div'>
+		<div
+			class='grow py-8 px-12 max-w-2xl bg-slate-800 rounded-lg border shadow-md'
+		>
+			<div class='flex justify-between items-center mb-4'>
+				<h5
+					class='text-xl font-bold leading-none text-white'
+				>Fiche de poste</h5>
+				<div class='flex justify-center gap-6 items-center'>
+				{{#compare isLoggedIn 1 operator="=="}}
+					{{#compare fichePoste.publicationRH 1 operator="=="}}
+						<div class='m-3 flex items-center p-1 text-sm font-bold text-white bg-blue-800 rounded'>
+							<span class='flex-1 whitespace-nowrap'>Publié</span>
+						</div>
+					{{else}}
+						<div>Validation</div>
+						{{#compare fichePoste.validationRH 0 operator="=="}}
+							{{#compare fichePoste.validationFinance 0 operator="=="}}
+								<div class='flex-shrink-0'>
+									{{> question-mark-circle-solid}}
+								</div>
+							{{/compare}}
+						{{else compare fichePoste.validationRH 1 operator="=="}}
+							{{#compare fichePoste.validationFinance 1 operator="=="}}
+								<div class='flex-shrink-0'>
+									{{> check-badge-solid class='w-5 h-5 fill-lime-500'}}
+								</div>
+							{{else compare fichePoste.validationFinance 0 operator="=="}}
+								<div class='flex-shrink-0'>
+									{{> check-badge-solid class='w-5 h-5 fill-lime-300'}}
+								</div>
+							{{/compare}}
+						{{else}}
+							<div class='flex-shrink-0'>
+								{{> x-circle-solid class='h-5 w-5 fill-red-500'}}
+							</div>
+						{{/compare}}
+					{{/compare}}
+				{{/compare}}
+				</div>
+				<p class='text-sm font-medium text-blue-500'>
+					Id :
+					{{fichePoste.id}}
+				</p>
+			</div>
+			<div class='grow flow-root'>
+				<ul
+					role='list'
+					class='divide-y divide-gray-700'
+				>
+					<li class='py-3 sm:py-4'>
+						<div class='flex items-center space-x-4'>
+							<div class='flex-shrink-0'>
+								{{> check-badge-solid}}
+							</div>
+							<div class='flex-1 min-w-0'>
+								<p
+									class='text-sm font-medium text-white truncate'
+								>
+									Label du poste
+								</p>
+								<div class='flex gap-4 items-center'>
+									<p
+										class='text-sm text-gray-400 truncate'
+									>
+										{{fichePoste.label}}
+									</p>
+									{{#compare displayValidationButtons 1 operator="=="}}
+										{{#compare isLoggedIn 1 operator="=="}}
+											<a
+												id='link-label'
+												class='hover:cursor-pointer'
+											>
+												{{> pencil-square-solid class='h-4 w-4'}}
+											</a>
+										{{/compare}}
+									{{/compare}}
+								</div>
+
+							</div>
+							<div
+								class='flex flex-col text-base font-semibold text-white'
+							>
+								<div class='flex gap-4 items-center'>
+									<p
+										class='text-sm text-gray-400 truncate'
+									>
+										{{fichePoste.type}}
+									</p>
+									{{#compare displayValidationButtons 1 operator="=="}}
+										{{#compare isLoggedIn 1 operator="=="}}
+											<a
+												id='link-type'
+												class='hover:cursor-pointer'
+											>
+												{{> pencil-square-solid class='h-4 w-4'}}
+											</a>
+										{{/compare}}
+									{{/compare}}
+								</div>
+								<div class='flex gap-4 items-center'>
+									<p
+										class='text-sm font-medium text-white truncate'
+									>
+										{{fichePoste.urgency}}
+									</p>
+									{{#compare displayValidationButtons 1 operator="=="}}
+										{{#compare isLoggedIn 1 operator="=="}}
+											<a
+												id='link-urgency'
+												class='hover:cursor-pointer'
+											>
+												{{> pencil-square-solid class='h-4 w-4'}}
+											</a>
+										{{/compare}}
+									{{/compare}}
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class='py-3 sm:py-4'>
+						<div class='flex items-center space-x-4'>
+							<div class='flex-shrink-0'>
+								{{> book-open-solid class='w-8 h-8'}}
+							</div>
+							<div class='grow flex-1 min-w-0'>
+								<p
+									class='text-sm font-medium text-white truncate'
+								>
+									Description du poste
+								</p>
+								<div class='flex gap-4 items-center'>
+									<p
+										class='text-sm text-gray-400 text-ellipsis overflow-hidden'
+									>
+										{{fichePoste.jobDescription}}
+									</p>
+									{{#compare displayValidationButtons 1 operator="=="}}
+										{{#compare isLoggedIn 1 operator="=="}}
+											<a
+												id='link-jobDescription'
+												class='hover:cursor-pointer'
+											>
+												{{> pencil-square-solid class='h-4 w-4'}}
+											</a>
+										{{/compare}}
+									{{/compare}}
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class='py-3 sm:py-4'>
+						<div class='flex items-center space-x-4'>
+							<div class='flex-shrink-0'>
+								{{> map-pin-solid class='w-8 h-8'}}
+							</div>
+							<div class='flex-1 min-w-0'>
+								<p
+									class='text-sm font-medium text-white truncate'
+								>
+									Localisation de l'emploi
+								</p>
+								<div class='flex gap-4 items-center'>
+									<p
+										class='text-sm text-gray-400 truncate'
+									>
+										{{fichePoste.localisation}}
+									</p>
+									{{#compare displayValidationButtons 1 operator="=="}}
+										{{#compare isLoggedIn 1 operator="=="}}
+											<a id='link-localisation' class='hover:cursor-pointer'>
+												{{> pencil-square-solid class='h-4 w-4'}}
+											</a>
+										{{/compare}}
+									{{/compare}}
+								</div>
+							</div>
+							<div class='flex-shrink-0'>
+								{{> flag-solid class='w-8 h-8'}}
+							</div>
+							<div class='flex-1 min-w-0'>
+								<p
+									class='text-sm font-medium text-white truncate'
+								>
+									Service de destination
+								</p>
+								<div class='flex gap-4 items-center'>
+									<p
+										class='text-sm text-gray-400 truncate'
+									>
+										{{fichePoste.destinationService}}
+									</p>
+									{{#compare displayValidationButtons 1 operator="=="}}
+										{{#compare isLoggedIn 1 operator="=="}}
+											<a id='link-destinationService' class='hover:cursor-pointer'>
+												{{> pencil-square-solid class='h-4 w-4'}}
+											</a>
+										{{/compare}}
+									{{/compare}}
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class='py-3 sm:py-4'>
+						<div class='flex items-center space-x-4'>
+							<div class='flex-shrink-0'>
+								{{> calendar-solid class='w-8 h-8'}}
+							</div>
+							<div class='flex-1 min-w-0'>
+								<p
+									class='text-sm font-medium text-white truncate'
+								>
+									Date de début
+								</p>
+								<div class='flex gap-4 items-center'>
+									<p
+										class='text-sm text-gray-400 truncate'
+									>
+										{{#if fichePoste.entryDate}}
+											{{fichePoste.entryDate}}
+										{{else}}
+											Aucune date indiquée
+										{{/if}}
+									</p>
+									{{#compare displayValidationButtons 1 operator="=="}}
+										{{#compare isLoggedIn 1 operator="=="}}
+											<a id='link-entryDate' class='hover:cursor-pointer'>
+												{{> pencil-square-solid class='h-4 w-4'}}
+											</a>
+										{{/compare}}
+									{{/compare}}
+								</div>
+							</div>
+							<div class='flex-shrink-0'>
+								{{> calendar-solid class='w-8 h-8'}}
+							</div>
+							<div class='flex-1 min-w-0'>
+								<p
+									class='text-sm font-medium text-white truncate'
+								>
+									Date de fin
+								</p>
+								<div class='flex gap-4 items-center'>
+									<p
+										class='text-sm text-gray-400 truncate'
+									>
+										{{#if fichePoste.endDate}}
+											{{fichePoste.endDate}}
+										{{else}}
+											Aucune date indiquée
+										{{/if}}
+									</p>
+									{{#compare displayValidationButtons 1 operator="=="}}
+										{{#compare isLoggedIn 1 operator="=="}}
+											<a id='link-endDate' class='hover:cursor-pointer'>
+												{{> pencil-square-solid class='h-4 w-4'}}
+											</a>
+										{{/compare}}
+									{{/compare}}
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class='py-3 sm:py-4'>
+						<div class='flex items-center space-x-4'>
+							<div class='flex-shrink-0'>
+								{{> clipboard-document-list-solid class='w-8 h-8'}}
+							</div>
+							<div class='flex-1 min-w-0'>
+								<p
+									class='text-sm font-medium text-white truncate'
+								>
+									Experience requise
+								</p>
+								<div class='flex gap-4 items-center'>
+									<p
+										class='text-sm text-gray-400 text-ellipsis overflow-hidden'
+									>
+										{{#if fichePoste.experience}}
+											{{fichePoste.experience}}
+										{{else}}
+											Aucune experience requise
+										{{/if}}
+									</p>
+									{{#compare displayValidationButtons 1 operator="=="}}
+										{{#compare isLoggedIn 1 operator="=="}}
+											<a id='link-experience' class='hover:cursor-pointer'>
+												{{> pencil-square-solid class='h-4 w-4'}}
+											</a>
+										{{/compare}}
+									{{/compare}}
+								</div>
+							</div>
+							<div class='flex-shrink-0'>
+								{{> currency-dollar-solid class='w-8 h-8'}}
+							</div>
+							<div
+								class='flex-1 flex flex-col text-base font-semibold text-white'
+							>
+								<p
+									class='text-sm text-gray-400 truncate'
+								>
+									Rémunération
+								</p>
+								<div class='flex gap-4 items-center'>
+									<p
+										class='text-sm font-medium text-white truncate'
+									>
+										{{#if fichePoste.compensation}}
+											{{fichePoste.compensation}}
+										{{else}}
+											Aucune rémunération
+										{{/if}}
+									</p>
+									{{#compare displayValidationButtons 1 operator="=="}}
+										{{#compare isLoggedIn 1 operator="=="}}
+											<a id='link-compensation' class='hover:cursor-pointer'>
+												{{> pencil-square-solid class='h-4 w-4'}}
+											</a>
+										{{/compare}}
+									{{/compare}}
+								</div>
+							</div>
+						</div>
+					</li>
+					{{#compare isLoggedIn 1 operator="=="}}
+						{{#compare displayQuestions 1 operator="=="}}
+							{{#if fichePoste.question1}}
+								<li class='py-3 sm:pt-4'>
+									<div class='flex items-center space-x-4'>
+										<div class='flex-shrink-0'>
+											{{> question-mark-circle-solid class='w-8 h-8'}}
+										</div>
+										<div class='flex-1 min-w-0'>
+											<p
+												class='text-sm font-medium text-white truncate'
+											>
+												Question 1
+											</p>
+											<div class='flex gap-4 items-center'>
+												<p
+													class='text-sm text-gray-400 truncate'
+												>
+													{{fichePoste.question1}}
+												</p>
+											</div>
+										</div>
+									</div>
+								</li>
+							{{/if}}
+							{{#if fichePoste.question2}}
+								<li class='py-3 sm:pt-4'>
+									<div class='flex items-center space-x-4'>
+										<div class='flex-shrink-0'>
+											{{> question-mark-circle-solid class='w-8 h-8'}}
+										</div>
+										<div class='flex-1 min-w-0'>
+											<p
+												class='text-sm font-medium text-white truncate'
+											>
+												Question 2
+											</p>
+											<div class='flex gap-4 items-center'>
+												<p
+													class='text-sm text-gray-400 truncate'
+												>
+													{{fichePoste.question2}}
+												</p>
+											</div>
+										</div>
+									</div>
+								</li>
+							{{/if}}
+							{{#if fichePoste.question3}}
+								<li class='py-3 sm:pt-4'>
+									<div class='flex items-center space-x-4'>
+										<div class='flex-shrink-0'>
+											{{> question-mark-circle-solid class='w-8 h-8'}}
+										</div>
+										<div class='flex-1 min-w-0'>
+											<p class='text-sm font-medium text-white truncate'>
+												Question 3
+											</p>
+											<div class='flex gap-4 items-center'>
+												<p
+													class='text-sm text-gray-400 truncate'
+												>
+													{{fichePoste.question3}}
+												</p>
+											</div>
+										</div>
+									</div>
+								</li>
+							{{/if}}
+							{{#if fichePoste.question4}}
+								<li class='py-3 sm:pt-4'>
+									<div class='flex items-center space-x-4'>
+										<div class='flex-shrink-0'>
+											{{> question-mark-circle-solid class='w-8 h-8'}}
+										</div>
+										<div class='flex-1 min-w-0'>
+											<p
+												class='text-sm font-medium text-white truncate'
+											>
+												Question 4
+											</p>
+											<div class='flex gap-4 items-center'>
+												<p
+													class='text-sm text-gray-400 truncate'
+												>
+													{{fichePoste.question4}}
+												</p>
+											</div>
+										</div>
+									</div>
+								</li>
+							{{/if}}
+							{{#if fichePoste.question5}}
+								<li class='pt-3 pb-0 sm:pt-4'>
+									<div class='flex items-center space-x-4'>
+										<div class='flex-shrink-0'>
+											{{> question-mark-circle-solid class='w-8 h-8'}}
+										</div>
+										<div class='flex-1 min-w-0'>
+											<p
+												class='text-sm font-medium text-white truncate'
+											>
+												Question 5
+											</p>
+											<div class='flex gap-4 items-center'>
+												<p
+													class='text-sm text-gray-400 truncate'
+												>
+													{{fichePoste.question5}}
+												</p>
+											</div>
+										</div>
+									</div>
+								</li>
+							{{/if}}
+						{{/compare}}
+					{{/compare}}
+				</ul>
+			</div>
+			{{#compare displayValidationButtons 1 operator="=="}}
+				{{#if manager}}
+					{{#if current_owner}}
+						<div class='grow flex justify-center bg-slate-800 gap-6'>
+							<a
+								href={{archiveLink}}
+								id="archive-button"
+								class='flex items-center p-3 text-base font-bold text-white bg-sky-700 rounded-lg hover:bg-sky-600 group hover:shadow'
+							>
+								{{>folder-outline class="w-5 h-5"}}
+								<span class='ml-2 flex-1 whitespace-nowrap'>Archiver</span>
+							</a>
+							<a
+								href={{deleteLink}}
+								id="delete-button"
+								class='flex items-center p-3 text-base font-bold text-white bg-red-700 rounded-lg hover:bg-red-600 group hover:shadow'
+							>
+								{{>trash-outline class="w-5 h-5"}}
+								<span class='ml-2 flex-1 whitespace-nowrap'>Supprimer</span>
+							</a>
+						</div>
+					{{/if}}
+				{{/if}}
+				{{#if rh}}
+					{{#compare fichePoste.validationFinance 0 operator="=="}}
+						{{#compare fichePoste.publicationRH 0 operator="=="}}
+							<div class='grow flex justify-center bg-slate-800 gap-6'>
+								<a
+									href={{rhValidLink}}
+									class='flex items-center p-3 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow'
+								>
+									<span class='flex-1 whitespace-nowrap'>Valider</span>
+								</a>
+								<a
+									href={{rhRefuseLink}}
+									class='flex items-center p-3 text-base font-bold text-white bg-red-700 rounded-lg hover:bg-red-600 group hover:shadow'
+								>
+									<span class='flex-1 whitespace-nowrap'>Refuser</span>
+								</a>
+							</div>
+						{{/compare}}
+					{{else compare fichePoste.validationFinance 1 operator="=="}}
+						{{#compare fichePoste.validationRH 1 operator="=="}}
+							{{#compare fichePoste.publicationRH 0 operator="=="}}
+								<div class='grow flex justify-center bg-slate-800 gap-6'>
+									<a
+										href={{rhPublishLink}}
+										class='flex items-center p-2 text-base font-bold text-white bg-blue-700 rounded-lg hover:bg-blue-600 group hover:shadow'
+									>
+										<span class='flex-1 whitespace-nowrap'>Publier la fiche de poste</span>
+									</a>
+								</div>
+							{{/compare}}
+						{{/compare}}
+					{{/compare}}
+				{{else if finance}}
+					{{#compare fichePoste.validationRH 1 operator="=="}}
+						<div class='grow flex justify-center bg-slate-800 gap-6'>
+							<a
+								href={{financeValidLink}}
+								class='flex items-center p-3 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow'
+							>
+								<span class='flex-1 whitespace-nowrap'>Valider</span>
+							</a>
+							<a
+								href={{financeRefuseLink}}
+								class='flex items-center p-3 text-base font-bold text-white bg-red-700 rounded-lg hover:bg-red-600 group hover:shadow'
+							>
+								<span class='flex-1 whitespace-nowrap'>Refuser</span>
+							</a>
+						</div>
+					{{/compare}}
+				{{/if}}
+			{{/compare}}
+
+			{{#compare isLoggedIn 0 operator="=="}}
+				<div class='grow flex justify-center bg-slate-800 gap-6'>
+					<a
+						href={{candidateLink}}
+						class='flex items-center p-1 text-base font-bold text-white bg-blue-700 rounded-lg hover:bg-blue-600 group hover:shadow'
+					>
+						<span class='flex-1 whitespace-nowrap'>Candidater</span>
+					</a>
+				</div>
+			{{/compare}}
+		</div>
+	</div>
+
+	{{#compare isLoggedIn 1 operator="=="}}
+
+		{{>labelModifier}}
+
+		{{>typeModifier}}
+
+		{{>urgencyModifier}}
+
+		{{>jobDescriptionModifier}}
+
+		{{>localisationModifier}}
+
+		{{>destinationServiceModifier}}
+
+		{{>entryDateModifier}}
+
+		{{>endDateModifier}}
+
+		{{>experienceModifier}}
+
+		{{>compensationModifier}}
+	{{/compare}}
+</div>
+
+<script type='text/javascript' src='/javascripts/fichePosteRead.js'></script>

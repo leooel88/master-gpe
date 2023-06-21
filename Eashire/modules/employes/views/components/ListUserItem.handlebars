@@ -1,0 +1,28 @@
+<div
+  class='p-4 max-w-3xl bg-slate-800 rounded-lg border shadow-md sm:p-6 flex gap-6'
+>
+  <div class="m-4 flex flex-col">
+      <div>
+        <p class="w-fit m-auto text-xl font-semibold">{{display_name}}</p>
+      </div>
+
+      <div class="m-auto">
+        {{>user-outline}}
+      </div>
+  </div>
+  <li class="grow">
+    <div class="my-4 space-y-3">
+      {{#if surname}}
+        {{>UserItemLine text=surname svg='face-smile-outline'}}
+      {{/if}}
+
+      {{>UserItemLine text=job_title svg='briefcase-solid'}}
+
+      {{>UserItemLine text=mail svg='envelope-outline'}}
+
+      {{>UserItemLine text=mobile_phone svg='phone-outline'}}
+
+      {{>UserItemLine text=office_location svg='building-storefront-outline'}}
+    </div>
+  </li>
+</div>

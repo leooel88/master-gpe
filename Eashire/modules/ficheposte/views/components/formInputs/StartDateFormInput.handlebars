@@ -1,0 +1,12 @@
+<div class='relative z-0 mb-6 mt-6 w-full group'>
+  <label for="fichePoste_entryDate">Date de recrutement</label>
+  <input type="date" id="fichePoste_entryDate" name="fichePoste_entryDate" class="text-gray-600"
+  {{#if currentDate}}
+    value={{currentDate}} min={{currentDate}}
+  {{else}}
+    value="2022-07-04"
+  {{/if}}
+  >
+  <input type="checkbox" id="fichePoste_entryDate_use" name="fichePoste_entryDate_use">
+  <label for="fichePoste_entryDate_use">Utiliser la date de recrutement</label>
+</div>

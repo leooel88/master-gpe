@@ -1,0 +1,16 @@
+<div class="flex">
+    <div class="grow w-fit m-auto mt-6">
+        {{>PageHeader header_text="Liste des employés"}}
+        <ul class="w-fit m-auto mt-6 space-y-3">
+            <div class="w-fit m-auto mb-6">
+                {{>linkButton5 href='/organigramme' title='Organigramme'
+                    svg='user-group-solid'
+                }}
+            </div>
+        {{#each users}}
+            {{>ListUserItem display_name=this.displayName surname=this.surname job_title=this.jobTitle mail=this.mail mobile_phone=this.mobilePhone office_location=this.officeLocation}}
+            <br>
+        {{/each}}
+        </ul>
+    </div>
+</div>

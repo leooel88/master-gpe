@@ -1,0 +1,28 @@
+<div class='w-4/5 m-auto'>
+	{{>CandidatureCreationHeader wanted_post=fichePoste.label post_view_link=fichePosteLink}}
+
+	<form method='post' action={{candidateLink}} enctype='multipart/form-data'>
+		<div class='grid md:grid-cols-2 md:gap-6'>
+			{{>CandidatureFormFamilyNameInput}}
+
+			{{>CandidatureFormFirstNameInput}}
+		</div>
+
+		<div class='grid md:grid-cols-2 md:gap-6'>
+			{{>CandidatureFormEmailInput}}
+
+			{{>CandidatureFormPhoneInput}}
+		</div>
+
+		{{>CandidatureFormCvInput}}
+
+		<input
+			name='ficheposteid'
+			id='ficheposteid'
+			type='hidden'
+			value='{{fichePoste.id}}'
+		/>
+
+		{{>FormButton1 button_text="Envoyer votre candidature"}}
+	</form>
+</div>

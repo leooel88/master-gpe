@@ -1,0 +1,18 @@
+<a
+	href={{href}}
+  {{#if id}}
+    id={{id}}
+  {{/if}}
+	class='focus:outline-none w-fit h-fit text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2'
+>
+	{{#if svg}}
+		{{#if svg_class}}
+			{{> (lookup . 'svg') class=svg_class}}
+		{{else}}
+			{{> (lookup . 'svg')}}
+		{{/if}}
+		<span class='flex-1 whitespace-nowrap ml-3'>{{title}}</span>
+	{{else}}
+		<span class='flex-1 whitespace-nowrap'>{{title}}</span>
+	{{/if}}
+</a>

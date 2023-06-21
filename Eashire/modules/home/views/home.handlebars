@@ -1,0 +1,17 @@
+<div>
+	<div class="absolute z-10 w-full">
+		{{>HomeBackgroundImage}}
+	</div>
+	<div class="absolute z-20 w-full">
+		<div class="">
+			{{#if createdCandidature}}
+				{{>CreatedCandidatureBanner}}
+			{{/if}}
+			{{#if user}}
+				{{>AuthHome}}
+			{{else}}
+				{{>BaseHome}}
+			{{/if}}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,17 @@
+<div class="flex flex-col">
+	<div class="p-6 w-fit m-auto">
+		<h1 class="text-5xl font-semibold">Ressources d'entreprise</h1>
+	</div>
+	<div class='relative m-auto top-6 flex justify-center'>
+		<div
+			class='grow p-4 max-w-3xl bg-slate-800 rounded-lg border shadow-md sm:p-6 flex flex-col items-center'
+		>
+			<div class="mb-6">
+				{{>linkButton5 href='/uploadFile' title='Ajouter une ressource' svg='folder-plus-solid'}}
+			</div>
+			{{#each files}}
+				{{>RessourceItem name=this.name}}
+			{{/each}}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,121 @@
+<div class="m-4 flex">
+	<div class="grow flex">
+		{{#if displayValidationIcons}}
+			<div class="grow basis-1/4">
+				<form method='post' action='/ficheposte/list' class="w-3/4 mx-auto mt-20">
+					{{>labelFilter}}
+						
+					{{>urgencyFilter}}
+
+					<div class="flex w-fit gap-8 m-auto mb-6">
+						{{>dayFilter}}
+
+						{{>monthFilter}}
+
+						{{>yearFilter}}
+					</div>
+
+					{{>ownerFilter}}
+
+					{{>archivedFilter}}
+
+					<div class='w-fit m-auto'>
+						{{>FormButton1 button_text="Rechercher"}}
+					</div>
+				</form>
+			</div>
+		{{else}}
+			<div class="grow basis-1/4"></div>
+		{{/if}}
+		<div class="w-fit mx-auto">
+			{{>PageHeader header_text="Liste des fiches de poste"}}
+			<div class='relative min-w-[30%] m-6 flex flex-col justify-center'>
+				<div class='grow p-4 max-w-3xl m-auto bg-slate-800 rounded-lg border shadow-md sm:p-6'>
+					{{#if displayValidationIcons}}
+					<div class="mb-6 w-fit m-auto">
+						{{>linkButton5 href='/ficheposte/create' title='Créer une fiche de poste' svg='folder-plus-outline'}}
+					</div>
+					{{/if}}
+					{{#compare fichePosteListNotNull 1 operator="=="}}
+						<ul class='my-4 space-y-3 max-w-3xl'>
+							{{#each fichePosteList}}
+								{{>FichePosteListItem read_link=this.readLink even=this.even label=this.label urgency=this.urgency display_validation_icons=../displayValidationIcons created_at=this.createdAt}}
+							{{/each}}
+						</ul>
+					{{else}}
+						<div class="w-fit m-auto">
+							{{>no-symbol-outline}}
+						</div>
+					{{/compare}}
+				</div>
+			</div>
+		</div>
+		<div class="grow basis-1/4"></div>
+	</div>
+</div>
+<script>
+	for (let i = new Date().getFullYear() + 2; i >= 1900; i--) {
+    let currOption = document.createElement('option');
+    currOption.value = `year_${i}`
+    currOption.innerHTML = `${i}`
+    document.getElementById("year_filter").appendChild(currOption)
+  }
+
+	function setDay() {
+		let removeOptions = document.querySelectorAll('.remove-option-date-ficheposte-selector')
+		removeOptions.forEach(currOption => {
+			currOption.remove()
+		})
+
+		let month = document.getElementById("month_filter")
+		if (month.value == 'month_1') {
+			console.log("FEVRIER")
+			let year = document.getElementById("year_filter").value.replace('year_', '')
+			year = Number(year)
+			if ((year / 4) % 1 == 0) {
+				if ((year / 100) % 1 != 0) {
+					console.log("NON DIVISIBLE PAR 100")
+					let day29 = document.createElement('option');
+					day29.value = `day_29`
+					day29.innerHTML = `29`
+					day29.classList.add('remove-option-date-ficheposte-selector')
+					document.getElementById("day_filter").appendChild(day29)
+				} else {
+					if ((year / 400) % 1 == 0) {
+						console.log("DIVISIBLE PAR 400")
+						let day29 = document.createElement('option');
+						day29.value = `day_29`
+						day29.innerHTML = `29`
+						day29.classList.add('remove-option-date-ficheposte-selector')
+						document.getElementById("day_filter").appendChild(day29)
+					}
+				}
+			}
+		} else {
+			console.log("CASE")
+			let day29 = document.createElement('option');
+			day29.value = `day_29`
+			day29.innerHTML = `29`
+			day29.classList.add('remove-option-date-ficheposte-selector')
+			document.getElementById("day_filter").appendChild(day29)
+
+			let day30 = document.createElement('option');
+			day30.value = `day_30`
+			day30.innerHTML = `30`
+			day30.classList.add('remove-option-date-ficheposte-selector')
+			document.getElementById("day_filter").appendChild(day30)
+
+			if (month.value == 'month_0' || month.value == 'month_2' || month.value == 'month_4' || month.value == 'month_6' || month.value == 'month_7' || month.value == 'month_9' || month.value == 'month_11') {
+				let day31 = document.createElement('option');
+				day31.value = `day_31`
+				day31.innerHTML = `31`
+				day31.classList.add('remove-option-date-ficheposte-selector')
+				document.getElementById("day_filter").appendChild(day31)
+			}
+		}
+	}
+	setDay()
+
+	document.getElementById("month_filter").onchange = setDay
+	document.getElementById("year_filter").onchange = setDay
+</script>

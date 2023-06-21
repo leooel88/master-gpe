@@ -1,0 +1,25 @@
+#modifier-label,
+#modifier-type,
+#modifier-urgency,
+#modifier-jobDescription,
+#modifier-localisation,
+#modifier-destinationService,
+#modifier-entryDate,
+#modifier-endDate,
+#modifier-experience,
+#modifier-compensation {
+	display: none;
+}
+
+body {
+	overflow-x: hidden;
+}
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+	transition: background-color 5000s ease-in-out 0s;
+	-webkit-text-fill-color: white !important;
+}

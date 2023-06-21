@@ -1,0 +1,41 @@
+<li>
+  <a
+    href={{read_link}}
+    class='flex items-center p-3 text-base font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white'
+  >
+    <div class="h-5 w-5">
+      {{#if even}}
+        {{#compare this.archived 0 operator='=='}}
+          {{>clipboard-document-list-outline class="h-5 w-5"}}
+        {{else}}
+          {{>folder-outline class="h-5 w-5"}}
+        {{/compare}}
+      {{else}}
+        {{#compare this.archived 0 operator='=='}}
+          {{>clipboard-document-list-solid class="h-5 w-5"}}
+        {{else}}
+          {{>folder-solid class="h-5 w-5"}}
+        {{/compare}}
+      {{/if}}
+    </div>
+    <span
+      class='flex-1 mx-3 whitespace-nowrap'
+    >{{label}}</span>
+      {{#compare display_validation_icons 1 operator='=='}}
+        {{>FichePosteListItemUrgency urgency=urgency}}
+        <div
+          class='ml-6 h-6 rounded-[3px] flex items-center gap-4'
+        >
+          {{>FichePosteListItemValidationDiv text="RH" validation=this.validationRH}}
+
+          {{>FichePosteListItemValidationDiv text="FI" validation=this.validationFinance}}
+
+          {{>FichePosteListItemValidationDiv text="PU" validation=this.publicationRH}}
+        </div>
+      {{/compare}}
+    {{#if display_validation_icons}}
+      <span class=" text-sm text-white rounded-full bg-slate-600 flex items-center justify-center font-mono p-1 ml-3 w-6 h-6">{{this.nbCandidature}}</span>
+    {{/if}}
+    <span class="flex items-center justify-center pl-3"> {{created_at}}</span>
+  </a>
+</li>

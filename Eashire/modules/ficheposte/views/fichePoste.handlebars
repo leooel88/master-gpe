@@ -1,0 +1,57 @@
+<div class="flex">
+	<div class="grow p-6">
+		{{>PageHeader header_text="Fiche de poste"}}
+	</div>
+</div>
+
+<div class="w-fit m-auto">
+	{{>linkButton4 href='/ficheposte/list' title='Voir les fiches de postes' svg="clipboard-document-check-solid"}}
+</div>
+
+<div class='mx-20 px-10'>
+	<form action="/ficheposte/create" method="post">
+		<div class='grid md:grid-cols-2 md:gap-6'>
+			<div class='relative z-0 mb-6 mt-6 w-full group'>
+				<label for='fichePoste_label' class='peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>Intitulé du poste</label>
+				<input type='text' id='fichePoste_label' name='fichePoste_label' class='block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:border-blue-500 focus:outline-none focus:ring-0 peer' required />
+			</div>
+
+			{{>JobTypeFormInput}}
+		</div>
+
+		{{>ExperienceFormInput}}
+
+		{{>StartDateFormInput}}
+		
+
+		{{>EndDateFormInput}}
+
+		<div class='grid md:grid-cols-2 md:gap-6'>
+			{{>LocationFormInput}}
+
+			{{>ServiceFormInput}}
+			
+		</div>
+
+		{{>DescriptionFormInput}}
+
+		{{>SalaryFormInput}}
+
+		<p>Questions à poser pour la sélection des candidatures</p>
+		</br>
+
+		{{>QuestionFormInput label='fichePoste_question1' id='fichePoste_question1' name='fichePoste_question1' text='Question 1'}}
+
+		{{>QuestionFormInput label='fichePoste_question2' id='fichePoste_question2' name='fichePoste_question2' text='Question 2'}}
+
+		{{>QuestionFormInput label='fichePoste_question3' id='fichePoste_question3' name='fichePoste_question3' text='Question 3'}}
+
+		{{>QuestionFormInput label='fichePoste_question4' id='fichePoste_question4' name='fichePoste_question4' text='Question 4'}}
+
+		{{>QuestionFormInput label='fichePoste_question4' id='fichePoste_question5' name='fichePoste_question5' text='Question 5'}}
+
+		{{>UrgencyFormInput}}
+		
+		{{>FormButton1 button_text="Créer la fiche de poste"}}
+	</form>
+</div>

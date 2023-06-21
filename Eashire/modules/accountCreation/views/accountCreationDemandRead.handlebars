@@ -1,0 +1,73 @@
+<div class="m-4 flex place-content-between">
+  <button class="relative bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="showConversation()">
+    Voir la conversation
+    {{#if newMessage}}
+      <span class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center bg-red-500 text-white rounded-full h-5 w-5">
+        !
+      </span>
+    {{/if}}
+  </button>
+</div>
+<div class="flex">
+  {{>accountCreationDemandReadComponent}}
+  {{#if isIt}}
+    {{>accountCreationDemandFormComponent}}
+  {{/if}}
+</div>
+
+{{#if displayMessage}}
+  <div id="conversation-container" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75">
+{{else}}
+  <div id="conversation-container" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 hidden">
+{{/if}}
+  <div class="flex flex-row-reverse m-6">
+    <button class="w-fit p-2"
+      onclick="closeConversation()">
+      {{>x-circle-outline class="w-10 h-10"}}
+    </button>
+  </div>
+  <div class="w-full h-full flex justify-center items-center">
+    <div class="w-1/2 h-1/2 sm:h-2/3 bg-slate-800 rounded-lg shadow-lg px-6 py-4 flex flex-col justify-end">
+      <div id="chatbox"class="flex-grow w-full overflow-auto">
+        {{#each conversation}}
+          {{#compare currentOwner 1 operator="=="}}
+            <div class="mt-4 flex justify-end">
+              <div class="max-w-xs py-2 px-4 bg-slate-400 text-white rounded-lg">
+                <p class="text-sm">{{text}}</p>
+                <p class="text-xs">{{ownerDisplayName}} - {{createdAt}}</p>
+              </div>
+            </div>
+          {{else}}
+            <div class="mt-4 flex justify-start">
+              <div class="max-w-xs py-2 px-4 bg-slate-600 text-white rounded-lg">
+                <p class="text-sm">{{text}}</p>
+                <p class="text-xs">{{ownerDisplayName}} - {{createdAt}}</p>
+              </div>
+            </div>
+          {{/compare}}
+        {{/each}}
+      </div>
+      <form class="h-10 mt-4 flex place-content-between" action="{{messageLink}}" method="post">
+        <input type="text" name="accountcreationdemand_message" class="border border-gray-400 text-slate-900 px-4 py-2 rounded-lg w-3/4" placeholder="Ecrire un message...">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4">Envoyer</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('load', function() {
+    var conversationFeed = document.getElementById('chatbox');
+    conversationFeed.scrollTop = conversationFeed.scrollHeight;
+  });
+  function showConversation() {
+    const conversationContainer = document.getElementById('conversation-container');
+    conversationContainer.classList.remove('hidden');
+    var conversationFeed = document.getElementById('chatbox');
+    conversationFeed.scrollTop = conversationFeed.scrollHeight;
+  }
+  function closeConversation() {
+    const conversationContainer = document.getElementById('conversation-container');
+    conversationContainer.classList.add('hidden');
+  }
+</script>

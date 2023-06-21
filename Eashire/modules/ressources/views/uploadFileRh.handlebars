@@ -1,0 +1,26 @@
+<div class="p-6 w-fit m-auto">
+		<h1 class="text-5xl font-semibold">Ajout d'une ressource d'entreprise</h1>
+	</div>
+
+	<div class="w-fit m-auto">
+		{{>linkButton4 href='/listFile' title='Voir la liste des ressources' svg='clipboard-document-check-solid'}}
+	</div>
+
+	<div class='mx-24 px-20'>
+		<form action='/uploadFile/create' method='post' enctype='multipart/form-data'>
+			{{>RessourceNameFormInput}}
+
+			{{>RessourceDescriptionFormInput}}
+			
+			{{>RessourceTagFormInput}}
+
+			{{>RessourceDocumentFormInput}}
+
+			<div class="flex mt-6">
+				<div class="w-fit m-auto">
+					{{>FormButton1 button_text="Créer la ressource"}}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
