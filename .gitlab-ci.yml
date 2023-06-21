@@ -1,6 +1,12 @@
-stages:
+tages:
   - deploy
 deploy:
   stage: deploy
   script:
-    - echo "deployment" >> noob
+    - chmod +x ./nohup.sh
+    - chmod +x ./env.sh
+    - ./env.sh
+    - ./nohup.sh
+    - cd Eashire
+    - npm install
+    - nohup npm start &
