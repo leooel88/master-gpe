@@ -7,4 +7,4 @@ deploy:
     - ./env.sh
     - cd Eashire
     - npm install
-    - pm2 restart app
+    - NODE_APP=8080 pm2 restart app
