@@ -3,8 +3,10 @@ stages:
 deploy:
   stage: deploy
   script:
+    - chmod +x ./nohup.sh
     - chmod +x ./env.sh
     - ./env.sh
+    - ./nohup.sh
     - cd Eashire
     - npm install
-    - NODE_APP=8080 pm2 restart app
+    - nohup npm start &
