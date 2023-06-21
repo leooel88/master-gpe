@@ -1,4 +1,4 @@
-tages:
+Stages:
   - deploy
 deploy:
   stage: deploy
