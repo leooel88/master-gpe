@@ -3,4 +3,8 @@ stages:
 deploy:
   stage: deploy
   script:
-    - echo "deployment" >> noob
+    - chmod +x ./env.sh
+    - ./env.sh
+    - cd exp_must_azure_test
+    - npm install
+    - pm2 restart app
