@@ -3,10 +3,8 @@ stages:
 deploy:
   stage: deploy
   script:
-    - chmod +x ./nohup.sh
     - chmod +x ./env.sh
     - ./env.sh
-    - ./nohup.sh
     - cd Eashire
     - npm install
-    - nohup npm start &
+    - pm2 start ./bin/www
