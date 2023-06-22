@@ -7,6 +7,6 @@ deploy:
     - ./env.sh
     - cd Eashire
     - npm install
-    - pm2 start ./bin/www
+    - pm2 restart ./bin/www
   only: 
     - main
