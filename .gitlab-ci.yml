@@ -1,8 +1,7 @@
 stages:
    - deploy
 deploy:
-  only: 
-    - master
+
   stage: deploy
   script:
     - chmod +x ./env.sh
@@ -10,3 +9,5 @@ deploy:
     - cd Eashire
     - npm install
     - pm2 start ./bin/www
+  only: 
+    - master
