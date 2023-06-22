@@ -33,6 +33,7 @@
 		"sequelize": "^6.20.1",
 		"serve-index": "^1.9.1",
 		"server": "^1.0.37",
+		"socket.io-client": "^4.6.2",
 		"url": "^0.11.0",
 		"windows-iana": "^5.0.2"
 	},
