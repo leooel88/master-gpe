@@ -1,7 +1,6 @@
 stages:
    - deploy
 deploy:
-
   stage: deploy
   script:
     - chmod +x ./env.sh
@@ -10,4 +9,4 @@ deploy:
     - npm install
     - pm2 start ./bin/www
   only: 
-    - master
+    - main
