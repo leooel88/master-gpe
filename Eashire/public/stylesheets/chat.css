@@ -1,0 +1,138 @@
+#chat-icon {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 9998;  /* ensure icon is above most elements but below chat window */
+}
+
+#chat-icon:hover {
+    transform: scale(1.1);
+}
+
+#chat-icon .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 9998;  /* ensure tooltip is above most elements but below chat window */
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+#chat-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+#chat-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    overflow: auto;
+    z-index: 9999;  /* ensure chat window is above all elements */
+}
+
+#messages {
+    height: calc(100% - 50px);
+    overflow-y: auto;
+}
+
+
+button {
+    margin-left: 5px;
+}
+
+#close-button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background: none;
+    border: none;
+    font-size: 16px;
+}
+
+#chat-form {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+}
+
+#chat-input {
+    width: calc(100% - 60px);
+    height: 30px;
+    border: 2px solid #87CEEB; /* Ajouter une bordure */
+    border-radius: 5px; /* Rendre les coins arrondis */
+    background-color: #F0F8FF; /* Changer la couleur de fond */
+    padding: 5px; /* Ajouter un peu d'espace à l'intérieur de l'entrée */
+    color: black;
+}
+
+
+/*.user {*/
+/*    color: #000; !* Texte plus foncé *!*/
+/*    background-color: #ddd; !* Arrière-plan plus clair *!*/
+/*    margin: 5px;*/
+/*    padding: 10px;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+#messages {
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #F0F8FF;
+}
+
+.user {
+    background-color: #87CEFA;
+    color: #000000;
+    align-self: flex-end;
+}
+.server {
+    color: #555;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    align-self: flex-start;
+}
+
+.loader {
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid #3498db;
+    width: 20px;
+    height: 20px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
