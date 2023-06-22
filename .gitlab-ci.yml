@@ -1,6 +1,8 @@
 stages:
-  - deploy
+   - deploy
 deploy:
+  only: 
+    - master
   stage: deploy
   script:
     - chmod +x ./env.sh
