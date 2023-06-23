@@ -113,6 +113,7 @@ exports.process = (req, res, next) => {
 				fichePosteListNotNull: result.length > 0 ? 1 : 0,
 			}
 
+			params.userId = userId
 			if (isRh == true) {
 				params.rh = true
 			}

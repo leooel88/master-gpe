@@ -31,8 +31,9 @@ exports.process = async (req, res, next) => {
 	// )
 
 	// params.events = events
-
-	const userDetails = await graph.getUserDetails(req.app.locals.msalClient, req.session.userId)
+	const { userId } = req.session
+	params.userId = userId
+	const userDetails = await graph.getUserDetails(req.app.locals.msalClient, userId)
 	const date = new Date(userDetails.employeeHireDate)
 	const year = date.getFullYear()
 	let month = date.getMonth() + 1

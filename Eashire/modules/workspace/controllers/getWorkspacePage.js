@@ -5,6 +5,7 @@ exports.process = async (req, res, next) => {
 	const { userId } = auth.getTokenInfo(req)
 	const params = {
 		active: { workspace: true },
+		userId: userId,
 	}
 
 	User.findAll({

@@ -4,9 +4,12 @@
 		<title>Eashire</title>
 		<link rel='stylesheet' href='/stylesheets/style.css' />
 		<link rel='stylesheet' href='/stylesheets/general_style.css' />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.min.js"></script>
 	</head>
-    {{>chat}}
 	<body class="h-screen w-screen bg-slate-900 text-slate-300">
+		{{#if userId}}
+			{{>chat}}
+		{{/if}}
 		<main>
 			<div class="relative h-screen w-screen">
 				{{>navbar}}

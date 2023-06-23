@@ -76,6 +76,7 @@ exports.process = async (req, res, next) => {
 				displayValidationIcons: true,
 				group: group,
 				fichePosteListNotNull: result.length > 0 ? 1 : 0,
+				userId: userId,
 			}
 			if (rh == true) {
 				params.rh = true

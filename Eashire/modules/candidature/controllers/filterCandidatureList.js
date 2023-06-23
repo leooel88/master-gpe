@@ -16,6 +16,7 @@ exports.process = async (req, res, next) => {
 
 	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
 	const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
+	params.userId = userId
 
 	const groups = await azureService.getMainGroups(req.app.locals.msalClient, req.session.userId)
 

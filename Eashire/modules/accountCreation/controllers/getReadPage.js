@@ -48,6 +48,7 @@ exports.process = async (req, res) => {
 		it: isIt,
 		finance: isFinance,
 	} = auth.getTokenInfo(req)
+	params.userId = userId
 	if (isManager == true) {
 		params.isManager = isManager
 	} else if (isRh == true) {

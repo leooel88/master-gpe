@@ -38,6 +38,7 @@ exports.process = async (req, res) => {
 
 	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
 	const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
+	params.userId = userId
 
 	if (isRh == true) {
 		params.rh = true

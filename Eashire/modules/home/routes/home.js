@@ -8,6 +8,10 @@ const homeController = _module.controller
 router.get('/', function (req, res, next) {
 	const params = {
 		active: { home: true },
+		userId: req.session.userId,
+	}
+	if (req.session.userId) {
+		params.userId = req.session.userId
 	}
 
 	res.render('home', params)
