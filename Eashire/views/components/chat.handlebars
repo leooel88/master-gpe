@@ -36,7 +36,7 @@
         }
 
         function connectToBackend() {
-            socket = io('https://eashire.com:3000'); // Assurez-vous que l'URL correspond à l'URL du backend
+            socket = io('https://19b3-45-149-155-124.ngrok-free.app'); // Assurez-vous que l'URL correspond à l'URL du backend
             socket.on('response', function(data) {
                 console.log('Response received:', data);
                 const messages = document.getElementById('messages');
