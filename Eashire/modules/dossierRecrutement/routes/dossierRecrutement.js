@@ -21,5 +21,10 @@ router.get(
 	auth.authenticatedRh,
 	dossierRecrutementController.deleteFile,
 )
+router.post(
+	'/sendmail/{dossierRecrutementId}',
+	auth.authenticatedRh,
+	dossierRecrutementController.sendMail,
+)
 
 module.exports = router

@@ -2,14 +2,14 @@
 	"development": {
 		"username": "application",
 		"password": "password",
-		"database": "eashire_db",
+		"database": "eashire_2db",
 		"host": "localhost",
 		"dialect": "mysql"
 	},
 	"test": {
 		"username": "application",
 		"password": "password",
-		"database": "eashire_db",
+		"database": "eashire_2db",
 		"host": "localhost",
 		"dialect": "mysql"
 	},

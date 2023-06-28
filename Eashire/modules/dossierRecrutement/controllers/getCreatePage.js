@@ -50,6 +50,7 @@ exports.process = async (req, res) => {
 		params.fichierRecrutement = fichierRecrutement
 		params.dossierRecrutementId = dossierRecrutement.id
 		params.createDossierLink = `/dossierRecrutement/addfile/${dossierRecrutement.id}`
+		params.sendMailLink = `/dossierRecrutement/sendmail/${dossierRecrutement.id}`
 		params.countFiles = fichierRecrutement.length
 	} else {
 		const createdDossierRecrutement = await DossierRecrutement.create({
