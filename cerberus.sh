@@ -1,2 +1,2 @@
-#!bin/bash
+#!/bin/bash
 curl -X POST "${CERBERUS_HOSTS}" -H "accept: application/json" -H "X-API-KEY: ${CERBERUS_API_KEY}" -H "X-API-VERSION: 1" -H "Content-Type: application/json" -d "{ \"testcases\": [ { \"testFolderId\": \"Eashire\", \"testcaseId\": \"rh_validation\" } ], \"countries\": [ \"FR\" ], \"environments\": [ \"PROD\" ], \"robots\": [ \"CerberusChrome\" ], \"screenshot\": 0, \"video\": 0, \"verbose\": 0, \"timeout\": 0, \"pageSource\": 0, \"robotLog\": 0, \"consoleLog\": 0, \"retries\": 0, \"priority\": 0, \"manualUrl\": 0}"
