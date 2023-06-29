@@ -56,7 +56,7 @@ exports.process = async (req, res) => {
 		},
 	})
 	let mailtext =
-		`Bonjour,\n\n` +
+		`Bonjour Mr ${data[0].nom} ,\n\n` +
 		`J ai le plaisir de vous annoncer que votre candidature au poste de ${jobLabel} à été retenue .\n Afin de mener à bien votre intégration administrative, nous avons besoin de certains documents que vous devrez nous \n`
 	// let mailtext =
 	// 	'Bonjour,\n\n' +
