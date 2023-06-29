@@ -1,4 +1,4 @@
-const { Candidature, DossierRecrutement } = require('@models')
+const { Candidature, DossierRecrutement, FichierRecrutement } = require('@models')
 const mysql = require('mysql2')
 const nodemailer = require('nodemailer')
 
@@ -15,6 +15,10 @@ exports.process = async (req, res) => {
 	const data = await Candidature.findAll({
 		where: { id: candidatureId },
 	})
+
+	// const { dataValues: fichiersRecrutementData } = await FichierRecrutement.findAll({
+	// 	where: { dossierRecrutementId: dossierRecrutementId },
+	// })
 
 	console.log(dossierRecrutementData)
 	console.log('====================')
@@ -34,7 +38,7 @@ exports.process = async (req, res) => {
 		subject: "Offre d'emploi ",
 		text:
 			'Bonjour,\n\n' +
-			"  Je suis ravi de vous accueillir en tant que nouveau candidat.\n Nous sommes impatients de découvrir vos talents et compétences, et de voir comment vous pouvez contribuer à notre équipe et à notre organisation.\n Nous espérons que votre expérience ici sera enrichissante et passionnante, et que vous trouverez un environnement de travail stimulant et collaboratif. N'hésitez pas à poser des questions et à faire part de vos idées et suggestions. \n Nous sommes là pour vous aider à réussir et à atteindre vos objectifs professionnels.\n\n Bonne chance et bienvenue à bord !",
+			"Je suis ravi de vous accueillir en tant que nouveau candidat.\n Nous sommes impatients de découvrir vos talents et compétences, et de voir comment vous pouvez contribuer à notre équipe et à notre organisation.\n Nous espérons que votre expérience ici sera enrichissante et passionnante, et que vous trouverez un environnement de travail stimulant et collaboratif. N'hésitez pas à poser des questions et à faire part de vos idées et suggestions. \n Nous sommes là pour vous aider à réussir et à atteindre vos objectifs professionnels.\n\n Bonne chance et bienvenue à bord !",
 	}
 	transporter.sendMail(mailOptions, (error, info) => {
 		if (error) {

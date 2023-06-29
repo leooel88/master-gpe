@@ -22,7 +22,7 @@ router.get(
 	dossierRecrutementController.deleteFile,
 )
 router.post(
-	'/sendmail/{dossierRecrutementId}',
+	'/sendmail/:dossierRecrutementId',
 	auth.authenticatedRh,
 	dossierRecrutementController.sendMail,
 )

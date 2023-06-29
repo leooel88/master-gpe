@@ -2,7 +2,7 @@
 	"development": {
 		"username": "application",
 		"password": "password",
-		"database": "eashire_2db",
+		"database": "eashire_db",
 		"host": "localhost",
 		"dialect": "mysql"
 	},
