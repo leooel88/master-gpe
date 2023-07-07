@@ -52,6 +52,15 @@ exports.process = async (req, res, next) => {
 			event.attendees[0].isFirst = true
 		}
 	})
+	events = events.map((event) => {
+		if (event.bodyPreview) {
+			return {
+				...event,
+				description: event.bodyPreview.replace('\n', '</br>').replace('\r\n', '</br>'),
+			}
+		}
+		return event
+	})
 
 	const options = { weekday: 'long', month: 'long', day: 'numeric' }
 	const paramsEvents = []
@@ -90,6 +99,7 @@ exports.process = async (req, res, next) => {
 	}
 
 	params.events = paramsEvents
+	console.log(events)
 
 	res.render('calendar', {
 		layout: 'mainCalendarWithSidebar.handlebars',

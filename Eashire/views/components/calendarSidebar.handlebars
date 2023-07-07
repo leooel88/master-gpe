@@ -10,10 +10,10 @@
     {{>WorkspaceItem href="/calendar/coffeebreak" text='Pause café' notif_number=(lookup . 'notifNumber') svg='coffee-iconer-outline'}}
 
     {{#if rh}}
-      {{>WorkspaceItem href="/calendar/following" text='Suivi' notif_number=(lookup . 'notifNumber') svg='clipboard-document-check-solid'}}
+      {{>WorkspaceItem href="/calendar/suivi" text='Suivi' notif_number=(lookup . 'notifNumber') svg='clipboard-document-check-solid'}}
     {{else}}
       {{#if manager}}
-        {{>WorkspaceItem href="/calendar/following" text='Suivi' notif_number=(lookup . 'notifNumber') svg='clipboard-document-check-solid'}}
+        {{>WorkspaceItem href="/calendar/suivi" text='Suivi' notif_number=(lookup . 'notifNumber') svg='clipboard-document-check-solid'}}
       {{/if}}
     {{/if}}
 

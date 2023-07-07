@@ -80,6 +80,17 @@
                     {{/each}}
                   </p>
               </div>
+              {{#if this.description}}
+                <p class="text-xl text-white">Description</p>
+                <div class="flex px-4 py-2">
+                  <div class="flex px-4 py-2">
+                    <p class="text-xl">📝</p>
+                    <p class="text-xl text-white ml-2">
+                      {{{this.description}}}
+                    </p>
+                  </div>
+                </div>
+              {{/if}}
               <div class="flex gap-10">
                 <div class="grow flex flex-col">
                   <p class="mt-4 text-xl text-white">Localisation</p>
