@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 exports.process = async (req, res, next) => {
 	const params = {
-		coffeeBreakCreateLink: '/calendar/coffeebreak/create',
+		suiviCreateLink: '/calendar/suivi/create',
 	}
 	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
 	const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
@@ -41,7 +41,7 @@ exports.process = async (req, res, next) => {
 	// console.log(groupArray)
 	params.userArray = users
 
-	res.render('coffeeBreakCreationPage', {
+	res.render('suiviCreationPage', {
 		layout: 'mainCalendarWithSidebar.handlebars',
 		...params,
 	})

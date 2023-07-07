@@ -50,6 +50,12 @@ module.exports = {
 		const allusers = await client.api('/users').get()
 		return allusers
 	},
+	createOnlineMeeting: async function (msalClient, userId, onlineMeetingData) {
+		const client = getAuthenticatedClient(msalClient, userId)
+
+		const onlineMeeting = await client.api('/me/onlineMeetings').post(onlineMeetingData)
+		return onlineMeeting
+	},
 	getManager: async function (msalClient, userId) {
 		const client = getAuthenticatedClient(msalClient, userId)
 
@@ -87,6 +93,11 @@ module.exports = {
 
 		const allGroups = await client.api('/me/memberOf').get()
 		return allGroups
+	},
+	getGroupMembers: async function (msalClient, userId, groupId) {
+		const client = getAuthenticatedClient(msalClient, userId)
+		const members = await client.api(`/groups/${groupId}/members`).get()
+		return members
 	},
 	getGroupsNames: async function (msalClient, userId) {
 		const allGroups = await this.getGroups(msalClient, userId)
@@ -182,6 +193,14 @@ module.exports = {
 		const client = getAuthenticatedClient(msalClient, userId)
 		const user = await client.api('/users').post(userInfo)
 		return user
+	},
+	createEvent: async function (msalClient, userId, event) {
+		const client = getAuthenticatedClient(msalClient, userId)
+		try {
+			const createdEvent = await client.api('/me/calendar/events').post(event)
+		} catch (error) {
+			console.log(error)
+		}
 	},
 }
 

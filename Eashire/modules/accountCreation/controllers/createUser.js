@@ -1,6 +1,5 @@
 const { AccountCreationDemand } = require('@models')
 const auth = require('@utils/authentication')
-const azureService = require('@utils/azureService/graph')
 const jwt = require('jsonwebtoken')
 
 const graph = require('../../../utils/azureService/graph')

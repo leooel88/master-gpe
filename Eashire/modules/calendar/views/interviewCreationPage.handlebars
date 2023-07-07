@@ -1,5 +1,5 @@
 <div class="mt-4">
-  {{>PageHeader header_text="☕ Pause café"}}
+  {{>PageHeader header_text="💼 Entretien"}}
 </div>
 <div class="flex flex-row m-10 gap-4">
   <div class="basis-1/3 flex-col" id="left">
@@ -8,29 +8,19 @@
         Tout les utilisateurs
         <span class="arrow transform rotate-0 transition-transform duration-300">&#9662;</span>
       </button>
-      <div class="dropdown-content left-0 mt-1 ml-3 max-h-[40vh] overflow-y-auto hidden">
+      <div class="dropdown-content left-0 mt-1 ml-3 max-h-[70vh] overflow-y-auto hidden">
         {{#each userArray}}
-          <p class="user-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600" data-id="{{this.userPrincipalName}}">
-            👤 {{this.displayName}}
+          <p class="user-option py-1 px-2 m-2 text-white cursor-pointer rounded-md hover:bg-slate-600" data-id="candidature-{{this.id}}">
+            👤 {{this.prenom}} {{this.nom}} 📋 {{this.jobLabel}}
           </p>
         {{/each}}
       </div>
     </div>
-
-    <div id="groups-dropdown" class="flex-1 relative dropdown">
-      <button class="dropdown-button relative flex items-center justify-between px-2 py-1 text-xl font-bold">
-        Groupes
-        <span class="arrow transform rotate-0 transition-transform duration-300">&#9662;</span>
-      </button>
-      <div class="dropdown-content left-0 mt-1 ml-3 max-h-[40vh] overflow-y-auto hidden">
-        <!-- Nothing here for now -->
-      </div>
-    </div>
   </div>
 
-  <form class="basis-2/3 flex flex-col" method='post' action={{coffeeBreakCreateLink}}>
+  <form class="basis-2/3 flex flex-col" method='post' action={{interviewCreateLink}}>
     <div class="w-fit mx-auto">
-      {{>FormButton1 button_text="Créer la pause café"}}
+      {{>FormButton1 button_text="Créer l'entretien"}}
     </div>
     <div class="flex flex-row place-content-center items-center mt-4">
       <div class="grow flex flex-col justify-center px-4">
@@ -59,10 +49,16 @@
           <option value="event_duration_30">30 minutes</option>
         </select>
       </div>
-
     </div>
+    <div class="flex flex-row place-content-center items-center mt-4">
+      <div class="grow flex flex-col justify-center px-4">
+        <label for="event-description" class="block mb-2 text-sm font-medium text-white">Description</label>
+        <textarea id="event-description" name="event-description" rows="4" class="block p-2.5 w-full text-sm text-white bg-gray-700 rounded-lg border border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+      </div>
+    </div>
+    
     <div class="px-4 mt-4 overflow-y-auto max-h-[40vh]">
-      <p class="text-xl font-bold">Participants</p>
+      <p class="text-xl font-bold">Candidat</p>
       <div id="right" class="pl-3">
       </div>
     </div>
@@ -99,11 +95,32 @@
     .sort((a, b) => a.textContent.localeCompare(b.textContent))
     .forEach(node => dropdownContent.appendChild(node));
 
+  let selectedUser;
+
   // Function to handle user-option click event
   function userOptionClickHandler() {
-    // Add this user to the right side of the page
     const userId = this.getAttribute('data-id');
     const userName = this.textContent;
+
+    // Remove the previous selected user from the right panel if exists
+    if (selectedUser) {
+      // Remove from right panel
+      document.getElementById(`user-${selectedUser.id}`).remove();
+      
+      // Add back to the left panel
+      const dropdownContent = document.getElementById('users-dropdown').querySelector('.dropdown-content');
+      const newOption = document.createElement('p');
+      newOption.textContent = selectedUser.name;
+      newOption.className = 'user-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600';
+      newOption.setAttribute('data-id', selectedUser.id);
+      newOption.addEventListener('click', userOptionClickHandler);
+      dropdownContent.appendChild(newOption);
+
+      // Sort users in dropdown by name
+      Array.from(dropdownContent.children)
+        .sort((a, b) => a.textContent.localeCompare(b.textContent))
+        .forEach(node => dropdownContent.appendChild(node));
+    }
 
     // Create a new div with the user data and add it to the form
     const div = document.createElement('div');
@@ -113,27 +130,6 @@
     const p = document.createElement('p');
     p.textContent = userName;
     div.appendChild(p);
-
-    div.addEventListener('click', function() {
-      // Remove this user from the right side of the page
-      document.getElementById(`user-${userId}`).remove();
-
-      // Add user back to the left side of the page
-      const dropdownContent = document.getElementById('users-dropdown').querySelector('.dropdown-content');
-      
-      // Create new option for later re-use
-      const newOption = document.createElement('p');
-      newOption.textContent = userName;
-      newOption.className = 'user-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600';
-      newOption.setAttribute('data-id', userId);
-      newOption.addEventListener('click', userOptionClickHandler);
-      dropdownContent.appendChild(newOption);
-
-      // Sort users in dropdown by name
-      Array.from(dropdownContent.children)
-        .sort((a, b) => a.textContent.localeCompare(b.textContent))
-        .forEach(node => dropdownContent.appendChild(node));
-    });
 
     const input = document.createElement('input');
     input.type = 'hidden';
@@ -145,6 +141,9 @@
 
     // Remove this user from the left side of the page
     this.remove();
+
+    // Set selectedUser to this user
+    selectedUser = { id: userId, name: userName };
   }
 
   // Query all the .user-option elements

@@ -14,4 +14,26 @@ router.get('/', auth.authenticated, calendarController.getRootPage)
 
 router.get('/coffeebreak', auth.authenticated, calendarController.getCoffeeBreakPage)
 
+router.post('/coffeebreak/create', auth.authenticated, calendarController.createCoffeeBreak)
+
+router.get('/suivi', auth.authenticatedGroups(['RH', 'MANAGER']), calendarController.getSuiviPage)
+
+router.post(
+	'/suivi/create',
+	auth.authenticatedGroups(['RH', 'MANAGER']),
+	calendarController.createSuivi,
+)
+
+router.get(
+	'/interview',
+	auth.authenticatedGroups(['RH', 'MANAGER']),
+	calendarController.getInterviewPage,
+)
+
+router.post(
+	'/interview/create',
+	auth.authenticatedGroups(['RH', 'MANAGER']),
+	calendarController.createInterview,
+)
+
 module.exports = router
