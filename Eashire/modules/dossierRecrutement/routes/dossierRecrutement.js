@@ -26,5 +26,6 @@ router.post(
 	auth.authenticatedRh,
 	dossierRecrutementController.sendMail,
 )
+router.get('/upload', dossierRecrutementController.uploadFile)
 
 module.exports = router

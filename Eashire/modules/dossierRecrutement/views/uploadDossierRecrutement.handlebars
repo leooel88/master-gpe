@@ -1,0 +1,7 @@
+<form action="/upload" method="POST" enctype="multipart/form-data">
+  <!-- autres champs et éléments de formulaire -->
+  <input type="hidden" name="token" value="{{token}}">
+  <input type="file" name="resources" accept=".pdf,.doc,.docx" multiple>
+  <!-- autres éléments du formulaire -->
+  <button type="submit">Upload</button>
+</form>

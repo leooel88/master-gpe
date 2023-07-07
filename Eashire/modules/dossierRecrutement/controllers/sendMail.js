@@ -1,5 +1,5 @@
 const { Candidature, DossierRecrutement, FichierRecrutement, FichePoste } = require('@models')
-const mysql = require('mysql2')
+const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 
 const fs = require('fs')
@@ -34,6 +34,9 @@ exports.process = async (req, res) => {
 
 	const jobLabel = fichePoste.label
 
+	// const dossierRecrutementId = dossierRecrutementData.id
+	// const { fichePosteId } = data
+
 	console.log(dossierRecrutementData)
 	console.log('====================')
 	console.log(data[0].mail)
@@ -47,6 +50,21 @@ exports.process = async (req, res) => {
 
 	console.log(jobLabel)
 	console.log('====================')
+	console.log(dossierRecrutementId)
+	console.log(fichePosteId)
+	console.log(candidatureId)
+
+	// Créer le token avec les ID spécifiés
+	const token = jwt.sign(
+		{
+			fichePosteId: fichePosteId,
+			dossierRecrutementId: dossierRecrutementId,
+			candidatureId: candidatureId,
+		},
+		'RANDOM_TOKEN_SECRET',
+	)
+
+	console.log(token)
 
 	const transporter = nodemailer.createTransport({
 		service: 'gmail',
@@ -57,7 +75,7 @@ exports.process = async (req, res) => {
 	})
 	let mailtext =
 		`Bonjour Mr ${data[0].nom} ,\n\n` +
-		`J ai le plaisir de vous annoncer que votre candidature au poste de ${jobLabel} à été retenue .\n Afin de mener à bien votre intégration administrative, nous avons besoin de certains documents que vous devrez nous \n`
+		`J ai le plaisir de vous annoncer que votre candidature au poste de ${jobLabel} à été retenue .\n Afin de mener à bien votre intégration administrative, nous avons besoin de certains documents que vous devrez nous envoyer \n en suivant le lien suivant \n \n http://localhost:8080/dossierrecrutement/upload?token=${token} \n \n `
 	// let mailtext =
 	// 	'Bonjour,\n\n' +
 	// 	"Je suis ravi de vous accueillir en tant que nouveau candidat.\n Nous sommes impatients de découvrir vos talents et compétences, et de voir comment vous pouvez contribuer à notre équipe et à notre organisation.\n Nous espérons que votre expérience ici sera enrichissante et passionnante, et que vous trouverez un environnement de travail stimulant et collaboratif. N'hésitez pas à poser des questions et à faire part de vos idées et suggestions. \n Nous sommes là pour vous aider à réussir et à atteindre vos objectifs professionnels.\n\n Bonne chance et bienvenue à bord !"
