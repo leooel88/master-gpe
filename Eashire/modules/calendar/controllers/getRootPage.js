@@ -99,7 +99,6 @@ exports.process = async (req, res, next) => {
 	}
 
 	params.events = paramsEvents
-	console.log(events)
 
 	res.render('calendar', {
 		layout: 'mainCalendarWithSidebar.handlebars',
