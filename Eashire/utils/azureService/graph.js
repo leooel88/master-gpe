@@ -198,6 +198,7 @@ module.exports = {
 		const client = getAuthenticatedClient(msalClient, userId)
 		try {
 			const createdEvent = await client.api('/me/calendar/events').post(event)
+			return createdEvent
 		} catch (error) {
 			console.log(error)
 		}

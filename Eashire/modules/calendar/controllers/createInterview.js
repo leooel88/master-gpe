@@ -1,4 +1,4 @@
-const { Candidature } = require('@models')
+const { Candidature, Event } = require('@models')
 const graph = require('@utils/azureService/graph.js')
 const jwt = require('jsonwebtoken')
 const moment = require('moment')
@@ -71,6 +71,24 @@ exports.process = async (req, res) => {
 	const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
 
 	const createdEvent = await graph.createEvent(req.app.locals.msalClient, userId, event)
+	console.log('=====================================')
+	console.log(createdEvent.id)
+
+	const localEvent = {
+		eventId: createdEvent.id,
+		type: 'INTERVIEW',
+		candidatureId: candidature.id,
+	}
+
+	try {
+		await Event.create(localEvent)
+	} catch (error) {
+		console.log(error)
+		throw 'Local event not created in database'
+	}
+
+	console.log('===================================')
+	console.log(createdEvent)
 
 	res.redirect('/calendar')
 }

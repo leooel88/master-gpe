@@ -36,4 +36,10 @@ router.post(
 	calendarController.createInterview,
 )
 
+router.get(
+	'/following/note/:eventId',
+	auth.authenticatedGroups(['RH', 'MANAGER']),
+	calendarController.getFollowingNotePage,
+)
+
 module.exports = router

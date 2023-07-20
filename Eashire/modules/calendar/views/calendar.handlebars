@@ -26,7 +26,7 @@
         <div class="flex gap-4 w-fit flex-wrap">
       {{/if}}
     {{else}}
-      <div onclick="showEventView('{{this.id}}')" class="card shadow rounded m-2 bg-slate-800 overflow-hidden cursor-pointer hover:opacity-75">
+      <div onclick="showEventView('{{this.id}}')" class="card shadow rounded m-2 bg-slate-800 overflow-hidden cursor-pointer hover:opacity-50">
         <div id="p_element" class="w-full bg-blue-400 px-4 py-2 group-hover:bg-blue-500">
           <p class="text-xl tracking-tight text-white">
             {{this.subject}}
@@ -43,8 +43,8 @@
           </div>
         </div>
       </div>
-      <div id="event-container-{{this.id}}" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 hidden">
-        <div class="flex flex-row-reverse m-6">
+      <div id="event-container-{{this.id}}" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-95 shadow-lg overflow-auto hidden">
+        <div class="flex flex-row-reverse m-2">
           <button class="w-fit p-2"
             onclick="closeEventView('{{this.id}}')">
             {{>x-circle-outline class="w-10 h-10"}}
@@ -83,25 +83,23 @@
               {{#if this.description}}
                 <p class="text-xl text-white">Description</p>
                 <div class="flex px-4 py-2">
-                  <div class="flex px-4 py-2">
-                    <p class="text-xl">📝</p>
-                    <p class="text-xl text-white ml-2">
-                      {{{this.description}}}
-                    </p>
-                  </div>
+                  <p class="text-xl">📘</p>
+                  <p class="text-xl text-white ml-2 truncate">
+                    {{{this.description}}}
+                  </p>
                 </div>
               {{/if}}
-              <div class="flex gap-10">
-                <div class="grow flex flex-col">
-                  <p class="mt-4 text-xl text-white">Localisation</p>
-                  <div class="flex px-4 py-2">
-                    {{#if this.location}}
-                      📍 {{this.location.displayName}}
-                    {{else}}
-                      📍 Non définie
-                    {{/if}}
-                  </div>
+              <div class="grow flex flex-col">
+                <p class="mt-4 text-xl text-white">Localisation</p>
+                <div class="flex px-4 py-2">
+                  {{#if this.location}}
+                    📍 {{this.location.displayName}}
+                  {{else}}
+                    📍 Non définie
+                  {{/if}}
                 </div>
+              </div>
+              <div class="flex flex-wrap gap-10">
                 <div class="grow flex flex-col">
                   <p class="mt-4 text-xl text-white">Conférence</p>
                   <div class="flex px-4 py-2">
@@ -112,6 +110,14 @@
                     {{/if}}
                   </div>
                 </div>
+                {{#if this.localEvent}}
+                  <div class="grow flex flex-col">
+                    <p class="mt-4 text-xl text-white">Prise de note</p>
+                    <div class="flex px-4 py-2">
+                      {{>linkButton1 href=this.localEventNoteLink title="📝 Ouvrir mes notes"}}
+                    </div>
+                  </div>
+                {{/if}}
               </div>
             </div>
           </div>
@@ -124,9 +130,13 @@
   function showEventView(eventId) {
     const eventContainer = document.getElementById(`event-container-${eventId}`);
     eventContainer.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; 
+    document.body.style.overflowX = 'hidden';
   }
   function closeEventView(eventId) {
     const eventContainer = document.getElementById(`event-container-${eventId}`);
     eventContainer.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    document.body.style.overflowX = 'hidden';
   }
 </script>

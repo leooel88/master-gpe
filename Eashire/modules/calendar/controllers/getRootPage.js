@@ -1,3 +1,4 @@
+const { Event } = require('@models')
 const graph = require('@utils/azureService/graph.js')
 const jwt = require('jsonwebtoken')
 
@@ -79,7 +80,21 @@ exports.process = async (req, res, next) => {
 			})
 		}
 
-		paramsEvents.push(events[i])
+		const localEventData = await Event.findOne({ where: { eventId: events[i].id } })
+
+		if (localEventData && localEventData.dataValues) {
+			const newEvent = {
+				...events[i],
+				localEvent: localEventData.dataValues,
+				localEventNoteLink:
+					localEventData.dataValues.type == 'INTERVIEW'
+						? `/candidature/read/${localEventData.dataValues.candidatureId}`
+						: `calendar/following/note/${localEventData.dataValues.id}`,
+			}
+			paramsEvents.push(newEvent)
+		} else {
+			paramsEvents.push(events[i])
+		}
 
 		if (i < events.length - 1) {
 			const currentEventDate = new Date(events[i].start.dateTime)
