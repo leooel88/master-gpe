@@ -123,6 +123,21 @@ module.exports = {
 				createdAt: new Date('10/01/2023'),
 				updatedAt: new Date(),
 			},
+			{
+				prenom: 'Léo',
+				nom: 'Ressayre',
+				mail: 'leofargis.fargis@gmail.com',
+				telephone: '0695920122',
+				fichePosteId: 6,
+				cv: 'Page-11.pdf',
+				rhComment: 'Seems good!',
+				managerComment: 'For me too !',
+				validationManager: 1,
+				validationRh: 1,
+				accepted: 1,
+				createdAt: new Date('10/01/2023'),
+				updatedAt: new Date(),
+			},
 		])
 	},
 

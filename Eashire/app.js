@@ -137,7 +137,7 @@ app.use(cookieParser())
 // =====================================================================
 
 db.sequelize
-	.sync({ force: false })
+	.sync({ force: true })
 	.then(() => {
 		console.log('Synced db.')
 	})
