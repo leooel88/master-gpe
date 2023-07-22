@@ -1,0 +1,31 @@
+<div class="flex-1 mt-4">
+  {{>PageHeader header_text="Dossier de recrutement"}}
+</div>
+<div class="mt-6 flex flex-col p-6">
+  <div class="flex w-1/2 block m-auto bg-gray-800 border border-gray-700 rounded-lg shadow">
+    <p class="p-6">
+      Merci de remplir votre dossier de recrutement, en ajoutant dans chaque emplacement le fichier demandé.
+      Chaque fichier doit être au format PDF. Une fois fait, cliquez sur "Envoyer les fichiers", et votre dossier sera pris en compte 😊!
+    </p>
+  </div>
+  <div class="grow mt-6">
+    <form action="/dossierRecrutement/upload" method="POST" enctype="multipart/form-data">
+      <!-- autres champs et éléments de formulaire -->
+      <input type="hidden" name="token" value="{{token}}">
+      <div class="flex flex-row justify-center gap-4 flex-wrap w-3/5 m-auto">
+        {{#each fichiers}}
+          <div class="block max-w-sm p-6 bg-gray-800 border border-gray-700 rounded-lg shadow">
+            <label class="block mb-2 text-sm font-medium text-white" for="file_input">{{this.title}}</label>
+            <label class="block mb-2 text-sm font-medium text-white" for="file_input">{{this.description}}</label>
+            <input class="block w-full text-sm text-gray-400 placeholder-gray-400 border border-gray-600 rounded-lg cursor-pointer bg-gray-700 focus:outline-none" id="file_input_{{this.id}}" type="file" name="file_input_{{this.id}}" accept=".pdf,.doc,.docx" required>
+          </div>
+        {{/each}}
+      </div>
+
+      <!-- autres éléments du formulaire -->
+      <div class="w-fit m-auto mt-6">
+        {{>FormButton1 button_text="Envoyer les fichiers"}}
+      </div>
+    </form>
+  </div>
+</div>

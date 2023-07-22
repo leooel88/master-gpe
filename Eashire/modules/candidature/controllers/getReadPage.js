@@ -1,4 +1,4 @@
-const { FichePoste, Candidature, AccountCreationDemand } = require('@models')
+const { FichePoste, Candidature, AccountCreationDemand, DossierRecrutement } = require('@models')
 const azureService = require('@utils/azureService/graph')
 const jwt = require('jsonwebtoken')
 
@@ -49,7 +49,14 @@ exports.process = async (req, res, next) => {
 			foundCandidature[0].dataValues.validationRh == 1
 		) {
 			if (isRh == true) {
-				params.createDossierRecrutement = `/dossierrecrutement/create/${candidatureId}`
+				if (foundCandidature[0].dataValues.dossierRecrutement == null) {
+					params.createDossierRecrutement = `/dossierrecrutement/create/${candidatureId}`
+				} else if (foundCandidature[0].dataValues.dossierRecrutement >= 0) {
+					const { dataValues: dossierRecrutement } = await DossierRecrutement.findOne({
+						where: { candidatureId: candidatureId },
+					})
+					params.readDossierRecrutement = `/dossierrecrutement/read/${dossierRecrutement.id}`
+				}
 			} else if (isManager == true) {
 				params.managerValidLink = `/candidature/managervalid/${candidatureId}`
 				params.managerRefuseLink = `/candidature/managerrefuse/${candidatureId}`
@@ -125,6 +132,13 @@ exports.process = async (req, res, next) => {
 			) {
 				params.accountCreationDemandLink = `/accountcreationdemand/read/${foundAccountCreationDemand[0].dataValues.id}`
 				params.accountDemandPresent = true
+			}
+		} else {
+			if (
+				foundCandidature[0].dataValues.accepted == 1 &&
+				foundCandidature[0].dataValues.dossierRecrutement == 1
+			) {
+				params.createAccountDemand = `/accountCreationDemand/create/${foundCandidature[0].dataValues.id}`
 			}
 		}
 

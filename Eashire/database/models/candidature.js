@@ -96,6 +96,14 @@ module.exports = (sequelize, DataTypes) => {
 					len: [0, 1],
 				},
 			},
+			dossierRecrutement: {
+				type: DataTypes.TINYINT,
+				defaultValue: null,
+				allowNull: true,
+				validate: {
+					len: [-1, 2],
+				},
+			},
 			accountDemand: {
 				type: DataTypes.TINYINT,
 				defaultValue: null,
