@@ -122,9 +122,32 @@
 							{{#compare candidature.validationRh 1 operator="=="}}
 								{{#if accountDemandPresent}}
 								{{else}}
+									{{#compare candidature.dossierRecrutement null operator="=="}}
 									<div class='mt-4 grow flex justify-center gap-6'>
 										{{>linkButton1 href=createDossierRecrutement title='Créer un dossier de recrutement'}}
 									</div>
+									{{else}}
+										{{#compare candidature.dossierRecrutement -1 operator="=="}}
+											<div class="w-fit h-fit py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-400 focus:outline-none bg-gray-800 rounded-lg border border-gray-600 hover:bg-gray-700 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-700">
+												Dossier de recrutement en cours...
+											</div>
+										{{/compare}}
+										{{#compare candidature.dossierRecrutement 0 operator="=="}}
+											<div class='mt-4 grow flex justify-center gap-6'>
+												{{>linkButton1 href=readDossierRecrutement title='Voir le dossier de recrutement'}}
+											</div>
+										{{/compare}}
+										{{#compare candidature.dossierRecrutement 2 operator="=="}}
+											<div class='mt-4 grow flex justify-center gap-6'>
+												{{>linkButton1 href=readDossierRecrutement title='Voir le dossier de recrutement'}}
+											</div>
+										{{/compare}}
+										{{#compare candidature.dossierRecrutement 1 operator="=="}}
+											<div class='mt-4 grow flex justify-center gap-6'>
+												{{>linkButton1 href=createAccountDemand title='Demander la création d\'un compte professionnel'}}
+											</div>
+										{{/compare}}
+									{{/compare}}
 								{{/if}}
 							{{/compare}}
 						{{else}}

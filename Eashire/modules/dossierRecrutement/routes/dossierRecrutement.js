@@ -28,4 +28,19 @@ router.post(
 )
 router.get('/upload', dossierRecrutementController.uploadFile)
 
+router.post(
+	'/upload',
+	dossierRecrutementController.saveFiles,
+	dossierRecrutementController.upladDossierRecrutement,
+)
+
+router.get(
+	'/read/:dossierRecrutementId',
+	dossierRecrutementController.getDossierRecrutementReadPage,
+)
+
+router.post('/validate', dossierRecrutementController.validateDossier)
+
+router.post('/refuse', dossierRecrutementController.refuseDossier)
+
 module.exports = router

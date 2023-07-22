@@ -1,13 +1,9 @@
-const { Candidature, DossierRecrutement, FichierRecrutement, FichePoste } = require('@models')
+const { DossierRecrutement, FichierRecrutement, FichePoste, Candidature } = require('@models')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 
-const fs = require('fs')
-
 exports.process = async (req, res) => {
-	// eslint-disable-next-line spaced-comment
-	//const { candidatureId } = req.params
-	const { dossierRecrutementId } = req.params
+	const { dossierRecrutementId } = req.body
 	const { dataValues: dossierRecrutementData } = await DossierRecrutement.findOne({
 		where: { id: dossierRecrutementId },
 	})
@@ -44,7 +40,7 @@ exports.process = async (req, res) => {
 		'RANDOM_TOKEN_SECRET',
 	)
 
-	console.log(token)
+	await DossierRecrutement.update({ open: 1 }, { where: { id: dossierRecrutementId } })
 
 	const transporter = nodemailer.createTransport({
 		service: 'gmail',
@@ -55,7 +51,9 @@ exports.process = async (req, res) => {
 	})
 	let mailtext =
 		`Bonjour Mr ${data[0].nom} ,\n\n` +
-		`J'ai le plaisir de vous annoncer que votre candidature au poste de ${jobLabel} à été retenue .\n Afin de mener à bien votre intégration administrative, nous avons besoin de certains documents que vous devrez nous envoyer \n en suivant le lien suivant \n \n http://localhost:8080/dossierrecrutement/upload?token=${token} \n \n`
+		`Suite à vos actions, nous avons bien reçu votre dossier de recrutement. Néanmoins celui ci a été refusé.\nLe représentant aillant refusé votre dossier a laissé le message suivant :\n\n${req.body.message}\n\n` +
+		`Veuillez retourner à cette adresse, et remplir à nouveau votre dossier de recrutement AU COMPLET\nhttp://localhost:8080/dossierrecrutement/upload?token=${token}\n\n` +
+		`Pour rappel, voici les fichiers à renseigner : `
 	for (const fichier of fichiersRecrutementFormattedData) {
 		mailtext += ` - ${fichier.title} : ${fichier.description} \n`
 	}

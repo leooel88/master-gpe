@@ -21,14 +21,21 @@ exports.process = async (req, res) => {
 			// Le dossier de recrutement n'existe pas ou n'est pas valide
 			return res.status(404).json({ error: 'Dossier de recrutement introuvable' })
 		}
+		if (dossierRecrutement.dataValues.open != 1) {
+			res.redirect('/')
+			return
+		}
 
 		// Récupérer les fichiers de recrutement du dossier de recrutement
 		const fichiersRecrutement = await FichierRecrutement.findAll({
 			where: { dossierRecrutementId: dossierRecrutementId },
 		})
 
+		const fichierArray = fichiersRecrutement.map((fichier) => fichier.dataValues)
+
 		// Rendre la page d'upload en passant les fichiers de recrutement
-		res.render('uploadDossierRecrutement', { fichiers: fichiersRecrutement, token: token })
+		console.log(fichierArray)
+		res.render('uploadDossierRecrutement', { fichiers: fichierArray, token: token })
 	} catch (error) {
 		// Gérer les erreurs
 		console.error(error)
