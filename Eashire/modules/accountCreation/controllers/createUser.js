@@ -1,7 +1,8 @@
-const { AccountCreationDemand } = require('@models')
+const { AccountCreationDemand, Candidature } = require('@models')
 const auth = require('@utils/authentication')
 const azureService = require('@utils/azureService/graph')
 const jwt = require('jsonwebtoken')
+const nodemailer = require('nodemailer')
 
 const graph = require('../../../utils/azureService/graph')
 
@@ -11,9 +12,17 @@ exports.process = async (req, res) => {
 		res.redirect('/')
 		return
 	}
+
+	const { dataValues: accountCreationDemand } = await AccountCreationDemand.findOne({
+		where: { id: accountCreationDemandId },
+	})
+	const { dataValues: candidature } = await Candidature.findOne({
+		where: { id: accountCreationDemand.candidatureId },
+	})
 	const passwordPolicies = 'DisablePasswordExpiration'
+	const password = createPassword()
 	const passwordProfile = {
-		password: createPassword(),
+		password: password,
 		forceChangePasswordNextSignIn: true,
 	}
 	const usageLocation = 'FR'
@@ -88,19 +97,74 @@ exports.process = async (req, res) => {
 	}
 
 	const { userId } = auth.getTokenInfo(req)
+	console.log('===============================')
+	console.log('===============================')
+	console.log('===============================')
+	console.log(userId)
 	const data = await graph.createUser(req.app.locals.msalClient, userId, userInfo)
+	console.log('===============================')
+	console.log('===============================')
+	console.log('===============================')
+	console.log(userId)
 	if (data) {
+		console.log('===============================')
+		console.log('===============================')
+		console.log('===============================')
 		console.log(data)
+		console.log('===============================')
+		console.log('===============================')
+		console.log('===============================')
+		console.log(userId)
 		const userDetails = await graph.getUserDetails(
 			req.app.locals.msalClient,
 			userId,
 			data.userPrincipalName,
 		)
+
+		const transporter = nodemailer.createTransport({
+			service: 'gmail',
+			auth: {
+				user: 'achoui.hillal@gmail.com',
+				pass: 'wofgpkqnlrmtsfrs',
+			},
+		})
+		const mailtext =
+			`Bonjour ${userDetails.displayName} ,\n\n` +
+			`Nous avons le plaisir de vous transmettre vos ` +
+			`identifiants professionnels. Ils vous permettront ` +
+			`notamment d'accéder à notre solution employé sur le site eashire.com\n \n` +
+			`Vos identifiants sont les suivants : \n` +
+			`  - Email : ${userDetails.userPrincipalName}\n` +
+			`  - Mot de passe : ${password}\n` +
+			`Gardez ces informations secrètes. Nous ne vous demanderons jamais` +
+			`vos identifiants ou mot de passe.\n\n Nous vous souhaitons une excellente journée,\nCordialement`
+
+		const mailOptions = {
+			from: 'achoui.hillal@gmail.com',
+			to: `${candidature.mail}`,
+			subject: 'Compte professionnel',
+			text: mailtext,
+		}
+		transporter.sendMail(mailOptions, (error, info) => {
+			if (error) {
+				console.log(error)
+				res.status(500).send({ msg: 'Failed to send email' })
+			} else {
+				console.log(`Email sent: ${info.response}`)
+			}
+		})
+
 		const params = { active: { accountCreatedRead: true }, user: data, userDetails: userDetails }
 
 		const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
-		const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
-		params.userId = userId
+		const {
+			userId: userId_,
+			rh: isRh,
+			manager: isManager,
+			finance: isFinance,
+			it: isIt,
+		} = decodedToken
+		params.userId = userId_
 
 		if (isRh == true) {
 			params.rh = true

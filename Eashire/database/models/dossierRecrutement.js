@@ -18,6 +18,15 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
+			open: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 1,
+			},
+			directoryId: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
 		},
 		{
 			sequelize,

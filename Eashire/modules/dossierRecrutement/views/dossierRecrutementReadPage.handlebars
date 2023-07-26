@@ -1,0 +1,182 @@
+<div class="flex-1 mt-4">
+  {{>PageHeader header_text="Dossier de recrutement"}}
+</div>
+<div class="mt-6 flex flex-col p-6 w-1/3 block m-auto bg-gray-800 border border-gray-700 rounded-lg shadow">
+	<p class="text-xl text-white">Candidat</p>
+	<div class="mt-4 flex flex-col flex-wrap">
+		<p class="min-w-[100px] text-base	text-slate-400">Nom</p>
+		<div class="flex items-baseline flex-wrap place-content-between">
+			<div class="ml-4 flex">
+				<p class="text-base	text-white">{{candidature.prenom}}</p>
+				<p class="ml-2 text-base	text-white">{{candidature.nom}}</p>
+			</div>
+			<a class="ml-6 text-sm text-slate-400" href={{candidatureLink}}>Voir la candidature</a>
+		</div>
+	</div>
+	<div class="flex flex-col flex-wrap">
+		<p class="min-w-[100px] text-base	text-slate-400">Titre du poste</p>
+		<div class="flex items-baseline flex-wrap place-content-between">
+			<p class="ml-4 text-base	text-white">{{ficheposte.label}}</p>
+			<a class="ml-6 text-sm text-slate-400" href={{ficheposteLink}}>Voir la fiche de poste</a>
+		</div>
+	</div>
+	<div class="flex gap-8 w-fit mt-6 mx-auto">
+		<a id="validateButton" href="/dossierRecrutement/validate" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:ring-green-600">Valider le dossier</a>
+		<a id="refuseButton" href="/dossierRecrutement/refuse" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:ring-red-600">Refuser le dossier</a>
+	</div>
+</div>
+
+<div class="mt-6 flex flex-row flex-wrap w-4/5 m-auto">
+  {{#each fichiersRecrutement}}
+    {{!-- <div class="block max-w-sm p-6 bg-gray-800 border border-gray-700 rounded-lg shadow"> --}}
+    <div class="flex flex-row justify-center">
+      <a href={{this.fileLink}} class='hover:bg-slate-500 rounded-lg p-4'>
+				<div class="flex center-items">
+					<span class="text-2xl font-bold mx-auto">{{this.title}}</span>
+				</div>
+				<img
+					class=' w-fit m-auto object-cover overflow-hidden rounded-t-lg md:h-auto md:h-40 md:rounded-none md:rounded-l-lg'
+					src='/images/image.png'
+					alt=''
+				/>
+			</a>
+    </div>
+  {{/each}}
+</div>
+
+<script>
+	document.getElementById('validateButton').addEventListener('click', function(event) {
+		event.preventDefault();
+
+		var backdrop = document.createElement('div');
+		backdrop.style.position = 'fixed';
+		backdrop.style.top = '0';
+		backdrop.style.bottom = '0';
+		backdrop.style.left = '0';
+		backdrop.style.right = '0';
+		backdrop.style.backgroundColor = 'rgba(0,0,0,0.5)';
+		backdrop.style.zIndex = '1000';
+
+		// Create the confirmation modal elements
+		var modal = document.createElement('div');
+		modal.style.position = 'fixed';
+		modal.style.top = '50%';
+		modal.style.left = '50%';
+		modal.style.borderRadius = '0.5rem';
+		modal.style.transform = 'translate(-50%, -50%)';
+		modal.style.backgroundColor = 'rgb(31 41 55 / var(--tw-bg-opacity))';
+		modal.style.padding = '20px';
+		modal.style.zIndex = '1000';
+
+		var message = document.createElement('p');
+		message.textContent = 'Etes vous sûr(e) de vouloir valider ce dossier de recrutement ?';
+
+		// Create a form
+		var form = document.createElement('form');
+		form.method = 'POST';
+		form.action = this.getAttribute('href');
+
+		var hiddenInput = document.createElement('input');
+		hiddenInput.type = 'hidden';
+		hiddenInput.name = 'dossierRecrutementId';
+		hiddenInput.value = '{{dossierRecrutement.id}}'; // The server-side rendered Handlebars template will replace {{token}} with the actual value.
+		form.appendChild(hiddenInput);
+
+		var continueButton = document.createElement('button');
+		continueButton.type = 'submit';
+		continueButton.textContent = 'Continuer';
+		continueButton.style.marginRight = '10px';
+		continueButton.classList = 'mt-6'
+
+		var cancelButton = document.createElement('button');
+		cancelButton.type = 'button';
+		cancelButton.textContent = 'Annuler';
+		cancelButton.classList = 'mt-6'
+		cancelButton.addEventListener('click', function() {
+			document.body.removeChild(modal);
+			document.body.removeChild(backdrop);
+		});
+
+		// Add the elements to the form
+		form.appendChild(continueButton);
+		form.appendChild(cancelButton);
+
+		// Add the elements to the modal
+		modal.appendChild(message);
+		modal.appendChild(form);
+
+		// Add the modal to the body
+		document.body.appendChild(backdrop);
+		document.body.appendChild(modal);
+	});
+	document.getElementById('refuseButton').addEventListener('click', function(event) {
+		event.preventDefault();
+
+		var backdrop = document.createElement('div');
+		backdrop.style.position = 'fixed';
+		backdrop.style.top = '0';
+		backdrop.style.bottom = '0';
+		backdrop.style.left = '0';
+		backdrop.style.right = '0';
+		backdrop.style.backgroundColor = 'rgba(0,0,0,0.5)';
+		backdrop.style.zIndex = '1000';
+
+		// Create the confirmation modal elements
+		var modal = document.createElement('div');
+		modal.style.position = 'fixed';
+		modal.style.top = '50%';
+		modal.style.left = '50%';
+		modal.style.borderRadius = '0.5rem';
+		modal.style.transform = 'translate(-50%, -50%)';
+		modal.style.backgroundColor = 'rgb(31 41 55 / var(--tw-bg-opacity))';
+		modal.style.padding = '20px';
+		modal.style.zIndex = '1000';
+
+		var message = document.createElement('p');
+		message.textContent = 'Etes vous sûr(e) de vouloir refuser ce dossier de recrutement ? Si oui, veuillez entrer la raison de votre refus. Elle sera envoyée dans un mail au candidat, qui pourra alors corriger son erreur.';
+
+		// Create a form
+		var form = document.createElement('form');
+		form.method = 'POST';
+		form.action = this.getAttribute('href');
+
+		var textArea = document.createElement('textarea');
+		textArea.name = 'message';
+		textArea.placeholder = 'Message à envoyer au candidat';
+		textArea.classList = 'mt-6 p-4 w-full rounded bg-gray-500 min-h-[128px]'
+		form.appendChild(textArea);
+
+		var hiddenInput = document.createElement('input');
+		hiddenInput.type = 'hidden';
+		hiddenInput.name = 'dossierRecrutementId';
+		hiddenInput.value = '{{dossierRecrutement.id}}'; // The server-side rendered Handlebars template will replace {{token}} with the actual value.
+		form.appendChild(hiddenInput);
+
+		var continueButton = document.createElement('button');
+		continueButton.type = 'submit';
+		continueButton.textContent = 'Continuer';
+		continueButton.style.marginRight = '10px';
+		continueButton.classList = 'mt-6'
+
+		var cancelButton = document.createElement('button');
+		cancelButton.type = 'button';
+		cancelButton.textContent = 'Annuler';
+		cancelButton.classList = 'mt-6'
+		cancelButton.addEventListener('click', function() {
+				document.body.removeChild(modal);
+				document.body.removeChild(backdrop);
+		});
+
+		// Add the elements to the form
+		form.appendChild(continueButton);
+		form.appendChild(cancelButton);
+
+		// Add the elements to the modal
+		modal.appendChild(message);
+		modal.appendChild(form);
+
+		// Add the modal to the body
+		document.body.appendChild(backdrop);
+		document.body.appendChild(modal);
+	});
+</script>

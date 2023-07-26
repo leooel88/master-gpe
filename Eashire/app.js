@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { LogLevel, ConfidentialClientApplication } = require('@azure/msal-node')
 const { default: axios } = require('axios')
 const body_parser = require('body-parser')
@@ -137,7 +138,7 @@ app.use(cookieParser())
 // =====================================================================
 
 db.sequelize
-	.sync({ force: false })
+	.sync({ force: true })
 	.then(() => {
 		console.log('Synced db.')
 	})
