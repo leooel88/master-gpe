@@ -1,6 +1,5 @@
 const { AccountCreationDemand, Candidature } = require('@models')
 const auth = require('@utils/authentication')
-const azureService = require('@utils/azureService/graph')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 
