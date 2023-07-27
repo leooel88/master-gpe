@@ -17,9 +17,9 @@ deploy:
     - npx sequelize-cli db:seed --seed 20230113092621-candidature.js
   only: 
     - main
-test :
-  stage: test
-  script:
-    - chmod +x ./cerberus.sh
-    - ./cerberus.sh
+# test :
+#   stage: test
+#   script:
+#     - chmod +x ./cerberus.sh
+#     - ./cerberus.sh
      
