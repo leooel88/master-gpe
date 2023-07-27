@@ -14,21 +14,11 @@ exports.process = async (req, res, next) => {
 		params.error = [{ message: error }]
 	}
 
-	// // Get the user
-	// const user = req.app.locals.users[req.session.userId]
-	// const timeZoneId = iana.findIana(user.timeZone)[0]
-	// const weekStart = zonedTimeToUtc(startOfWeek(new Date()), timeZoneId.valueOf())
-	// const weekEnd = addDays(weekStart, 1)
-
-	// // Get events
-	// const events = await graph.getCalendarView(
-	// 	req.app.locals.msalClient,
-	// 	req.session.userId,
-	// 	weekStart.toISOString(),
-	// 	weekEnd.toISOString(),
-	// 	user.timeZone,
-	// 	2,
-	// )
+	// Get the user
+	const user = req.app.locals.users[req.session.userId]
+	const timeZoneId = iana.findIana(user.timeZone)[0]
+	const weekStart = zonedTimeToUtc(startOfWeek(new Date()), timeZoneId.valueOf())
+	const weekEnd = addDays(weekStart, 1)
 
 	// params.events = events
 	const { userId } = req.session

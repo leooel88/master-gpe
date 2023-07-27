@@ -1,4 +1,5 @@
 const graph = require('@microsoft/microsoft-graph-client')
+const moment = require('moment-timezone')
 
 require('isomorphic-fetch')
 // process;
@@ -49,6 +50,12 @@ module.exports = {
 		const allusers = await client.api('/users').get()
 		return allusers
 	},
+	createOnlineMeeting: async function (msalClient, userId, onlineMeetingData) {
+		const client = getAuthenticatedClient(msalClient, userId)
+
+		const onlineMeeting = await client.api('/me/onlineMeetings').post(onlineMeetingData)
+		return onlineMeeting
+	},
 	getManager: async function (msalClient, userId) {
 		const client = getAuthenticatedClient(msalClient, userId)
 
@@ -86,6 +93,11 @@ module.exports = {
 
 		const allGroups = await client.api('/me/memberOf').get()
 		return allGroups
+	},
+	getGroupMembers: async function (msalClient, userId, groupId) {
+		const client = getAuthenticatedClient(msalClient, userId)
+		const members = await client.api(`/groups/${groupId}/members`).get()
+		return members
 	},
 	getGroupsNames: async function (msalClient, userId) {
 		const allGroups = await this.getGroups(msalClient, userId)
@@ -153,19 +165,25 @@ module.exports = {
 			return group.displayName == azureConfig.IT_GROUP_NAME
 		})
 	},
-	getCalendarView: async function (msalClient, userId, start, end, timeZone, nbrEvent) {
+	getCalendarNEvents: async function (msalClient, userId, nbrEvent, timeZone) {
+		// Set start date as now and end date as a year from now
+		const start = new Date()
+		const end = new Date()
+		end.setFullYear(end.getFullYear() + 1)
+
+		// Convert JavaScript Date to ISO string and get timezone
+		const startISO = start.toISOString()
+		const endISO = end.toISOString()
+
 		const client = getAuthenticatedClient(msalClient, userId)
 		const events = await client
 			.api('/me/calendarview')
-			// Add Prefer header to get back times in user's timezone
 			.header('Prefer', `outlook.timezone="${timeZone}"`)
-			// Add the begin and end of the calendar window
-			.query({ startDateTime: start, endDateTime: end })
-			// Get just the properties used by the app
-			.select('subject,organizer,start,end')
-			// Order by start time
+			.query({ startDateTime: startISO, endDateTime: endISO })
+			.select(
+				'subject,organizer,start,end,bodyPreview,onlineMeeting,attendees,isOrganizer,location',
+			)
 			.orderby('start/dateTime')
-			// Get at most 50 results
 			.top(nbrEvent)
 			.get()
 
@@ -175,6 +193,15 @@ module.exports = {
 		const client = getAuthenticatedClient(msalClient, userId)
 		const user = await client.api('/users').post(userInfo)
 		return user
+	},
+	createEvent: async function (msalClient, userId, event) {
+		const client = getAuthenticatedClient(msalClient, userId)
+		try {
+			const createdEvent = await client.api('/me/calendar/events').post(event)
+			return createdEvent
+		} catch (error) {
+			console.log(error)
+		}
 	},
 }
 

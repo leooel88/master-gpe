@@ -1,0 +1,155 @@
+<div class="mt-4">
+  {{>PageHeader header_text="📑 Suivi"}}
+</div>
+<div class="flex flex-row m-10 gap-4">
+  <div class="basis-1/3 flex-col" id="left">
+    <div id="users-dropdown" class="flex-1 relative dropdown">
+      <button class="dropdown-button relative flex items-center justify-between px-2 py-1 text-xl font-bold">
+        Tout les utilisateurs
+        <span class="arrow transform rotate-0 transition-transform duration-300">&#9662;</span>
+      </button>
+      <div class="dropdown-content left-0 mt-1 ml-3 max-h-[70vh] overflow-y-auto hidden">
+        {{#each userArray}}
+          <p class="user-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600" data-id="{{this.userPrincipalName}}">
+            👤 {{this.displayName}}
+          </p>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <form class="basis-2/3 flex flex-col" method='post' action={{suiviCreateLink}}>
+    <div class="w-fit mx-auto">
+      {{>FormButton1 button_text="Créer le suivi"}}
+    </div>
+    <div class="flex flex-row place-content-center items-center mt-4">
+      <div class="grow flex flex-col justify-center px-4">
+        <label for="event-date" class="block mb-2 text-sm font-medium text-white">Sélectionner une date</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg aria-hidden="true" class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+          </div>
+          <input datepicker datepicker-autohide datepicker-format="dd/mm/yyyy" type="text" name="event-date" class="bg-gray-700 border border-gray-600 placeholder-gray-400 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Choisir une date">
+        </div>
+      </div>
+
+      <div class="grow flex flex-col justify-center px-4">
+        <label for="event-time" class="block mb-2 text-sm font-medium text-white">Sélectionner une heure</label>
+        <input id="event-time" name="event-time" class="bg-gray-700 border border-gray-600 placeholder-gray-400 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" type="time">
+      </div>
+
+      <div class="grow flex flex-col justify-center px-4">
+        <label for="event-duration" class="block mb-2 text-sm font-medium text-white">Sélectionner une durée</label>
+        <select id="event-duration" name="event-duration" class="bg-gray-700 border border-gray-600 placeholder-gray-400 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+          <option selected>Choisir une option</option>
+          <option value="event_duration_5">5 minutes</option>
+          <option value="event_duration_10">10 minutes</option>
+          <option value="event_duration_15">15 minutes</option>
+          <option value="event_duration_20">20 minutes</option>
+          <option value="event_duration_30">30 minutes</option>
+        </select>
+      </div>
+    </div>
+    <div class="flex flex-row place-content-center items-center mt-4">
+      <div class="grow flex flex-col justify-center px-4">
+        <label for="event-description" class="block mb-2 text-sm font-medium text-white">Description</label>
+        <textarea id="event-description" name="event-description" rows="4" class="block p-2.5 w-full text-sm text-white bg-gray-700 rounded-lg border border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+      </div>
+    </div>
+    
+    <div class="px-4 mt-4 overflow-y-auto max-h-[40vh]">
+      <p class="text-xl font-bold">Employé suivi</p>
+      <div id="right" class="pl-3">
+      </div>
+    </div>
+	</form>
+</div>
+<script type='text/javascript' src='/javascripts/flowbite/dist/datepicker.js'></script>
+<script>
+  // Add event listener to all dropdown buttons
+  document.querySelectorAll('.dropdown-button').forEach((button) => {
+    button.addEventListener('click', function() {
+      const dropdownContent = this.nextElementSibling;
+
+      // Check if this dropdown is currently displayed
+      if (dropdownContent.style.display === 'block') {
+        // Hide this dropdown
+        dropdownContent.style.display = 'none';
+      } else {
+        // Close all other dropdowns
+        document.querySelectorAll('.dropdown-content').forEach((dropdown) => {
+          dropdown.style.display = 'none';
+        });
+
+        // Show this dropdown
+        dropdownContent.style.display = 'block';
+      }
+
+      // Rotate arrow
+      this.querySelector('.arrow').classList.toggle('rotate-180');
+    });
+  });
+
+  const dropdownContent = document.getElementById('users-dropdown').querySelector('.dropdown-content');
+  Array.from(dropdownContent.children)
+    .sort((a, b) => a.textContent.localeCompare(b.textContent))
+    .forEach(node => dropdownContent.appendChild(node));
+
+  let selectedUser;
+
+  // Function to handle user-option click event
+  function userOptionClickHandler() {
+    const userId = this.getAttribute('data-id');
+    const userName = this.textContent;
+
+    // Remove the previous selected user from the right panel if exists
+    if (selectedUser) {
+      // Remove from right panel
+      document.getElementById(`user-${selectedUser.id}`).remove();
+      
+      // Add back to the left panel
+      const dropdownContent = document.getElementById('users-dropdown').querySelector('.dropdown-content');
+      const newOption = document.createElement('p');
+      newOption.textContent = selectedUser.name;
+      newOption.className = 'user-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600';
+      newOption.setAttribute('data-id', selectedUser.id);
+      newOption.addEventListener('click', userOptionClickHandler);
+      dropdownContent.appendChild(newOption);
+
+      // Sort users in dropdown by name
+      Array.from(dropdownContent.children)
+        .sort((a, b) => a.textContent.localeCompare(b.textContent))
+        .forEach(node => dropdownContent.appendChild(node));
+    }
+
+    // Create a new div with the user data and add it to the form
+    const div = document.createElement('div');
+    div.className = 'user-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600'
+    div.id = `user-${userId}`;
+
+    const p = document.createElement('p');
+    p.textContent = userName;
+    div.appendChild(p);
+
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'selectedUsers';
+    input.value = userId;
+    div.appendChild(input);
+
+    document.getElementById('right').appendChild(div);
+
+    // Remove this user from the left side of the page
+    this.remove();
+
+    // Set selectedUser to this user
+    selectedUser = { id: userId, name: userName };
+  }
+
+  // Query all the .user-option elements
+  document.querySelectorAll('.user-option').forEach((option) => {
+    option.addEventListener('click', userOptionClickHandler);
+  });
+</script>
+
+
