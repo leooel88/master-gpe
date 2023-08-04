@@ -11,6 +11,7 @@ deploy:
     - cd Eashire
     - npm install
     - pm2 restart ./bin/www
+    - npm install
     - cd database
     - npm install
     - npx sequelize-cli db:seed --seed 20221223105116-ficheposte.js
