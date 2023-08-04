@@ -9,8 +9,9 @@ deploy:
     - ./env.sh
     - source ./bot_env.sh
     - cd Eashire
-    - pm2 restart ./bin/www
     - npm install
+    - pm2 restart ./bin/www
+    
     - cd database
     - npm install
     - npx sequelize-cli db:seed --seed 20221223105116-ficheposte.js
