@@ -15,8 +15,6 @@ deploy:
     - npm install
     - npx sequelize-cli db:seed --seed 20221223105116-ficheposte.js
     - npx sequelize-cli db:seed --seed 20230113092621-candidature.js
-    - cd ../Eashire
-    - npm install
   only: 
     - main
 test :
