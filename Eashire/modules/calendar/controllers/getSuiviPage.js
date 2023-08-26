@@ -42,7 +42,7 @@ exports.process = async (req, res, next) => {
 	params.userArray = users
 
 	res.render('suiviCreationPage', {
-		layout: 'mainCalendarWithSidebar.handlebars',
+		layout: 'mainCalendarWithSidebar',
 		...params,
 	})
 }
