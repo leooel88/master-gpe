@@ -117,7 +117,7 @@ exports.process = async (req, res, next) => {
 	console.log(events)
 
 	res.render('calendar', {
-		layout: 'mainCalendarWithSidebar.handlebars',
+		layout: 'mainCalendarWithSidebar',
 		...params,
 	})
 }

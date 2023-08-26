@@ -44,7 +44,7 @@ exports.process = async (req, res, next) => {
 	params.userArray = userArray
 
 	res.render('interviewCreationPage', {
-		layout: 'mainCalendarWithSidebar.handlebars',
+		layout: 'mainCalendarWithSidebar',
 		...params,
 	})
 }

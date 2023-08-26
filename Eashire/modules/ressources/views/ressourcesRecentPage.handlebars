@@ -1,0 +1,45 @@
+<div class="mt-6">
+  {{>PageHeader header_text="🕗 Récents"}}
+</div>
+
+<div class="w-3/5 mx-auto mt-6">
+  <div class="my-4 w-fit m-auto">
+    {{>linkButton3-small href=ressourceCreateLink title='Uploader une ressource' svg="arrow-up-tray-outline" svg_class="h-5 w-5"}}
+  </div>
+  <div class='grow p-4 bg-slate-800 rounded-lg border shadow-md sm:p-6'>
+    <ul class='my-4 space-y-3'>
+      {{#each resourceArray}}
+        <li>
+          <a href="{{this.path}}" target="_blank" class="flex items-center p-3 text-base font-bold text-white bg-gray-600 rounded-lg hover:bg-gray-500 group hover:shadow">
+            {{#if this.even}}
+              {{>clipboard-document-check-solid}}
+            {{else}}
+              {{>clipboard-document-check-outline}}
+            {{/if}}
+            <div class='grow'>
+              <span
+                class='ml-3 whitespace-nowrap'
+              >{{this.name}}</span>
+            </div>
+            <div class='grow'>
+              <span
+                class='ml-5 text-gray-400 text-sm whitespace-nowrap'
+              >Propriétaire : </span>
+              <span
+                class='ml-3 whitespace-nowrap'
+              >{{this.ownerUserDisplayName}}</span>
+            </div>
+            <div class='grow'>
+              <span
+                class='ml-5 text-gray-400 text-sm whitespace-nowrap'
+              >Dernière modification : </span>
+              <span
+                class='ml-3 whitespace-nowrap'
+              >{{this.updatedAt}}</span>
+            </div>
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<meta charset='utf-8' />
+		<title>Eashire</title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<link rel="icon" href="/images/logo_eashire.png">
+		<link rel='stylesheet' href='/stylesheets/general_style.css' />
+	</head>
+	<body class="h-screen w-screen bg-slate-900 text-slate-300 flex flex-col">
+		{{>navbar}}
+		<div class="flex flex-grow">
+			<main class="flex-grow flex">
+				{{>ressourcesSidebar}}
+
+				<div class="flex-grow relative">
+					{{#each error}}
+						<div role='alert'>
+							<div class="w-full bg-blue-900 p-6">
+								<p class="w-fit m-auto">
+									{{this.message}}
+								</p>
+							</div>
+							{{#if this.debug}}
+								<pre><code>{{this.debug}}</code></pre>
+							{{/if}}
+						</div>
+					{{/each}}
+
+					<div class="relative flex-grow">
+						{{{body}}}
+					</div>
+				</div>
+			</main>
+		</div>
+        
+		<script
+			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+			integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+			integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+			crossorigin="anonymous"></script>
+		<script>
+			const sidebar = document.getElementById('sidebar');
+			const toggleButton = document.getElementById('toggle-button');
+			const chevronIcon = document.getElementById('toggle-button');
+
+			toggleButton.addEventListener('click', () => {
+				sidebar.classList.toggle('w-14');
+				sidebar.classList.toggle('w-64');
+				sidebar.classList.toggle('overflow-hidden');
+				chevronIcon.classList.toggle('rotate-180');
+			});
+		</script>
+	</body>
+</html>
