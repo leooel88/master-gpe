@@ -1,6 +1,8 @@
 const { User, Ressource, ShareList } = require('@models')
 const jwt = require('jsonwebtoken')
 
+const { RESSOURCE_BASE_PATH } = process.env
+
 exports.process = async (req, res) => {
 	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
 	const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
@@ -44,7 +46,37 @@ exports.process = async (req, res) => {
 		}
 	}
 
+	// Filter ADMIN FILES
+	ressources = ressources.filter((ressource) => {
+		if (ressource.adminFile && ressource.adminFile == 1) {
+			return false
+		}
+		return true
+	})
+
+	// Prepare RESSOURCES
+	ressources = ressources.map((ressource, i) => {
+		// Add Even for display
+		if (i % 2 == 0) {
+			ressource.even = true
+		}
+
+		// Format Date
+		ressource.updatedAt = formatDate(ressource.updatedAt)
+
+		// Set File Link
+		if (ressource.folderName && ressource.folderName != '') {
+			ressource.fileLink = `${ressource.folderName}/${ressource.path}`
+		} else {
+			ressource.fileLink = `${RESSOURCE_BASE_PATH}/${ressource.path}`
+		}
+
+		return ressource
+	})
+
+	// Sort RESSOURCES by UPDATE DATE
 	ressources = ressources.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+
 	console.log('========================================')
 	console.log('========================================')
 	console.log('========================================')

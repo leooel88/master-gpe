@@ -29,6 +29,21 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			folderName: {
+				type: DataTypes.STRING,
+				allowNull: true,
+				defaultValue: null,
+			},
+			sharable: {
+				type: DataTypes.TINYINT,
+				allowNull: false,
+				defaultValue: 1,
+			},
+			adminFile: {
+				type: DataTypes.TINYINT,
+				allowNull: false,
+				defaultValue: 0,
+			},
 		},
 		{
 			sequelize,

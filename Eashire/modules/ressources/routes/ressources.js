@@ -10,6 +10,10 @@ router.get('/personal', auth.authenticated, ressourcesController.getPersonalPage
 
 router.get('/shared', auth.authenticated, ressourcesController.getSharedPage)
 
+router.get('/admin', auth.authenticated, ressourcesController.getAdminPage)
+
+router.get('/employees', auth.authenticatedRh, ressourcesController.getEmployeePage)
+
 router.get('/create', auth.authenticated, ressourcesController.getCreateRessourcePage)
 
 router.post(
