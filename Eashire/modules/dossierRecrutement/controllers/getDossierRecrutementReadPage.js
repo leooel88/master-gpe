@@ -1,6 +1,8 @@
 const { DossierRecrutement, FichierRecrutement, Candidature, FichePoste } = require('@models')
 const jwt = require('jsonwebtoken')
 
+const { ADMIN_FILES_BASE_PATH } = process.env
+
 exports.process = async (req, res) => {
 	const decodedToken = jwt.verify(req.cookies.authToken, 'RANDOM_TOKEN_SECRET')
 	const { userId, rh: isRh, manager: isManager, finance: isFinance, it: isIt } = decodedToken
@@ -20,7 +22,7 @@ exports.process = async (req, res) => {
 	})
 	params.fichiersRecrutement = fichierRecrutementData.map((fichier) => {
 		const result = fichier.dataValues
-		result.fileLink = `/servedFiles/dossiersRecrutement/${dossierRecrutement.directoryId}/${dossierRecrutement.directoryId}-${fichier.id}-${fichier.fileName}`
+		result.fileLink = `${ADMIN_FILES_BASE_PATH}/${dossierRecrutement.directoryId}/${fichier.fileName}`
 		return result
 	})
 	const { dataValues: candidature } = await Candidature.findOne({

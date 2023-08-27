@@ -57,7 +57,7 @@ exports.process = async (req, res) => {
 			const [directoryName_, fileId_, fileName_] = file.split('-')
 			await FichierRecrutement.update(
 				{
-					fileName: fileName_,
+					fileName: file,
 				},
 				{
 					where: {

@@ -4,14 +4,15 @@ const crypto = require('crypto')
 const fs = require('fs')
 const path = require('path')
 
+const { ADMIN_FILES_BASE_PATH } = process.env
+
 exports.process = async (req, res, next) => {
 	// Generate ID once per request
 	req.directoryId = crypto.randomBytes(16).toString('hex')
 	req.directoryName = path.join(
 		`${__dirname}/../../..`,
 		'public',
-		'servedFiles',
-		'dossiersRecrutement',
+		ADMIN_FILES_BASE_PATH,
 		req.directoryId,
 	)
 
@@ -24,13 +25,20 @@ exports.process = async (req, res, next) => {
 			cb(null, dir)
 		},
 		filename: (req, file, cb) => {
-			const fileName = `${req.directoryId}-${file.fieldname.replace('file_input_', '')}-${
-				file.originalname
-			}`
+			// Create a random ID for the filename
+			const fileId = crypto.randomBytes(16).toString('hex')
+			const fileExtension = path.extname(file.originalname) // get the original file's extension
+
+			const fileName = `${req.directoryId}-${file.fieldname.replace(
+				'file_input_',
+				'',
+			)}-${fileId}${fileExtension}`
+
 			if (!req.filesNames) {
 				req.filesNames = []
 			}
 			req.filesNames.push(fileName)
+
 			cb(null, fileName)
 		},
 	})

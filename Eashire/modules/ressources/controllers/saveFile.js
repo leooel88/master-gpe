@@ -4,9 +4,11 @@ const crypto = require('crypto')
 const fs = require('fs')
 const path = require('path')
 
+const { RESSOURCE_BASE_PATH } = process.env
+
 exports.process = async (req, res, next) => {
 	// The directory where we want to store the files
-	const directoryPath = path.join(`${__dirname}/../../..`, 'public', 'servedFiles', 'ressources')
+	const directoryPath = path.join(`${__dirname}/../../..`, 'public', RESSOURCE_BASE_PATH)
 
 	// Ensure the directory exists
 	if (!fs.existsSync(directoryPath)) {
@@ -21,11 +23,11 @@ exports.process = async (req, res, next) => {
 			// Create a random ID for the filename
 			const fileId = crypto.randomBytes(16).toString('hex')
 			const fileExtension = path.extname(file.originalname) // get the original file's extension
-			const completeFilePath = path.join('/servedFiles/ressources', fileId + fileExtension)
+			const fileName = fileId + fileExtension
 
-			req.filePath = completeFilePath
+			req.filePath = fileName
 
-			cb(null, fileId + fileExtension)
+			cb(null, fileName)
 		},
 	})
 

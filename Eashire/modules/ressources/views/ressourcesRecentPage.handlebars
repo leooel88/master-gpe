@@ -10,7 +10,7 @@
     <ul class='my-4 space-y-3'>
       {{#each resourceArray}}
         <li>
-          <a href="{{this.path}}" target="_blank" class="flex items-center p-3 text-base font-bold text-white bg-gray-600 rounded-lg hover:bg-gray-500 group hover:shadow">
+          <a href="{{this.fileLink}}" target="_blank" class="flex items-center p-3 text-base font-bold text-white bg-gray-600 rounded-lg hover:bg-gray-500 group hover:shadow">
             {{#if this.even}}
               {{>clipboard-document-check-solid}}
             {{else}}
