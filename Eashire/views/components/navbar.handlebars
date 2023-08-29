@@ -14,16 +14,14 @@
         </li>
         <li>
             <a href="/joblist"
-               class="{{#if active.joblist}} text-blue-500 dark:text-blue-400 {{else}} text-gray-500 dark:text-gray-400 {{/if}} block py-2 pr-4 pl-3 dark:hover:bg-gray-800 dark:hover:text-white hover:text-blue-400 md:bg-transparent">
+               class="{{#if active.fichePosteList}} text-blue-500 dark:text-blue-400 {{else}} text-gray-500 dark:text-gray-400 {{/if}} block py-2 pr-4 pl-3 dark:hover:bg-gray-800 dark:hover:text-white hover:text-blue-400 md:bg-transparent">
                 Offre d'emplois
             </a>
         </li>
         {{#if user}}
           <li>
               <a href="/calendar"
-                 class="{{#if active.calendar}} active{{/if}} block py-2 pr-4 pl-3
-          dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white
-          text-gray-500 hover:text-blue-400 md:bg-transparent">
+                 class="{{#if active.calendar}} text-blue-500 dark:text-blue-400 {{else}} text-gray-500 dark:text-gray-400 {{/if}} block py-2 pr-4 pl-3 dark:hover:bg-gray-800 dark:hover:text-white hover:text-blue-400 md:bg-transparent">
                   Calendrier
               </a>
 

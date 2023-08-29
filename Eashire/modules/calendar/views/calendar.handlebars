@@ -51,26 +51,26 @@
           </button>
         </div>
         <div class="w-full flex justify-center items-center">
-          <div class="w-1/2 h-fit sm:h-2/3 bg-slate-800 rounded-lg overflow-hidden shadow-lg flex flex-col">
+          <div class="w-1/2 h-fit sm:h-2/3 bg-slate-300 dark:bg-slate-800 rounded-lg overflow-hidden shadow-lg flex flex-col">
             <div id="p_element" class="w-full bg-blue-400 px-6 pb-4 pt-6  group-hover:bg-blue-500">
               <p class="text-4xl tracking-tight text-white">
                 {{this.subject}}
               </p>
             </div>
             <div class="h-fit p-6 border border-x-gray-600 border-b-gray-600 border-t-transparent rounded-b-lg">
-              <p class="text-xl text-white">Horraires</p>
+              <p class="text-xl text-black dark:text-white">Horraires</p>
               <div class="flex px-4 py-2">
                 <p class="text-xl">🕒</p>
-                <p class="text-xl text-gray-400 ml-2">{{this.displayDates}}</p>
+                <p class="text-xl text-slate-700 dark:text-gray-400 ml-2">{{this.displayDates}}</p>
               </div>
-              <p class="mt-4 text-xl text-white">Membres</p>
+              <p class="mt-4 text-xl text-black dark:text-white">Membres</p>
               <div class="flex px-4 py-2">
                 <p class="text-xl">👤</p>
-                <p class="text-xl text-gray-400 ml-2">{{this.organizerName}}</p>
+                <p class="text-xl text-slate-700 dark:text-gray-400 ml-2">{{this.organizerName}}</p>
               </div>
               <div class="flex px-4 py-2">
                 <p class="text-xl">👥</p>
-                  <p class="text-xl text-gray-500 ml-2">
+                  <p class="text-xl text-slate-700 dark:text-gray-400 ml-2">
                     {{#each this.attendees}}
                       {{#if this.isFirst}}
                         {{this.emailAddress.name}}
@@ -81,17 +81,17 @@
                   </p>
               </div>
               {{#if this.description}}
-                <p class="text-xl text-white">Description</p>
+                <p class="text-xl text-black dark:text-white">Description</p>
                 <div class="flex px-4 py-2">
                   <p class="text-xl">📘</p>
-                  <p class="text-xl text-white ml-2 truncate">
+                  <p class="text-xl text-slate-700 dark:text-gray-400 ml-2 truncate">
                     {{{this.description}}}
                   </p>
                 </div>
               {{/if}}
               <div class="grow flex flex-col">
-                <p class="mt-4 text-xl text-white">Localisation</p>
-                <div class="flex px-4 py-2">
+                <p class="mt-4 text-xl text-black dark:text-white">Localisation</p>
+                <div class="flex px-4 py-2 text-slate-700 dark:text-gray-400">
                   {{#if this.location}}
                     📍 {{this.location.displayName}}
                   {{else}}
@@ -101,8 +101,8 @@
               </div>
               <div class="flex flex-wrap gap-10">
                 <div class="grow flex flex-col">
-                  <p class="mt-4 text-xl text-white">Conférence</p>
-                  <div class="flex px-4 py-2">
+                  <p class="mt-4 text-xl text-black dark:text-white">Conférence</p>
+                  <div class="flex px-4 py-2 text-slate-700 dark:text-gray-400">
                     {{#if this.onlineMeeting}}
                       {{>linkButton1 href=this.onlineMeeting.joinUrl title="💻 Rejoindre la réunion en ligne"}}
                     {{else}}

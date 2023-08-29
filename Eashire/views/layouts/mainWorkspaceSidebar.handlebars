@@ -9,18 +9,18 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.min.js"></script>
 	</head>
 
-	<body class="h-screen w-screen bg-slate-900 text-slate-300 flex flex-col">
+    <body class="h-screen w-screen bg-slate-200 text-gray-800 flex flex-col dark:bg-gray-800 dark:text-gray-200">
 		{{>navbar}}
 		<div class="flex flex-grow">
-			<main class="flex-grow flex">
+            <main class="flex-grow flex bg-slate-200 dark:bg-gray-900">
 				{{>workspaceSidebar}}
 				{{#if userId}}
 					{{>chat}}
 				{{/if}}
-				<div class="flex-grow relative">
+                <div class="flex-grow relative bg-slate-200 dark:bg-gray-900">
 					{{#each error}}
 						<div role='alert'>
-							<div class="w-full bg-blue-900 p-6">
+                            <div class="w-full bg-slate-200 p-6 dark:bg-blue-800">
 								<p class="w-fit m-auto">
 									{{this.message}}
 								</p>
@@ -61,5 +61,16 @@
 				chevronIcon.classList.toggle('rotate-180');
 			});
 		</script>
+        <script>
+            const themeFromLocalStorage = localStorage.getItem('theme');
+            const savedTheme = (themeFromLocalStorage && themeFromLocalStorage !== "null") ? themeFromLocalStorage : 'dark';
+
+            if(savedTheme === 'dark'){
+                document.documentElement.classList.add(savedTheme)
+            }
+            else{
+                document.documentElement.classList.remove('dark')
+            }
+        </script>
 	</body>
 </html>
