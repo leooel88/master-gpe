@@ -10,7 +10,7 @@
 				<div class='flex justify-center gap-6 items-center'>
 				{{#compare isLoggedIn 1 operator="=="}}
 					{{#compare fichePoste.publicationRH 1 operator="=="}}
-						<div class='m-3 flex items-center p-1 text-sm font-bold text-black dark:text-white bg-red-300 dark:bg-blue-800 rounded'>
+						<div class='m-3 flex items-center p-1 text-sm font-bold text-black dark:text-white bg-blue-400 dark:bg-blue-800 rounded'>
 							<span class='flex-1 whitespace-nowrap'>Publié</span>
 						</div>
 					{{else}}
@@ -469,7 +469,7 @@
 				{{#if rh}}
 					{{#compare fichePoste.validationFinance 0 operator="=="}}
 						{{#compare fichePoste.publicationRH 0 operator="=="}}
-							<div class='grow flex justify-center bg-slate-800 gap-6'>
+							<div class='grow flex justify-center bg-slate-300 dark:bg-slate-800 gap-6'>
 								<a
 									href={{rhValidLink}}
 									class='flex items-center p-3 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow'
@@ -487,7 +487,7 @@
 					{{else compare fichePoste.validationFinance 1 operator="=="}}
 						{{#compare fichePoste.validationRH 1 operator="=="}}
 							{{#compare fichePoste.publicationRH 0 operator="=="}}
-								<div class='grow flex justify-center bg-slate-800 gap-6'>
+								<div class='grow flex justify-center bg-slate-300 dark:bg-slate-800 gap-6'>
 									<a
 										href={{rhPublishLink}}
 										class='flex items-center p-2 text-base font-bold text-white bg-blue-700 rounded-lg hover:bg-blue-600 group hover:shadow'
@@ -500,7 +500,7 @@
 					{{/compare}}
 				{{else if finance}}
 					{{#compare fichePoste.validationRH 1 operator="=="}}
-						<div class='grow flex justify-center bg-slate-800 gap-6'>
+						<div class='grow flex justify-center bg-slate-300 dark:bg-slate-800 gap-6'>
 							<a
 								href={{financeValidLink}}
 								class='flex items-center p-3 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow'
