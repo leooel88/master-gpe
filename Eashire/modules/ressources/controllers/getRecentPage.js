@@ -61,7 +61,7 @@ exports.process = async (req, res) => {
 			const { dataValues: currRessource } = await Ressource.findOne({
 				where: { id: shareListItem.dataValues.ressourceId },
 			})
-			ressources.push(currRessource)
+			ressources.push({ ...currRessource, access: shareListItem.access })
 		}
 	}
 
@@ -84,6 +84,9 @@ exports.process = async (req, res) => {
 		} else {
 			ressource.fileLink = `${RESSOURCE_BASE_PATH}/${ressource.path}`
 		}
+
+		// Add modification Link
+		ressource.modifyLink = `/ressources/modify/${ressource.id}`
 
 		return ressource
 	})

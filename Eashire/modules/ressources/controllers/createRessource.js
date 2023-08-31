@@ -36,25 +36,34 @@ exports.process = async (req, res) => {
 
 		if (req.body['selectedUsers']) {
 			if (typeof req.body['selectedUsers'] === 'string') {
-				usersArray.push(req.body['selectedUsers'])
+				const splited = splitString(req.body['selectedUsers'])
+				console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+				console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+				console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+				console.log('SPLITED')
+				console.log(splited)
+				usersArray.push(splited)
 			} else if (Array.isArray(req.body['selectedUsers'])) {
-				usersArray = [...req.body['selectedUsers']]
+				usersArray = req.body['selectedUsers'].map((user) => splitString(user))
+				console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+				console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+				console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+				console.log('SPLITED')
+				console.log(usersArray)
 			}
 		}
 
 		if (req.body['selectedGroups']) {
 			if (typeof req.body['selectedGroups'] === 'string') {
-				console.log('HAHAHAHAHHAHAHAHAHAHAHAHAHAHHA')
-				console.log('HAHAHAHAHHAHAHAHAHAHAHAHAHAHHA')
-				console.log('HAHAHAHAHHAHAHAHAHAHAHAHAHAHHA')
 				try {
+					const [groupId, access] = splitString(req.body['selectedGroups'])
 					const { value: groupMembers } = await graph.getGroupMembers(
 						req.app.locals.msalClient,
 						userId,
-						req.body['selectedGroups'],
+						groupId,
 					)
 					for (const user of groupMembers) {
-						usersArray.push(user.id)
+						usersArray.push([user.id, access])
 					}
 
 					console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
@@ -71,10 +80,11 @@ exports.process = async (req, res) => {
 				console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOO')
 				for (const group of req.body['selectedGroups']) {
 					try {
+						const [groupId, access] = splitString(group)
 						const { value: groupMembers } = await graph.getGroupMembers(
 							req.app.locals.msalClient,
 							userId,
-							group,
+							groupId,
 						)
 						console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
 						console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
@@ -82,7 +92,7 @@ exports.process = async (req, res) => {
 						console.log('GROUP MEMBERS')
 						console.log(groupMembers)
 						for (const user of groupMembers) {
-							usersArray.push(user.id)
+							usersArray.push([user.id, access])
 						}
 					} catch (err) {
 						console.log('NO MEMBERS IN GROUP : ', group)
@@ -128,7 +138,8 @@ exports.process = async (req, res) => {
 		for (const user of usersArray) {
 			await ShareList.create({
 				ressourceId: createdRessource.id,
-				userId: user,
+				userId: user[0],
+				access: user[1] === 'read' ? 2 : 3,
 			})
 		}
 	} catch (err) {
@@ -160,4 +171,17 @@ function trimString(inputString) {
 		return inputString.split('.')[0]
 	}
 	return inputString // return the original string if no '@' or '.' is found
+}
+
+function splitString(input) {
+	// Split string by '-'
+	const parts = input.split('-')
+
+	// Get the last element
+	const lastWord = parts.pop()
+
+	// Join the remaining parts
+	const firstPart = parts.join('-')
+
+	return [firstPart, lastWord]
 }

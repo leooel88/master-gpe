@@ -78,6 +78,9 @@ exports.process = async (req, res) => {
 			ressource.fileLink = `${RESSOURCE_BASE_PATH}/${ressource.path}`
 		}
 
+		// Add modification Link
+		ressource.modifyLink = `/ressources/modify/${ressource.id}`
+
 		return ressource
 	})
 

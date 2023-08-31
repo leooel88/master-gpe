@@ -87,6 +87,105 @@
     .sort((a, b) => a.textContent.localeCompare(b.textContent))
     .forEach(node => userDropdownContent.appendChild(node));
 
+
+  function toggleReadWrite(event) {
+    event.stopPropagation();
+
+    const parent = event.currentTarget.parentElement;
+    const toggleText = parent.querySelector('span'); // The text label
+
+    if (event.currentTarget.checked) {
+      // Checkbox is checked (turned on)
+      if (parent.parentElement.querySelector('div').querySelector('input').value) {
+        parent.parentElement.querySelector('div').querySelector('input').value = parent.parentElement.querySelector('div').querySelector('input').value.replace("-read", "-write");
+      }
+      toggleText.innerText = 'Editeur'; 
+    } else {
+      // Checkbox is unchecked (turned off)
+      if (parent.parentElement.querySelector('div').querySelector('input').value.includes("-write")) {
+        parent.parentElement.querySelector('div').querySelector('input').value = parent.parentElement.querySelector('div').querySelector('input').value.replace("-write", "-read");
+      }
+      toggleText.innerText = 'Lecteur';
+    }
+  }
+
+  // Function to add a toggle button to an item
+  function addToggleButton(item, userId) {// Create the main label that contains the toggle and its label
+    const toggleLabel = document.createElement('label');
+    toggleLabel.style.position = "relative";
+    toggleLabel.style.display = "inline-flex";
+    toggleLabel.style.alignItems = "center";
+    toggleLabel.style.cursor = "pointer";
+
+    // Checkbox input
+    const toggleCheckbox = document.createElement('input');
+    toggleCheckbox.type = 'checkbox';
+    toggleCheckbox.style.position = "absolute";
+    toggleCheckbox.style.width = "1px";
+    toggleCheckbox.style.height = "1px";
+    toggleCheckbox.style.padding = "0";
+    toggleCheckbox.style.margin = "-1px";
+    toggleCheckbox.style.overflow = "hidden";
+    toggleCheckbox.style.clip = "rect(0, 0, 0, 0)";
+    toggleCheckbox.style.whiteSpace = "nowrap";
+    toggleCheckbox.style.border = "0";
+    toggleCheckbox.className = 'user-toggle-checkbox';
+    toggleLabel.appendChild(toggleCheckbox);
+    
+    // Toggle visual representation
+    const toggleVisual = document.createElement('div');
+    toggleVisual.style.width = "44px";
+    toggleVisual.style.height = "24px";
+    toggleVisual.style.background = "#4A5568";
+    toggleVisual.style.border = "1px solid #718096";
+    toggleVisual.style.borderRadius = "9999px";
+    toggleVisual.style.position = "relative";
+    toggleVisual.style.transition = "background-color 150ms ease-in-out";
+    toggleCheckbox.checked ? toggleVisual.style.background = "#4299E1" : null;
+    toggleLabel.appendChild(toggleVisual);
+
+    const toggleAfter = document.createElement('div');
+    toggleAfter.style.content = "";
+    toggleAfter.style.position = "absolute";
+    toggleAfter.style.top = "2px";
+    toggleAfter.style.left = "2px";
+    toggleAfter.style.width = "18px";
+    toggleAfter.style.height = "18px";
+    toggleAfter.style.background = "white";
+    toggleAfter.style.border = "1px solid #CBD5E0";
+    toggleAfter.style.borderRadius = "9999px";
+    toggleAfter.style.transition = "transform 150ms ease-in-out";
+    toggleVisual.appendChild(toggleAfter);
+
+    // Update visual based on checkbox state
+    toggleCheckbox.addEventListener('change', function() {
+      event.stopPropagation();
+      if (toggleCheckbox.checked) {
+        toggleVisual.style.background = "#4299E1";
+        toggleAfter.style.transform = "translateX(20px)";
+      } else {
+        toggleVisual.style.background = "#4A5568";
+        toggleAfter.style.transform = "none";
+      }
+    });
+
+    // Text label for the toggle
+    const toggleText = document.createElement('span');
+    toggleText.style.marginLeft = "12px";
+    toggleText.style.fontSize = "14px";
+    toggleText.style.fontWeight = "500";
+    toggleText.style.color = "#E2E8F0";
+    toggleText.innerText = 'Lecteur';
+    toggleLabel.appendChild(toggleText);
+    
+    // Add an event listener for the checkbox input
+    toggleCheckbox.addEventListener('change', toggleReadWrite);
+    
+    item.appendChild(toggleLabel);
+
+    return toggleLabel;
+  }
+
   // Function to handle user-option click event
   function userOptionClickHandler() {
     // Add this user to the right side of the page
@@ -102,9 +201,28 @@
     p.textContent = userName;
     div.appendChild(p);
 
+
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'selectedUsers';
+    input.value = `${userId}-read`;
+    div.appendChild(input);
+
+    const containerDiv = document.createElement('div');
+    containerDiv.id = `user-${userId}-container`
+    containerDiv.style.display = 'flex';
+    containerDiv.style.flexDirection = 'row';
+    containerDiv.style.gap = '30px';
+    containerDiv.appendChild(div)
+    // Add read/write toggle button
+    
+    const toggleButton = addToggleButton(containerDiv, userId);
+
     div.addEventListener('click', function() {
+      if (event.target.classList.contains('user-toggle-checkbox')) return;
+
       // Remove this user from the right side of the page
-      document.getElementById(`user-${userId}`).remove();
+      document.getElementById(`user-${userId}-container`).remove()
 
       // Add user back to the left side of the page
       const userDropdownContent = document.getElementById('users-dropdown').querySelector('.dropdown-content');
@@ -123,13 +241,8 @@
         .forEach(node => userDropdownContent.appendChild(node));
     });
 
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'selectedUsers';
-    input.value = userId;
-    div.appendChild(input);
 
-    document.getElementById('right').appendChild(div);
+    document.getElementById('right').appendChild(containerDiv);
 
     // Remove this user from the left side of the page
     this.remove();
@@ -187,6 +300,9 @@
     input.name = 'selectedGroups';
     input.value = groupId;
     div.appendChild(input);
+
+    // Add read/write toggle button
+    addToggleButton(div);
 
     document.getElementById('right').appendChild(div);
 

@@ -21,6 +21,11 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			access: {
+				type: DataTypes.TINYINT,
+				allowNull: false,
+				defaultValue: 0,
+			},
 		},
 		{
 			sequelize,

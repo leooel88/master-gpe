@@ -16,6 +16,8 @@ router.get('/employees', auth.authenticatedRh, ressourcesController.getEmployeeP
 
 router.get('/create', auth.authenticated, ressourcesController.getCreateRessourcePage)
 
+router.get('/modify/:ressourceId', auth.authenticated, ressourcesController.getModifyRessourcePage)
+
 router.post(
 	'/create',
 	auth.authenticated,
