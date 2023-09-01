@@ -1,9 +1,19 @@
-const { AccountCreationDemand, Candidature } = require('@models')
+const {
+	AccountCreationDemand,
+	Candidature,
+	DossierRecrutement,
+	FichierRecrutement,
+	FichePoste,
+	Ressource,
+	ShareList,
+} = require('@models')
 const auth = require('@utils/authentication')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 
 const graph = require('../../../utils/azureService/graph')
+
+const { ADMIN_FILES_BASE_PATH } = process.env
 
 exports.process = async (req, res) => {
 	const { accountCreationDemandId } = req.params
@@ -96,29 +106,19 @@ exports.process = async (req, res) => {
 	}
 
 	const { userId } = auth.getTokenInfo(req)
-	console.log('===============================')
-	console.log('===============================')
-	console.log('===============================')
-	console.log(userId)
 	const data = await graph.createUser(req.app.locals.msalClient, userId, userInfo)
-	console.log('===============================')
-	console.log('===============================')
-	console.log('===============================')
-	console.log(userId)
 	if (data) {
-		console.log('===============================')
-		console.log('===============================')
-		console.log('===============================')
-		console.log(data)
-		console.log('===============================')
-		console.log('===============================')
-		console.log('===============================')
-		console.log(userId)
 		const userDetails = await graph.getUserDetails(
 			req.app.locals.msalClient,
 			userId,
 			data.userPrincipalName,
 		)
+
+		console.log('}}}}}}}}}}}}}}}}}}}}}}}}}')
+		console.log('}}}}}}}}}}}}}}}}}}}}}}}}}')
+		console.log('}}}}}}}}}}}}}}}}}}}}}}}}}')
+		console.log('USER DETAILS')
+		console.log(userDetails)
 
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
@@ -152,6 +152,70 @@ exports.process = async (req, res) => {
 				console.log(`Email sent: ${info.response}`)
 			}
 		})
+
+		console.log('################################')
+		console.log('################################')
+		console.log('################################')
+		console.log('CANDIDATURE')
+		console.log(candidature)
+
+		const { dataValues: dossierRecrutement } = await DossierRecrutement.findOne({
+			where: { candidatureId: candidature.id },
+		})
+
+		console.log('################################')
+		console.log('################################')
+		console.log('################################')
+		console.log('DOSSIER RECRUTEMENT')
+		console.log(dossierRecrutement)
+
+		const fichiersRecrutementData = await FichierRecrutement.findAll({
+			where: { dossierRecrutementId: dossierRecrutement.id },
+		})
+
+		const fichiersRecrutement = fichiersRecrutementData.map((fichier) => fichier.dataValues)
+		console.log('################################')
+		console.log('################################')
+		console.log('################################')
+		console.log('FICHIER RECRUTEMENT')
+		console.log(fichiersRecrutement)
+
+		const { dataValues: fichePoste } = await FichePoste.findOne({
+			where: { id: candidature.fichePosteId },
+		})
+		console.log('################################')
+		console.log('################################')
+		console.log('################################')
+		console.log('FICHE POSTE')
+		console.log(fichePoste)
+
+		for (const fichier of fichiersRecrutement) {
+			// CREATE RESSOURCE
+			const { dataValues: ressource } = await Ressource.create({
+				name: fichier.title,
+				path: fichier.fileName,
+				ownerUserId: trimString(userDetails.id),
+				ownerUserDisplayName: userDetails.displayName,
+				folderName: `${ADMIN_FILES_BASE_PATH}/${dossierRecrutement.directoryId}`,
+				sharable: 0,
+				adminFile: 1,
+			})
+			console.log('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[(')
+			console.log('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[(')
+			console.log('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[(')
+			console.log('CREATED RESSOURCE')
+			console.log(ressource)
+			// SHARE RESSOURCE WITH HR
+			const { dataValues: shareList } = await ShareList.create({
+				ressourceId: ressource.id,
+				userId: trimString(fichePoste.rhId),
+			})
+			console.log('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[(')
+			console.log('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[(')
+			console.log('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[(')
+			console.log('CREATED SHARE LIST')
+			console.log(shareList)
+		}
 
 		const params = { active: { accountCreatedRead: true }, user: data, userDetails: userDetails }
 
@@ -217,4 +281,14 @@ function createPassword() {
 	}
 	console.log('RANDOM PASSWORD : ', password)
 	return password
+}
+
+function trimString(inputString) {
+	if (inputString.includes('@')) {
+		return inputString.split('@')[0]
+	}
+	if (inputString.includes('.')) {
+		return inputString.split('.')[0]
+	}
+	return inputString // return the original string if no '@' or '.' is found
 }

@@ -32,7 +32,7 @@ module.exports = {
 		if (searchedUser && searchedUser != '') {
 			user = await client
 				.api(url)
-				.select('displayName,mail,userPrincipalName,jobTitle,department')
+				.select('id,displayName,mail,userPrincipalName,jobTitle,department')
 				.get()
 		} else {
 			user = await client

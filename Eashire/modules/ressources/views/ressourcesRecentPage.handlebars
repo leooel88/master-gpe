@@ -1,0 +1,81 @@
+<div class="mt-6">
+  {{>PageHeader header_text="🕗 Récents"}}
+</div>
+
+<div class="w-3/5 mx-auto mt-6">
+  <div class="my-4 w-fit m-auto">
+    {{>linkButton3-small href=ressourceCreateLink title='Uploader une ressource' svg="arrow-up-tray-outline" svg_class="h-5 w-5"}}
+  </div>
+  <div class='grow p-4 bg-slate-800 rounded-lg border shadow-md sm:p-6'>
+    <ul class='my-4 space-y-3'>
+      {{#each resourceArray}}
+        <li class="flex flex-row gap-6">
+          <a href="{{this.fileLink}}" target="_blank" class="flex-1 flex items-center p-3 text-base font-bold text-white bg-gray-600 rounded-lg hover:bg-gray-500 group hover:shadow">
+            {{#if this.even}}
+              {{>clipboard-document-check-solid}}
+            {{else}}
+              {{>clipboard-document-check-outline}}
+            {{/if}}
+            <div class='grow'>
+              <span
+                class='ml-3 whitespace-nowrap'
+              >{{this.name}}</span>
+            </div>
+            <div class='grow'>
+              <span
+                class='ml-5 text-gray-400 text-sm whitespace-nowrap'
+              >Propriétaire : </span>
+              <span
+                class='ml-3 whitespace-nowrap'
+              >{{this.ownerUserDisplayName}}</span>
+            </div>
+            <div class='grow'>
+              <span
+                class='ml-5 text-gray-400 text-sm whitespace-nowrap'
+              >Dernière modification : </span>
+              <span
+                class='ml-3 whitespace-nowrap'
+              >{{this.updatedAt}}</span>
+            </div>
+            {{#if this.access}}
+              <div class='grow'>
+                <span
+                  class='ml-5 text-gray-400 text-sm whitespace-nowrap'
+                >Accès : </span>
+                <span
+                  class='ml-3 whitespace-nowrap'
+                >
+                  {{#compare this.access 2 operator="=="}}
+                    Lecture
+                  {{else}}
+                    Ecriture
+                  {{/compare}}
+                </span>
+              </div>
+            {{else}}
+              <div class='grow'>
+                <span
+                  class='ml-5 text-gray-400 text-sm whitespace-nowrap'
+                >Accès : </span>
+                <span
+                  class='ml-3 whitespace-nowrap'
+                >Propriétaire</span>
+              </div>
+            {{/if}}
+          </a>
+          {{#if this.access}}
+            {{#compare this.access 3 operator="=="}}
+              <a href="{{this.modifyLink}}" class="flex items-center p-3 text-base font-bold text-white bg-gray-600 rounded-lg hover:bg-gray-500 group hover:shadow">
+                {{>pencil-square-solid}}
+              </a>
+            {{/compare}}
+          {{else}}
+            <a href="{{this.modifyLink}}" class="flex items-center p-3 text-base font-bold text-white bg-gray-600 rounded-lg hover:bg-gray-500 group hover:shadow">
+              {{>pencil-square-solid}}
+            </a>
+          {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
