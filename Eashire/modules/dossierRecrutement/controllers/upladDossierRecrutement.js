@@ -1,4 +1,11 @@
-const { DossierRecrutement, FichierRecrutement, Candidature } = require('@models')
+const {
+	DossierRecrutement,
+	FichierRecrutement,
+	Candidature,
+	Ressource,
+	ShareList,
+} = require('@models')
+const graph = require('@utils/azureService/graph.js')
 const jwt = require('jsonwebtoken')
 
 const fs = require('fs')
@@ -50,7 +57,7 @@ exports.process = async (req, res) => {
 			const [directoryName_, fileId_, fileName_] = file.split('-')
 			await FichierRecrutement.update(
 				{
-					fileName: fileName_,
+					fileName: file,
 				},
 				{
 					where: {
@@ -73,7 +80,7 @@ exports.process = async (req, res) => {
 		console.error(err)
 		res.status(500).json({
 			error:
-				'An error occurred while updating the DossierRecrutement, FIchierRecrutement or Candidature',
+				'An error occurred while updating the DossierRecrutement, FichierRecrutement or Candidature',
 		})
 	}
 }

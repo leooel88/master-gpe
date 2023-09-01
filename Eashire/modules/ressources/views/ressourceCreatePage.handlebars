@@ -1,0 +1,319 @@
+<div class="mt-4">
+  {{>PageHeader header_text="Upload de ressource"}}
+</div>
+<div class="flex flex-row m-10 gap-4">
+  <div class="basis-1/3 flex-col" id="left">
+    <div id="users-dropdown" class="flex-1 relative dropdown">
+      <button class="dropdown-button relative flex items-center justify-between px-2 py-1 text-xl font-bold">
+        Partager à un utilisateur
+        <span class="arrow transform rotate-0 transition-transform duration-300">&#9662;</span>
+      </button>
+      <div class="dropdown-content left-0 mt-1 ml-3 max-h-[40vh] overflow-y-auto hidden">
+        {{#each userArray}}
+          <p class="user-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600" data-id="{{this.id}}">
+            👤 {{this.displayName}}
+          </p>
+        {{/each}}
+      </div>
+    </div>
+
+    <div id="groups-dropdown" class="flex-1 relative dropdown">
+      <button class="dropdown-button relative flex items-center justify-between px-2 py-1 text-xl font-bold">
+        Groupes
+        <span class="arrow transform rotate-0 transition-transform duration-300">&#9662;</span>
+      </button>
+      <div class="dropdown-content left-0 mt-1 ml-3 max-h-[40vh] overflow-y-auto hidden">
+        {{#each groupArray}}
+          <p class="group-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600" data-id="{{this.id}}">
+            👥 {{this.displayName}}
+          </p>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <form class="basis-2/3 flex flex-col" method='post' action={{createRessourceLink}} enctype="multipart/form-data">
+    <div class="w-fit mx-auto">
+      {{>FormButton1 button_text="Créer la ressource"}}
+    </div>
+    <div class="flex flex-row items-center mt-4 w-fit">
+      <div class="flex flex-col justify-center px-4 w-fit">
+        <label for="ressource-name" class="block mb-2 text-sm font-medium text-white">Nom de la ressource</label>
+        <input type="text" id="ressource-name" name="ressource-name" class="block p-2.5 w-80 text-sm text-white bg-gray-700 rounded-lg border border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500" placeholder="Ecrivez le nom de la ressource ici..." required/>
+      </div>
+    </div>
+    <div class="flex flex-row place-content-center items-center mt-4">
+      <div class="grow flex flex-col justify-center px-4">
+        <label class="block mb-2 text-sm font-medium text-white" for="file_input">Uploader le fichier</label>
+        <input class="block w-full text-sm text-gray-400 border border-gray-600 rounded-lg cursor-pointer bg-gray-700 focus:outline-none placeholder-gray-400" id="file_input" name="file_input" type="file" required>
+      </div>
+    </div>
+    <div class="px-4 mt-4 overflow-y-auto max-h-[40vh]">
+      <p class="text-xl font-bold">Partager la ressource avec :</p>
+      <div id="right" class="pl-3">
+      </div>
+    </div>
+	</form>
+</div>
+<script type='text/javascript' src='/javascripts/flowbite/dist/datepicker.js'></script>
+<script>
+  // Add event listener to all dropdown buttons
+  document.querySelectorAll('.dropdown-button').forEach((button) => {
+    button.addEventListener('click', function() {
+      const dropdownContent = this.nextElementSibling;
+
+      // Check if this dropdown is currently displayed
+      if (dropdownContent.style.display === 'block') {
+        // Hide this dropdown
+        dropdownContent.style.display = 'none';
+      } else {
+        // Close all other dropdowns
+        document.querySelectorAll('.dropdown-content').forEach((dropdown) => {
+          dropdown.style.display = 'none';
+        });
+
+        // Show this dropdown
+        dropdownContent.style.display = 'block';
+      }
+
+      // Rotate arrow
+      this.querySelector('.arrow').classList.toggle('rotate-180');
+    });
+  });
+
+  // USER
+  const userDropdownContent = document.getElementById('users-dropdown').querySelector('.dropdown-content');
+  Array.from(userDropdownContent.children)
+    .sort((a, b) => a.textContent.localeCompare(b.textContent))
+    .forEach(node => userDropdownContent.appendChild(node));
+
+
+  function toggleReadWrite(event) {
+    event.stopPropagation();
+
+    const parent = event.currentTarget.parentElement;
+    const toggleText = parent.querySelector('span'); // The text label
+
+    if (event.currentTarget.checked) {
+      // Checkbox is checked (turned on)
+      if (parent.parentElement.querySelector('div').querySelector('input').value) {
+        parent.parentElement.querySelector('div').querySelector('input').value = parent.parentElement.querySelector('div').querySelector('input').value.replace("-read", "-write");
+      }
+      toggleText.innerText = 'Editeur'; 
+    } else {
+      // Checkbox is unchecked (turned off)
+      if (parent.parentElement.querySelector('div').querySelector('input').value.includes("-write")) {
+        parent.parentElement.querySelector('div').querySelector('input').value = parent.parentElement.querySelector('div').querySelector('input').value.replace("-write", "-read");
+      }
+      toggleText.innerText = 'Lecteur';
+    }
+  }
+
+  // Function to add a toggle button to an item
+  function addToggleButton(item, userId) {// Create the main label that contains the toggle and its label
+    const toggleLabel = document.createElement('label');
+    toggleLabel.style.position = "relative";
+    toggleLabel.style.display = "inline-flex";
+    toggleLabel.style.alignItems = "center";
+    toggleLabel.style.cursor = "pointer";
+
+    // Checkbox input
+    const toggleCheckbox = document.createElement('input');
+    toggleCheckbox.type = 'checkbox';
+    toggleCheckbox.style.position = "absolute";
+    toggleCheckbox.style.width = "1px";
+    toggleCheckbox.style.height = "1px";
+    toggleCheckbox.style.padding = "0";
+    toggleCheckbox.style.margin = "-1px";
+    toggleCheckbox.style.overflow = "hidden";
+    toggleCheckbox.style.clip = "rect(0, 0, 0, 0)";
+    toggleCheckbox.style.whiteSpace = "nowrap";
+    toggleCheckbox.style.border = "0";
+    toggleCheckbox.className = 'user-toggle-checkbox';
+    toggleLabel.appendChild(toggleCheckbox);
+    
+    // Toggle visual representation
+    const toggleVisual = document.createElement('div');
+    toggleVisual.style.width = "44px";
+    toggleVisual.style.height = "24px";
+    toggleVisual.style.background = "#4A5568";
+    toggleVisual.style.border = "1px solid #718096";
+    toggleVisual.style.borderRadius = "9999px";
+    toggleVisual.style.position = "relative";
+    toggleVisual.style.transition = "background-color 150ms ease-in-out";
+    toggleCheckbox.checked ? toggleVisual.style.background = "#4299E1" : null;
+    toggleLabel.appendChild(toggleVisual);
+
+    const toggleAfter = document.createElement('div');
+    toggleAfter.style.content = "";
+    toggleAfter.style.position = "absolute";
+    toggleAfter.style.top = "2px";
+    toggleAfter.style.left = "2px";
+    toggleAfter.style.width = "18px";
+    toggleAfter.style.height = "18px";
+    toggleAfter.style.background = "white";
+    toggleAfter.style.border = "1px solid #CBD5E0";
+    toggleAfter.style.borderRadius = "9999px";
+    toggleAfter.style.transition = "transform 150ms ease-in-out";
+    toggleVisual.appendChild(toggleAfter);
+
+    // Update visual based on checkbox state
+    toggleCheckbox.addEventListener('change', function() {
+      event.stopPropagation();
+      if (toggleCheckbox.checked) {
+        toggleVisual.style.background = "#4299E1";
+        toggleAfter.style.transform = "translateX(20px)";
+      } else {
+        toggleVisual.style.background = "#4A5568";
+        toggleAfter.style.transform = "none";
+      }
+    });
+
+    // Text label for the toggle
+    const toggleText = document.createElement('span');
+    toggleText.style.marginLeft = "12px";
+    toggleText.style.fontSize = "14px";
+    toggleText.style.fontWeight = "500";
+    toggleText.style.color = "#E2E8F0";
+    toggleText.innerText = 'Lecteur';
+    toggleLabel.appendChild(toggleText);
+    
+    // Add an event listener for the checkbox input
+    toggleCheckbox.addEventListener('change', toggleReadWrite);
+    
+    item.appendChild(toggleLabel);
+
+    return toggleLabel;
+  }
+
+  // Function to handle user-option click event
+  function userOptionClickHandler() {
+    // Add this user to the right side of the page
+    const userId = this.getAttribute('data-id');
+    const userName = this.textContent;
+
+    // Create a new div with the user data and add it to the form
+    const div = document.createElement('div');
+    div.className = 'user-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600'
+    div.id = `user-${userId}`;
+
+    const p = document.createElement('p');
+    p.textContent = userName;
+    div.appendChild(p);
+
+
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'selectedUsers';
+    input.value = `${userId}-read`;
+    div.appendChild(input);
+
+    const containerDiv = document.createElement('div');
+    containerDiv.id = `user-${userId}-container`
+    containerDiv.style.display = 'flex';
+    containerDiv.style.flexDirection = 'row';
+    containerDiv.style.gap = '30px';
+    containerDiv.appendChild(div)
+    // Add read/write toggle button
+    
+    const toggleButton = addToggleButton(containerDiv, userId);
+
+    div.addEventListener('click', function() {
+      if (event.target.classList.contains('user-toggle-checkbox')) return;
+
+      // Remove this user from the right side of the page
+      document.getElementById(`user-${userId}-container`).remove()
+
+      // Add user back to the left side of the page
+      const userDropdownContent = document.getElementById('users-dropdown').querySelector('.dropdown-content');
+      
+      // Create new option for later re-use
+      const newOption = document.createElement('p');
+      newOption.textContent = userName;
+      newOption.className = 'user-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600';
+      newOption.setAttribute('data-id', userId);
+      newOption.addEventListener('click', userOptionClickHandler);
+      userDropdownContent.appendChild(newOption);
+
+      // Sort users in dropdown by name
+      Array.from(userDropdownContent.children)
+        .sort((a, b) => a.textContent.localeCompare(b.textContent))
+        .forEach(node => userDropdownContent.appendChild(node));
+    });
+
+
+    document.getElementById('right').appendChild(containerDiv);
+
+    // Remove this user from the left side of the page
+    this.remove();
+  }
+
+  // Query all the .user-option elements
+  document.querySelectorAll('.user-option').forEach((option) => {
+    option.addEventListener('click', userOptionClickHandler);
+  });
+
+  // GROUP
+  const groupDropdownContent = document.getElementById('groups-dropdown').querySelector('.dropdown-content');
+  Array.from(groupDropdownContent.children)
+    .sort((a, b) => a.textContent.localeCompare(b.textContent))
+    .forEach(node => groupDropdownContent.appendChild(node));
+
+  // Function to handle group-option click event
+  function groupOptionClickHandler() {
+    // Add this group to the right side of the page
+    const groupId = this.getAttribute('data-id');
+    const groupName = this.textContent;
+
+    // Create a new div with the group data and add it to the form
+    const div = document.createElement('div');
+    div.className = 'group-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600'
+    div.id = `group-${groupId}`;
+
+    const p = document.createElement('p');
+    p.textContent = groupName;
+    div.appendChild(p);
+
+    div.addEventListener('click', function() {
+      // Remove this group from the right side of the page
+      document.getElementById(`group-${groupId}`).remove();
+
+      // Add group back to the left side of the page
+      const groupDropdownContent = document.getElementById('groups-dropdown').querySelector('.dropdown-content');
+      
+      // Create new option for later re-use
+      const newOption = document.createElement('p');
+      newOption.textContent = groupName;
+      newOption.className = 'group-option py-1 px-2 m-2 cursor-pointer rounded-md hover:bg-slate-600';
+      newOption.setAttribute('data-id', groupId);
+      newOption.addEventListener('click', groupOptionClickHandler);
+      groupDropdownContent.appendChild(newOption);
+
+      // Sort groups in dropdown by name
+      Array.from(groupDropdownContent.children)
+        .sort((a, b) => a.textContent.localeCompare(b.textContent))
+        .forEach(node => groupDropdownContent.appendChild(node));
+    });
+
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'selectedGroups';
+    input.value = groupId;
+    div.appendChild(input);
+
+    // Add read/write toggle button
+    addToggleButton(div);
+
+    document.getElementById('right').appendChild(div);
+
+    // Remove this group from the left side of the page
+    this.remove();
+  }
+
+  // Query all the .group-option elements
+  document.querySelectorAll('.group-option').forEach((option) => {
+    option.addEventListener('click', groupOptionClickHandler);
+  });
+</script>
+
+
