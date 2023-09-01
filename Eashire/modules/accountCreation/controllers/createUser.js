@@ -128,7 +128,7 @@ exports.process = async (req, res) => {
 			},
 		})
 		const mailtext =
-			`Bonjour ${userDetails.displayName} ,\n\n` +
+			`Bonjour ${userDetails.displayName},\n\n` +
 			`Nous avons le plaisir de vous transmettre vos ` +
 			`identifiants professionnels. Ils vous permettront ` +
 			`notamment d'accéder à notre solution employé sur le site eashire.com\n \n` +

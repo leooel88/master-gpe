@@ -50,7 +50,7 @@ exports.process = async (req, res) => {
 		},
 	})
 	let mailtext =
-		`Bonjour Mr ${data[0].nom} ,\n\n` +
+		`Bonjour ${data[0].nom},\n\n` +
 		`Suite à vos actions, nous avons bien reçu votre dossier de recrutement. Néanmoins celui ci a été refusé.\nLe représentant aillant refusé votre dossier a laissé le message suivant :\n\n${req.body.message}\n\n` +
 		`Veuillez retourner à cette adresse, et remplir à nouveau votre dossier de recrutement AU COMPLET\nhttp://localhost:8080/dossierrecrutement/upload?token=${token}\n\n` +
 		`Pour rappel, voici les fichiers à renseigner : `

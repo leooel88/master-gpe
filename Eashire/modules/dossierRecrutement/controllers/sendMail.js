@@ -54,8 +54,8 @@ exports.process = async (req, res) => {
 		},
 	})
 	let mailtext =
-		`Bonjour Mr ${data[0].nom} ,\n\n` +
-		`J'ai le plaisir de vous annoncer que votre candidature au poste de ${jobLabel} à été retenue .\n Afin de mener à bien votre intégration administrative, nous avons besoin de certains documents que vous devrez nous envoyer \n en suivant le lien suivant \n \n https://eashire.com/dossierrecrutement/upload?token=${token} \n \n`
+		`Bonjour ${data[0].nom},\n\n` +
+		`J'ai le plaisir de vous annoncer que votre candidature au poste de ${jobLabel} à été retenue .\n Afin de mener à bien votre intégration administrative, nous avons besoin de certains documents que vous devrez nous envoyer en suivant le lien suivant \n \nhttps://eashire.com/dossierrecrutement/upload?token=${token} \n \n`
 	for (const fichier of fichiersRecrutementFormattedData) {
 		mailtext += ` - ${fichier.title} : ${fichier.description} \n`
 	}
@@ -64,7 +64,7 @@ exports.process = async (req, res) => {
 	const mailOptions = {
 		from: 'achoui.hillal@gmail.com',
 		to: data[0].mail,
-		subject: "Offre d'emploi ",
+		subject: "Offre d'emploi",
 		text: mailtext,
 	}
 	transporter.sendMail(mailOptions, (error, info) => {
