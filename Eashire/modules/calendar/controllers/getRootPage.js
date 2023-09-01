@@ -4,7 +4,9 @@ const jwt = require('jsonwebtoken')
 
 exports.process = async (req, res, next) => {
 	const { error } = req.query
-	const params = {}
+	const params = {
+		active: { calendar: true },
+	}
 
 	if (error != null && error.length > 0) {
 		params.error = [{ message: error }]

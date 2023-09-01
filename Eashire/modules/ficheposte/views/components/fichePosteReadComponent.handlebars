@@ -1,16 +1,16 @@
 <div class='relative top-6 flex justify-center'>
 	<div id='ficheposteread-div'>
 		<div
-			class='grow py-8 px-12 max-w-2xl bg-slate-800 rounded-lg border shadow-md'
+			class='grow py-8 px-12 max-w-2xl bg-slate-300 dark:bg-slate-800 rounded-lg border shadow-md'
 		>
 			<div class='flex justify-between items-center mb-4'>
 				<h5
-					class='text-xl font-bold leading-none text-white'
+					class='text-xl font-bold leading-none text-black dark:text-white'
 				>Fiche de poste</h5>
 				<div class='flex justify-center gap-6 items-center'>
 				{{#compare isLoggedIn 1 operator="=="}}
 					{{#compare fichePoste.publicationRH 1 operator="=="}}
-						<div class='m-3 flex items-center p-1 text-sm font-bold text-white bg-blue-800 rounded'>
+						<div class='m-3 flex items-center p-1 text-sm font-bold text-black dark:text-white bg-blue-400 dark:bg-blue-800 rounded'>
 							<span class='flex-1 whitespace-nowrap'>Publié</span>
 						</div>
 					{{else}}
@@ -56,13 +56,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-white truncate'
+									class='text-sm font-medium text-black dark:text-white truncate'
 								>
 									Label du poste
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-400 truncate'
+										class='text-sm text-gray-600 dark:text-gray-400 truncate'
 									>
 										{{fichePoste.label}}
 									</p>
@@ -84,7 +84,7 @@
 							>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-400 truncate'
+										class='text-sm text-gray-600 dark:text-gray-400 truncate'
 									>
 										{{fichePoste.type}}
 									</p>
@@ -101,7 +101,7 @@
 								</div>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm font-medium text-white truncate'
+										class='text-sm font-medium text-black dark:text-white truncate'
 									>
 										{{fichePoste.urgency}}
 									</p>
@@ -126,13 +126,13 @@
 							</div>
 							<div class='grow flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-white truncate'
+									class='text-sm font-medium text-black dark:text-white truncate'
 								>
 									Description du poste
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-400 text-ellipsis overflow-hidden'
+										class='text-sm text-gray-600 dark:text-gray-400 text-ellipsis overflow-hidden'
 									>
 										{{fichePoste.jobDescription}}
 									</p>
@@ -157,13 +157,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-white truncate'
+									class='text-sm font-medium text-black dark:text-white truncate'
 								>
 									Localisation de l'emploi
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-400 truncate'
+										class='text-sm text-gray-600 dark:text-gray-400 truncate'
 									>
 										{{fichePoste.localisation}}
 									</p>
@@ -181,13 +181,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-white truncate'
+									class='text-sm font-medium text-black dark:text-white truncate'
 								>
 									Service de destination
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-400 truncate'
+										class='text-sm text-gray-600 dark:text-gray-400 truncate'
 									>
 										{{fichePoste.destinationService}}
 									</p>
@@ -209,13 +209,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-white truncate'
+									class='text-sm font-medium text-black dark:text-white truncate'
 								>
 									Date de début
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-400 truncate'
+										class='text-sm text-gray-600 dark:text-gray-400 truncate'
 									>
 										{{#if fichePoste.entryDate}}
 											{{fichePoste.entryDate}}
@@ -237,13 +237,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-white truncate'
+									class='text-sm font-medium text-black dark:text-white truncate'
 								>
 									Date de fin
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-400 truncate'
+										class='text-sm text-gray-600 dark:text-gray-400 truncate'
 									>
 										{{#if fichePoste.endDate}}
 											{{fichePoste.endDate}}
@@ -269,13 +269,13 @@
 							</div>
 							<div class='flex-1 min-w-0'>
 								<p
-									class='text-sm font-medium text-white truncate'
+									class='text-sm font-medium text-black dark:text-white truncate'
 								>
 									Experience requise
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm text-gray-400 text-ellipsis overflow-hidden'
+										class='text-sm text-gray-600 dark:text-gray-400 text-ellipsis overflow-hidden'
 									>
 										{{#if fichePoste.experience}}
 											{{fichePoste.experience}}
@@ -296,16 +296,16 @@
 								{{> currency-dollar-solid class='w-8 h-8'}}
 							</div>
 							<div
-								class='flex-1 flex flex-col text-base font-semibold text-white'
+								class='flex-1 flex flex-col text-base font-semibold text-black dark:text-white'
 							>
 								<p
-									class='text-sm text-gray-400 truncate'
+									class='text-sm text-gray-600 dark:text-gray-400 truncate'
 								>
 									Rémunération
 								</p>
 								<div class='flex gap-4 items-center'>
 									<p
-										class='text-sm font-medium text-white truncate'
+										class='text-sm font-medium text-black dark:text-white truncate'
 									>
 										{{#if fichePoste.compensation}}
 											{{fichePoste.compensation}}
@@ -334,13 +334,13 @@
 										</div>
 										<div class='flex-1 min-w-0'>
 											<p
-												class='text-sm font-medium text-white truncate'
+												class='text-sm font-medium text-black dark:text-white truncate'
 											>
 												Question 1
 											</p>
 											<div class='flex gap-4 items-center'>
 												<p
-													class='text-sm text-gray-400 truncate'
+													class='text-sm text-gray-600 dark:text-gray-400 truncate'
 												>
 													{{fichePoste.question1}}
 												</p>
@@ -446,7 +446,7 @@
 			{{#compare displayValidationButtons 1 operator="=="}}
 				{{#if manager}}
 					{{#if current_owner}}
-						<div class='grow flex justify-center bg-slate-800 gap-6'>
+						<div class='grow flex justify-center bg-slate-300 dark:bg-slate-800 gap-6'>
 							<a
 								href={{archiveLink}}
 								id="archive-button"
@@ -469,7 +469,7 @@
 				{{#if rh}}
 					{{#compare fichePoste.validationFinance 0 operator="=="}}
 						{{#compare fichePoste.publicationRH 0 operator="=="}}
-							<div class='grow flex justify-center bg-slate-800 gap-6'>
+							<div class='grow flex justify-center bg-slate-300 dark:bg-slate-800 gap-6'>
 								<a
 									href={{rhValidLink}}
 									class='flex items-center p-3 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow'
@@ -487,7 +487,7 @@
 					{{else compare fichePoste.validationFinance 1 operator="=="}}
 						{{#compare fichePoste.validationRH 1 operator="=="}}
 							{{#compare fichePoste.publicationRH 0 operator="=="}}
-								<div class='grow flex justify-center bg-slate-800 gap-6'>
+								<div class='grow flex justify-center bg-slate-300 dark:bg-slate-800 gap-6'>
 									<a
 										href={{rhPublishLink}}
 										class='flex items-center p-2 text-base font-bold text-white bg-blue-700 rounded-lg hover:bg-blue-600 group hover:shadow'
@@ -500,7 +500,7 @@
 					{{/compare}}
 				{{else if finance}}
 					{{#compare fichePoste.validationRH 1 operator="=="}}
-						<div class='grow flex justify-center bg-slate-800 gap-6'>
+						<div class='grow flex justify-center bg-slate-300 dark:bg-slate-800 gap-6'>
 							<a
 								href={{financeValidLink}}
 								class='flex items-center p-3 text-base font-bold text-white bg-lime-700 rounded-lg hover:bg-lime-600 group hover:shadow'
@@ -519,7 +519,7 @@
 			{{/compare}}
 
 			{{#compare isLoggedIn 0 operator="=="}}
-				<div class='grow flex justify-center bg-slate-800 gap-6'>
+				<div class='grow flex justify-center bg-slate-300 dark:bg-slate-800 gap-6'>
 					<a
 						href={{candidateLink}}
 						class='flex items-center p-1 text-base font-bold text-white bg-blue-700 rounded-lg hover:bg-blue-600 group hover:shadow'

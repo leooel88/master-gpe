@@ -2,7 +2,7 @@
 	{{>returnButton route="/dashboard"}}
 </div>
 <aside class='relative top-6 w-fit m-auto' aria-label='Sidebar'>
-	<div class='overflow-y-auto py-4 px-3 bg-slate-800 rounded'>
+	<div class='overflow-y-auto py-4 px-3 bg-slate-500 dark:bg-slate-800 rounded'>
 		<ul class='space-y-2 mx-6 ml-2'>
       {{#if rh}}
         {{>WorkspaceItem href="/ficheposte/list" text='Fiches de poste' notif_number=(lookup . 'notifNumber') svg='clipboard-document-check-solid'}}
