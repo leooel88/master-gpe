@@ -10,10 +10,8 @@ deploy:
     - source ./bot_env.sh
     - cd Eashire
     - npm install
+    - ls
     - pm2 restart ./bin/www
-    
-    - cd database
-    - npm install
   only: 
     - main
 test :
