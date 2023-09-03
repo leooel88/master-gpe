@@ -4,8 +4,8 @@ stages:
 deploy:
   stage: deploy
   script:
-    - chmod +x ./env.sh
-    - chmod +x ./bot_env.sh
+    - chmod 777 ./env.sh
+    - chmod 777 ./bot_env.sh
     - ./env.sh
     - source ./bot_env.sh
     - cd Eashire
