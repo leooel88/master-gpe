@@ -10,4 +10,4 @@ echo NODE_ENV=$NODE_ENV >> Eashire/.env
 echo RESSOURCE_BASE_PATH=$RESSOURCE_BASE_PATH >> Eashire/.env
 echo ADMIN_FILES_BASE_PATH=$DMIN_FILES_BASE_PATH >> Eashire/.env
 echo SEQUELIZE_SYNC=TRUE >> Eashire/.env
-#force
+
