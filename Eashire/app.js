@@ -137,14 +137,26 @@ app.use(cookieParser())
 // =================== Database configuration ==========================
 // =====================================================================
 
-db.sequelize
-	.sync({ force: true })
-	.then(() => {
-		console.log('Synced db.')
-	})
-	.catch((err) => {
-		console.log(`Failed to sync db: ${err.message}`)
-	})
+const { SEQUELIZE_SYNC } = process.env
+if (SEQUELIZE_SYNC == 'TRUE') {
+	db.sequelize
+		.sync({ force: true })
+		.then(() => {
+			console.log('Synced db.')
+		})
+		.catch((err) => {
+			console.log(`Failed to sync db: ${err.message}`)
+		})
+} else {
+	db.sequelize
+		.sync({ force: false })
+		.then(() => {
+			console.log('Synced db.')
+		})
+		.catch((err) => {
+			console.log(`Failed to sync db: ${err.message}`)
+		})
+}
 
 // =====================================================================
 
