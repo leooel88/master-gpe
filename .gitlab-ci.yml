@@ -19,3 +19,4 @@ test :
   script:
     - chmod +x ./cerberus.sh
     - ./cerberus.sh
+    
