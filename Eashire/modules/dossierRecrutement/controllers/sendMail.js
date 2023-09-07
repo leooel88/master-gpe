@@ -46,15 +46,20 @@ exports.process = async (req, res) => {
 
 	console.log(token)
 
+	const { RECRUT_EMAIL, RECRUT_PWD } = process.env
+	console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+	console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+	console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+	console.log(RECRUT_EMAIL, RECRUT_PWD)
 	const transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
-			user: 'eashire_recrutement@gmail.com',
-			pass: 'cpthxcqagjbyiyuq',
+			user: RECRUT_EMAIL,
+			pass: RECRUT_PWD,
 		},
 	})
 	let mailtext =
-		`Bonjour ${data[0].nom},\n\n` +
+		`Bonjour ${data[0].prenom} ${data[0].nom},\n\n` +
 		`J'ai le plaisir de vous annoncer que votre candidature au poste de ${jobLabel} à été retenue .\n Afin de mener à bien votre intégration administrative, nous avons besoin de certains documents que vous devrez nous envoyer en suivant le lien suivant \n \nhttps://eashire.com/dossierrecrutement/upload?token=${token} \n \n`
 	for (const fichier of fichiersRecrutementFormattedData) {
 		mailtext += ` - ${fichier.title} : ${fichier.description} \n`
@@ -62,21 +67,19 @@ exports.process = async (req, res) => {
 	mailtext += 'Merci à vous et à bientôt,\nCordialement'
 
 	const mailOptions = {
-		from: 'eashire_recrutement@gmail.com',
+		from: RECRUT_EMAIL,
 		to: data[0].mail,
 		subject: "Offre d'emploi",
 		text: mailtext,
 	}
-	transporter.sendMail(mailOptions, (error, info) => {
+	transporter.sendMail(mailOptions, async (error, info) => {
 		if (error) {
 			console.log(error)
 			res.status(500).send({ msg: 'Failed to send email' })
 		} else {
 			console.log(`Email sent: ${info.response}`)
-			res.render('dossierRecrutementCreatePage')
+			await Candidature.update({ dossierRecrutement: -1 }, { where: { id: candidatureId } })
+			res.redirect(`/candidature/read/${candidatureId}`)
 		}
 	})
-
-	await Candidature.update({ dossierRecrutement: -1 }, { where: { id: candidatureId } })
-	res.redirect(`/candidature/read/${candidatureId}`)
 }

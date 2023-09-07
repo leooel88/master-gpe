@@ -120,11 +120,16 @@ exports.process = async (req, res) => {
 		console.log('USER DETAILS')
 		console.log(userDetails)
 
+		const { RECRUT_EMAIL, RECRUT_PWD } = process.env
+		console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+		console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+		console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+		console.log(RECRUT_EMAIL, RECRUT_PWD)
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
-				user: 'eashire_recrutement@gmail.com',
-				pass: 'cpthxcqagjbyiyuq',
+				user: RECRUT_EMAIL,
+				pass: RECRUT_PWD,
 			},
 		})
 		const mailtext =
@@ -139,7 +144,7 @@ exports.process = async (req, res) => {
 			`vos identifiants ou mot de passe.\n\n Nous vous souhaitons une excellente journée,\nCordialement`
 
 		const mailOptions = {
-			from: 'eashire_recrutement@gmail.com',
+			from: RECRUT_EMAIL,
 			to: `${candidature.mail}`,
 			subject: 'Compte professionnel',
 			text: mailtext,

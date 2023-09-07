@@ -42,15 +42,20 @@ exports.process = async (req, res) => {
 
 	await DossierRecrutement.update({ open: 1 }, { where: { id: dossierRecrutementId } })
 
+	const { RECRUT_EMAIL, RECRUT_PWD } = process.env
+	console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+	console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+	console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+	console.log(RECRUT_EMAIL, RECRUT_PWD)
 	const transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
-			user: 'eashire_recrutement@gmail.com',
-			pass: 'cpthxcqagjbyiyuq',
+			user: RECRUT_EMAIL,
+			pass: RECRUT_PWD,
 		},
 	})
 	let mailtext =
-		`Bonjour ${data[0].nom},\n\n` +
+		`Bonjour ${data[0].prenom} ${data[0].nom},\n\n` +
 		`Suite à vos actions, nous avons bien reçu votre dossier de recrutement. Néanmoins celui ci a été refusé.\nLe représentant aillant refusé votre dossier a laissé le message suivant :\n\n${req.body.message}\n\n` +
 		`Veuillez retourner à cette adresse, et remplir à nouveau votre dossier de recrutement AU COMPLET\nhttp://localhost:8080/dossierrecrutement/upload?token=${token}\n\n` +
 		`Pour rappel, voici les fichiers à renseigner : `
@@ -60,7 +65,7 @@ exports.process = async (req, res) => {
 	mailtext += 'Merci à vous et à bientôt,\nCordialement'
 
 	const mailOptions = {
-		from: 'eashire_recrutement@gmail.com',
+		from: RECRUT_EMAIL,
 		to: data[0].mail,
 		subject: "Offre d'emploi ",
 		text: mailtext,
