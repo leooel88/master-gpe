@@ -13,8 +13,8 @@
 		{{>navbar}}
 		<div class="flex flex-grow">
             <main class="flex-grow flex bg-slate-200 dark:bg-gray-900">
-				{{>workspaceSidebar}}
 				{{#if userId}}
+					{{>workspaceSidebar}}
 					{{>chat}}
 				{{/if}}
                 <div class="flex-grow relative bg-slate-200 dark:bg-gray-900">

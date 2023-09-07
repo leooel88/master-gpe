@@ -123,8 +123,8 @@ exports.process = async (req, res) => {
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
-				user: 'achoui.hillal@gmail.com',
-				pass: 'wofgpkqnlrmtsfrs',
+				user: 'eashire_recrutement@gmail.com',
+				pass: 'cpthxcqagjbyiyuq',
 			},
 		})
 		const mailtext =
@@ -139,7 +139,7 @@ exports.process = async (req, res) => {
 			`vos identifiants ou mot de passe.\n\n Nous vous souhaitons une excellente journée,\nCordialement`
 
 		const mailOptions = {
-			from: 'achoui.hillal@gmail.com',
+			from: 'eashire_recrutement@gmail.com',
 			to: `${candidature.mail}`,
 			subject: 'Compte professionnel',
 			text: mailtext,
