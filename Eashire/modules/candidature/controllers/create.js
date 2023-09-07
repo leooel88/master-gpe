@@ -13,7 +13,8 @@ exports.process = (req, res) => {
 		!req.body.candidature_nom ||
 		!req.body.candidature_prenom ||
 		!req.body.candidature_telephone ||
-		!req.body.ficheposteid
+		!req.body.ficheposteid ||
+		!req.body.fileName
 	) {
 		errorHandler.sendInvalidBodyError(res, `candidature/create/${req.body.ficheposteid}`)
 		return
@@ -25,10 +26,10 @@ exports.process = (req, res) => {
 		telephone: req.body.candidature_telephone,
 		fichePosteId: req.body.ficheposteid,
 		mail: req.body.candidature_mail,
+		cv: req.body.fileName,
 	}
 	let params = {}
 	// Save Tutorial in the database
-	candidature.cv = req.file.originalname
 	Candidature.create(candidature)
 		.then((data) => {
 			console.log(data)

@@ -49,8 +49,8 @@ exports.process = async (req, res) => {
 	const transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
-			user: 'achoui.hillal@gmail.com',
-			pass: 'wofgpkqnlrmtsfrs',
+			user: 'eashire_recrutement@gmail.com',
+			pass: 'cpthxcqagjbyiyuq',
 		},
 	})
 	let mailtext =
@@ -62,7 +62,7 @@ exports.process = async (req, res) => {
 	mailtext += 'Merci à vous et à bientôt,\nCordialement'
 
 	const mailOptions = {
-		from: 'achoui.hillal@gmail.com',
+		from: 'eashire_recrutement@gmail.com',
 		to: data[0].mail,
 		subject: "Offre d'emploi",
 		text: mailtext,
