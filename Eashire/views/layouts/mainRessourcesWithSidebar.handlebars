@@ -6,7 +6,7 @@
 		<link rel="icon" href="/images/logo_eashire.png">
 		<link rel='stylesheet' href='/stylesheets/general_style.css' />
 	</head>
-	<body class="h-screen w-screen bg-slate-900 text-slate-300 flex flex-col">
+	<body class="h-screen w-screen bg-white dark:bg-slate-900 text-slate-300 flex flex-col">
 		{{>navbar}}
 		<div class="flex flex-grow">
 			<main class="flex-grow flex">
@@ -57,5 +57,16 @@
 				chevronIcon.classList.toggle('rotate-180');
 			});
 		</script>
+        <script>
+            const themeFromLocalStorage = localStorage.getItem('theme');
+            const savedTheme = (themeFromLocalStorage && themeFromLocalStorage !== "null") ? themeFromLocalStorage : 'dark';
+
+            if(savedTheme === 'dark'){
+                document.documentElement.classList.add(savedTheme)
+            }
+            else{
+                document.documentElement.classList.remove('dark')
+            }
+        </script>
 	</body>
 </html>
