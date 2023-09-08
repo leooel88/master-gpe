@@ -76,9 +76,9 @@
 		</div>
 
 		<div
-			class='p-4 h-fit flex flex-col items-center rounded-lg border shadow-md md:flex-row border-gray-700 bg-gray-800'
+			class='p-4 h-fit flex flex-col items-center rounded-lg border shadow-md md:flex-row border-gray-200 dark:border-gray-700 bg-slate-300 dark:bg-gray-800'
 		>
-			<a href={{imageUrl}} class='bg-slate-600 hover:bg-slate-500 rounded-lg'>
+			<a href={{imageUrl}} class=' bg-white dark:bg-slate-600 hover:bg-slate-500 rounded-lg'>
 				<div class="flex center-items">
 					<span class="text-2xl font-bold mx-auto">CV</span>
 				</div>
@@ -100,14 +100,14 @@
 				</div>
 				<div class="flex">
 					{{>envelope-outline}}
-					<p class='mb-2 ml-4 font-normal text-gray-400'>
+					<p class='mb-2 ml-4 font-normal text-gray-900 dark:text-gray-400'>
 						{{candidature.mail}}
 					</p>
 				</div>
 
 				<div class="flex">
 					{{>phone-solid}}
-					<p class='mb-2 ml-4 font-normal text-gray-400'>
+					<p class='mb-2 ml-4 font-normal text-gray-900 dark:text-gray-400'>
 						{{candidature.telephone}}
 					</p>
 				</div>
@@ -177,7 +177,7 @@
 		{{/compare}}
 			<!-- Tabs -->
 			<div class="flex h-12">
-				<ul id="tabs" class="mr-auto grow inline-flex text-white">
+				<ul id="tabs" class="mr-auto grow inline-flex text-black dark:text-white">
 					{{#compare displayTabRh 0 operator="=="}}
 					<li id="manager-note-button" class="px-4 py-2 font-semibold border-b-2 border-blue-400 rounded-t opacity-50"><a href="#">Manager</a></li>
 					{{else}}
@@ -225,23 +225,23 @@
 					{{#compare displayTabRh 0 operator="=="}}
 					<div id="manager-tab">
 						<form>
-							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-white dark:bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
 						</form>
 					</div>
 					<div id="rh-tab" class="hidden">
 						<form id="form" method="post" action={{saveNoteLink}}>
-							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+							<textarea name="text-area" class="p-4 w-full rounded bg-white dark:bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
 						</form>
 					</div>
 					{{else}}
 					<div id="manager-tab" class="hidden">
 						<form>
-							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-white dark:bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
 						</form>
 					</div>
 					<div id="rh-tab">
 						<form id="form" method="post" action={{saveNoteLink}}>
-							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+							<textarea name="text-area" class="p-4 w-full rounded bg-white dark:bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
 						</form>
 					</div>
 					{{/compare}}
@@ -251,23 +251,23 @@
 					{{#compare displayTabRh 0 operator="=="}}
 					<div id="manager-tab">
 						<form id="form" method="post" action={{saveNoteLink}}>
-							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+							<textarea name="text-area" class="p-4 w-full rounded bg-white dark:bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
 						</form>
 					</div>
 					<div id="rh-tab" class="hidden">
 						<form>
-							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-white dark:bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
 						</form>
 					</div>
 					{{else}}
 					<div id="manager-tab" class="hidden">
 						<form id="form" method="post" action={{saveNoteLink}}>
-							<textarea name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
+							<textarea name="text-area" class="p-4 w-full rounded bg-white dark:bg-gray-500 min-h-[128px]">{{managerNote}}</textarea>
 						</form>
 					</div>
 					<div id="rh-tab">
 						<form>
-							<textarea readonly name="text-area" class="p-4 w-full rounded bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
+							<textarea readonly name="text-area" class="p-4 w-full rounded bg-white dark:bg-gray-500 min-h-[128px]">{{rhNote}}</textarea>
 						</form>
 					</div>
 					{{/compare}}
