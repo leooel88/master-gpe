@@ -309,6 +309,6 @@ Create your own Models/Controllers/Routes/Views, instead of using hte ones creat
 
 ## End
 
-That is pretty puch it. Thanks for reading, and have fun !
+That is pretty much it. Thanks for reading, and have fun !
 
 Eashire Team
